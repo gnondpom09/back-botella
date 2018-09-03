@@ -10,7 +10,12 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the
-    <a target="_blank" rel="noopener" href="https://ionicframework.com/docs">docs</a> will be your guide.</p>
+    <ion-card *ngFor="let event of events | async" >
+        <ion-card-title>
+            {{event.title}}
+        </ion-card-title>
+        <ion-card-content>
+            {{event.content}}
+        </ion-card-content>
+    </ion-card>
 </ion-content>
