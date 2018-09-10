@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+        <ion-buttons slot="start">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+    <ion-title>preview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-title>
+            {{paintingTitle}}
+        </ion-card-title>
+        <img [src]="paintingImg" alt="">
+    </ion-card>
+    <ion-button routerLink="/gallery">close</ion-button>
+    <ion-button *ngIf="auth === true"  (click)="deletePainting()">Supprimer</ion-button>
+</ion-content>

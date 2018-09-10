@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Ajouter un évènement</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="createEventForm" (submit)="createEvent()">
+        <ion-item>
+            <ion-label stacked>Titre de l'évènement</ion-label>
+            <ion-input formControlName="title" type="text">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label stacked>Période de l'évènement</ion-label>
+            <ion-input formControlName="subTitle" type="text">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label stacked>Description</ion-label>
+            <ion-input formControlName="content" type="text">
+            </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" [disabled]="!createEventForm.valid">
+            créer l'évèvenement
+        </ion-button>
+    </form>
+    <ion-button routerLink="/events">Annuler</ion-button>
+</ion-content>

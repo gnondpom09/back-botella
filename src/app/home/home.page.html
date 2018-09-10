@@ -1,21 +1,47 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature.png" alt="">
+            </div>
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-    <ion-card *ngFor="let event of events | async" >
-        <ion-card-title>
-            {{event.title}}
-        </ion-card-title>
-        <ion-card-content>
-            {{event.content}}
-        </ion-card-content>
-    </ion-card>
+<ion-content>
+    <ion-row>
+        <ion-col class="btn" size="2" routerLink="/gallery">
+            Galerie
+        </ion-col>
+        <ion-col size="10">
+            <img src="{{paintingTop.image}}" alt="">
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <img src="assets/paintings/dancing.jpeg" alt="">
+        </ion-col>
+        <ion-col>
+            <img src="assets/paintings/foret.jpg" alt="">
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="10">
+            <ion-card *ngFor="let event of events | async">
+                <ion-card-title>
+                    {{event.title}}
+                </ion-card-title>
+                <ion-card-content>
+                    {{event.content}}
+                    <span routerLink="/detail/{{event.id}}">Voir plus</span>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+        <ion-col class="copyright" size="2">
+            <h2>2018</h2>
+        </ion-col>
+    </ion-row>
 </ion-content>

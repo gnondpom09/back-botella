@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>detail</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-card>
+        <ion-card-title>
+            {{(event | async)?.title}}
+        </ion-card-title>
+        <img [src]="(event | async)?.imagePath" alt="">
+        <ion-card-content>
+            {{(event | async)?.content}}
+        </ion-card-content>
+    </ion-card>
+    <ion-button *ngIf="auth === true"  expand="block" (click)="deleteEvent()" >Supprimer</ion-button>
+    <ion-button routerLink="/events">Retour</ion-button>
+
+</ion-content>

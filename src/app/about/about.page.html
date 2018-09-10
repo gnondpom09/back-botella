@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature.png" alt="">
+            </div>
+        </ion-title>
+        <ion-buttons slot="end" *ngIf="auth === true">
+            <ion-button routerLink="/edit-bio/{{uid}}">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-img [src]="(artist | async)?.avatar"></ion-img>
+            <ion-fab *ngIf="auth === true" vertical="bottom" horizontal="end" color="primary">
+                <ion-fab-button (click)="updateAvatar()">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </ion-card-header>
+        <ion-card-content>
+            <div class="interview">
+                <p>
+                    <span class="bold">
+                        {{(artist | async)?.interview}}
+                    </span>
+                </p>
+                <p>
+                    <span class="legend">- {{(artist | async)?.author}} -</span>
+                </p>
+            </div>
+            <p class="text">
+                {{(artist | async)?.biography}}
+            </p>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

@@ -1,12 +1,28 @@
 <ion-header>
-  <ion-toolbar>
+    <ion-toolbar>
         <ion-buttons slot="start">
-                <ion-menu-button></ion-menu-button>
-              </ion-buttons>
-    <ion-title>events</ion-title>
-  </ion-toolbar>
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature.png" alt="">
+            </div>
+        </ion-title>
+        <ion-buttons slot="end" *ngIf="auth === true">
+            <ion-button routerLink="/add-event">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+    <ion-card *ngFor="let event of events | async" routerLink="/detail/{{event.id}}">
+        <ion-card-title>
+            {{event.title}}
+        </ion-card-title>
+        <ion-card-content>
+            {{event.content}}
+        </ion-card-content>
+    </ion-card>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component , OnInit} from '@angular/core';
 
 import { EventService } from "../services/event/event.service";
+import { PaintingService } from "../services/painting/painting.service";
 
 @Component({
     selector: 'app-home',
@@ -10,13 +11,24 @@ import { EventService } from "../services/event/event.service";
 export class HomePage implements OnInit {
     // Properties
     events;
+    paintingTop;
 
     constructor(
-        private eventProvider: EventService
+        private eventProvider: EventService,
+        private paintingProvider: PaintingService
     ) {
     }
     ngOnInit() {
-        this.events = this.eventProvider.getAllEvents().valueChanges();
+        // get last event
+        this.events = this.eventProvider.getLastEvent().valueChanges();
+        // get images 
+        //this.paintings = this.paintingProvider.getPaintingsHome().valueChanges();
+        this.paintingProvider.getPaintingTop().valueChanges().subscribe(paint => {
+            paint.forEach(image => {
+                console.log(image);
+                this.paintingTop = image;
+            })    
+        })
     }
 
 }

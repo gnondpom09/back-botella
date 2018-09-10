@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>nouvelle oeuvre</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <form [formGroup]="addPaintingForm" (submit)="addNewPainting()">
+        <ion-item>
+            <ion-label stacked>Titre de l'oeuvre</ion-label>
+            <ion-input formControlName="title" type="text">
+            </ion-input>
+        </ion-item>
+        <ion-item button (click)="openTechnic()" >
+            <span *ngIf="!technic">Technique</span>
+            <span *ngIf="technic">{{technic}}</span>
+        </ion-item>
+        <ion-item button (click)="openCategory()" >
+            <span *ngIf="!category">Categorie</span>
+            <span *ngIf="category">{{category}}</span>
+        </ion-item>
+        <ion-item button (click)="openWidth()" >
+            <span *ngIf="!width">Largeur</span>
+            <span *ngIf="width">{{width}} cm</span>
+        </ion-item>
+        <ion-item button (click)="openHeight()" >
+            <span *ngIf="!height">Hauteur</span>
+            <span *ngIf="height">{{height}} cm</span>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Image</ion-label>
+            <ion-card>
+                <img [src]="imagePath" alt="">
+            </ion-card>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" [disabled]="!addPaintingForm.valid">
+            Ajouter l'oeuvre
+        </ion-button>
+    </form>
+    <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
+    <ion-button routerLink="/gallery">Retour</ion-button>
+
+</ion-content>

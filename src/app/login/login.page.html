@@ -3,7 +3,11 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Login</ion-title>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature.png" alt="">
+            </div>
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -15,27 +19,23 @@
         <ion-list>
             <ion-item>
                 <ion-avatar item-start>
-                    <img src="assets/icon/user.png" alt="">
+                    <img [src]="assets/icon/user.png" alt="">
                 </ion-avatar>
                 <ion-label floating>Username</ion-label>
                 <ion-input type="text" [(ngModel)]="username"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-avatar item-start>
-                    <img src="assets/icon/lock.png" alt="">
+                    <img [src]="assets/icon/lock.png" alt="">
                 </ion-avatar>
                 <ion-label floating>Mot de passe</ion-label>
                 <ion-input type="Password" [(ngModel)]="password"></ion-input>
             </ion-item>
         </ion-list>
-        <ion-button expand="full" (click)="signIn()" class="submit">Login</ion-button>
-        <div class="center lost-password">
-            <a href="">Mot de passe oublié?</a>
-        </div>
+        <ion-button expand="full" (click)="signIn()">Login</ion-button>
     </div>
-    <div *ngIf="auth === true" >
-        <!-- <p>Bonjour <span>{{user.email}}</span></p> -->
-        <ion-button (click)="logout()" >Déconnexion</ion-button>
+    <div *ngIf="auth === true">
+        <ion-button (click)="logout()">Déconnexion</ion-button>
     </div>
 
 </ion-content>

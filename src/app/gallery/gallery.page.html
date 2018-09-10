@@ -3,10 +3,72 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>gallery</ion-title>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature.png" alt="">
+            </div>
+        </ion-title>
+        <ion-buttons slot="end" *ngIf="auth === true">
+            <ion-button routerLink="/add-painting">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+
+    <ion-segment [(ngModel)]="category">
+        <ion-segment-button [value]="cat1">
+            Escapade
+        </ion-segment-button>
+        <ion-segment-button [value]="cat2">
+            Pastel Drawing
+        </ion-segment-button>
+        <ion-segment-button [value]="cat3">
+            Intimité
+        </ion-segment-button>
+        <ion-segment-button [value]="cat4">
+            Portrait
+        </ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="category">
+        <ion-list *ngSwitchCase="cat1">
+            <ion-item-sliding *ngFor="let painting of paintings | async" routerLink="/preview/{{painting.id}}">
+                <ion-item *ngIf="painting.category === 'pastel drawing' ">
+                    <ion-thumbnail>
+                        <ion-img [src]="painting.path"></ion-img>
+                    </ion-thumbnail>
+                </ion-item>
+            </ion-item-sliding>
+        </ion-list>
+        <ion-list *ngSwitchCase="cat2">
+            <ion-item-sliding *ngFor="let painting of paintings | async" routerLink="/preview/{{painting.id}}">
+                <ion-item *ngIf="painting.category === 'escapade' ">
+                    <ion-thumbnail>
+                        <ion-img [src]="painting.path"></ion-img>
+                    </ion-thumbnail>
+                </ion-item>
+            </ion-item-sliding>
+        </ion-list>
+        <ion-list *ngSwitchCase="cat3">
+            <ion-item-sliding *ngFor="let painting of paintings | async" routerLink="/preview/{{painting.id}}">
+                <ion-item *ngIf="painting.category === 'intimite' ">
+                    <ion-thumbnail>
+                        <ion-img [src]="painting.path"></ion-img>
+                    </ion-thumbnail>
+                </ion-item>
+            </ion-item-sliding>
+        </ion-list>
+        <ion-list *ngSwitchCase="cat4">
+            <ion-item-sliding *ngFor="let painting of paintings | async" routerLink="/preview/{{painting.id}}">
+                <ion-item *ngIf="painting.category === 'portrait' ">
+                    <ion-thumbnail>
+                        <ion-img [src]="painting.path"></ion-img>
+                    </ion-thumbnail>
+                </ion-item>
+            </ion-item-sliding>
+        </ion-list>
+    </div>
 
 </ion-content>

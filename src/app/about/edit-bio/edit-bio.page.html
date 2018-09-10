@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+        <ion-buttons slot="start">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+    <ion-title>Modifier biographie</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+        <ion-item>
+                <ion-label stacked>interview</ion-label>
+                <ion-input [(ngModel)]="interview" type="text">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label stacked>Auteur</ion-label>
+                <ion-input [(ngModel)]="author" type="text">
+                </ion-input>
+            </ion-item>
+    
+            <ion-item>
+                <ion-label stacked>Biographie</ion-label>
+                <textarea [(ngModel)]="biography"></textarea>
+            </ion-item>
+    
+            <ion-button expand="block" type="submit" (click)="updateBio()"  >
+                Modifier
+            </ion-button>
+            <ion-button routerLink="/about">Annuler</ion-button>
+</ion-content>

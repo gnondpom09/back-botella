@@ -15,6 +15,7 @@ import { AngularFirestoreModule } from "angularfire2/firestore";
 import * as firebase from 'firebase';
 import { IonicStorageModule } from "@ionic/storage";
 import { AngularFireAuth } from "angularfire2/auth";
+import { Camera } from "@ionic-native/camera/ngx";
 
 // Initialize Firebase
 var config = {
@@ -44,7 +45,8 @@ firebase.initializeApp(config);
         StatusBar,
         SplashScreen,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        AngularFireAuth
+        AngularFireAuth,
+        Camera
     ],
     bootstrap: [AppComponent]
 })

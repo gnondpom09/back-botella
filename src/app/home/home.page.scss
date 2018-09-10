@@ -1,1 +1,13 @@
+:host {
+    ion-card, ion-card-title {
+        background: var(--ion-color-dark);
+        color: white;
+        padding: 10px;
+        margin: 0;
+    }
 
+    .copyright, .btn {
+        background: var(--ion-color-primary);
+        color: white;
+    }
+}
