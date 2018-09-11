@@ -17,15 +17,32 @@
             Galerie
         </ion-col>
         <ion-col size="10">
-            <img src="{{paintingTop.image}}" alt="">
+            <img *ngIf="paintingTop" [src]="paintingTop.image" alt="">
+            <ion-fab *ngIf="auth === true" vertical="bottom" horizontal="end" color="primary">
+                <ion-fab-button (click)="updateImageHome(paintingTop.id)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col>
-            <img src="assets/paintings/dancing.jpeg" alt="">
+            <img *ngIf="paintingLeft" [src]="paintingLeft.image" alt="">
+            <img *ngIf="!paintingLeft" src="assets/paintings/dancing.jpeg" alt="">
+            <ion-fab *ngIf="auth === true" vertical="bottom" horizontal="end" color="primary">
+                <ion-fab-button (click)="updateImageHome(paintingLeft.id)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
         </ion-col>
         <ion-col>
-            <img src="assets/paintings/foret.jpg" alt="">
+            <img *ngIf="paintingRight" [src]="paintingRight.image" alt="">
+            <img *ngIf="!paintingRight" src="assets/paintings/foret.jpg" alt="">
+            <ion-fab *ngIf="auth === true" vertical="bottom" horizontal="end" color="primary">
+                <ion-fab-button (click)="updateImageHome(paintingRight.id)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
         </ion-col>
     </ion-row>
     <ion-row>

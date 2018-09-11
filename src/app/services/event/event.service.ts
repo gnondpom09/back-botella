@@ -24,8 +24,7 @@ export class EventService {
      * @param date date of publish
      * @param imagePath path of thumb image
      */
-    createEvent(title, subTitle, content, date, imagePath): Promise<void> {
-        const id = this.firestore.createId();
+    createEvent(id, title, subTitle, content, date, imagePath): Promise<void> {
         return this.firestore.collection(this.path).doc(id).set({
             id,
             title,

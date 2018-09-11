@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
+import { LoadingController, AlertController } from "@ionic/angular";
 import { Painting } from "../../models/painting.model";
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "angularfire2/firestore";
 import * as firebase from 'firebase';
 import { Storage } from "@ionic/storage";
+import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 
 @Injectable({
     providedIn: 'root'
@@ -11,8 +13,11 @@ import { Storage } from "@ionic/storage";
 export class PaintingService {
 
     constructor(
+        public alertCtrl: AlertController,
+        public loadingCtrl: LoadingController,
         public firestore: AngularFirestore,
-        public storage: Storage
+        public storage: Storage,
+        public camera: Camera
     ) { }
     getAllPaintings(): AngularFirestoreCollection<Painting> {
         return this.firestore.collection('paintings');
@@ -34,8 +39,7 @@ export class PaintingService {
      * @param height heigth
      * @param imagePath path of image in storage
      */
-    addNewPainting(title, technic, category, width, height, path) {
-        const id = this.firestore.createId();
+    createNewPainting(id, title, technic, category, width, height, path) {
         // create painting in database
         return this.firestore.collection('paintings').doc(id).set({
             id,
@@ -47,6 +51,9 @@ export class PaintingService {
             path
         })
     }
+    /**
+     * Get painting for top of home page
+     */
     getPaintingTop() {
         return this.firestore.collection('home', ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
@@ -54,14 +61,45 @@ export class PaintingService {
             return query;
         })
     }
-    getImagesHome(): AngularFirestoreCollection<Painting> {
-        return this.firestore.collection('home');
+    /**
+     * Get painting for left of home page
+     */
+    getPaintingLeft() {
+        return this.firestore.collection('home', ref => {
+            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            query = query.where("place", "==", "left");
+            return query;
+        })
     }
+    /**
+     * Get painting for right of home page
+     */
+    getPaintingRight() {
+        return this.firestore.collection('home', ref => {
+            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            query = query.where("place", "==", "right");
+            return query;
+        })
+    }
+    /**
+     * get painting detail
+     * @param id id of painting
+     */
     getPainting(id) {
         return this.firestore.collection('paintings').doc(id);
     }
-    deletePainting(id) {
-        return this.firestore.collection('paintings').doc(id).delete();
+    /**
+     * delete painting from database and storage
+     * @param imageId id of painting
+     */
+    deletePainting(imageId: string): any {
+        //Get image of user from storage
+        let storeRef = firebase.storage().ref();
+        let imageRef = storeRef.child(`paintings/${imageId}.jpg`);
+        // remove image selected from storage
+        imageRef.delete();
+        // Delete painting in database 
+        this.firestore.collection('paintings').doc(imageId).delete();
     }
     /**
     * Genarate id of image uploaded in the storage
@@ -76,45 +114,138 @@ export class PaintingService {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
     }
+    getCameraOptions() {
+        let cameraOptions: CameraOptions = {
+            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            quality: 75,
+            targetWidth: 500,
+            targetHeight: 700,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            correctOrientation: true,
+        }
+        return cameraOptions;
+    }
     /**
-    * create reference to upload image in storage
+    * Load image from photo library for update home page
+    * @param  imageId id of image
+    */
+    async loadImage(imageId) {
+        // Init loader
+        const loader = await this.loadingCtrl.create();
+
+        // Set image infos from source selected
+        let cameraOptions = this.getCameraOptions();
+
+        // Upload image to user account
+        this.camera.getPicture(cameraOptions).then((imageData) => {
+            if (imageData != null) {
+
+                // Upload image in storage and get image path
+                this.uploadImage(imageId, imageData)
+                    .then(() => {
+                        loader.dismiss();
+                    })
+                    .catch(er => {
+                        console.log(er);
+                        loader.dismiss();
+                    })
+            }
+            loader.dismiss();
+        });
+        return await loader.present()
+    }
+    /**
+    * Load image from photo library for upload avatar
+    * @param  userId id of
+    */
+    async loadAvatar(userId) {
+        // Init loader
+        const loader = await this.loadingCtrl.create();
+
+        // Set image infos from source selected
+        let cameraOptions = this.getCameraOptions();
+
+        // Upload image to user account
+        this.camera.getPicture(cameraOptions).then((imageData) => {
+            if (imageData != null) {
+
+                // Upload image in storage and get image path
+                this.uploadAvatar(userId, imageData)
+                    .then(() => {
+                        loader.dismiss();
+                    })
+                    .catch(er => {
+                        console.log(er);
+                        loader.dismiss();
+                    })
+            }
+            loader.dismiss();
+        });
+
+        return await loader.present()
+    }
+    /**
+    * Upload image in storage and update in database
     * @param  uid       id of current user
     * @param  imageData source of image to upload
     */
-    createRefStorage() {
-        let storageRef = firebase.storage().ref();
-        let imageName = this.generateUID();
-        let imageRef = storageRef.child(`paintings/${imageName}.jpg`);
-
-        return imageRef;
-    }
-    /**
-      * Upload image in storage and return path of image
-      * @param  uid       id of current user
-      * @param  imageData source of image to upload
-      */
-    uploadImage(imageData: string): string {
+    uploadImage(imageId, imageData: string) {
         // references
         let storageRef = firebase.storage().ref();
-        let imageName = this.generateUID();
-        let imageRef = storageRef.child(`paintings/${imageName}.jpg`);
+        let oldRef = storageRef.child(`home/${imageId}.jpg`);
+        oldRef.delete();
+        // replace image ref in storage
+        let imageRef = storageRef.child(`home/${imageId}.jpg`);
         let metaData = {
             contentType: 'image/jpeg'
         }
 
         // upload image to storage
-        imageRef.putString(imageData, 'base64', metaData)
+        return imageRef.putString(imageData, 'base64', metaData)
+            .then(() => {
+                // get image path 
+                imageRef.getDownloadURL().then(rootPath => {
+                    // update avatar in database 
+                    this.firestore.collection('home').doc(imageId).update({
+                        image: rootPath
+                    })
+                })
+            }, er => {
+                console.log(er);
+            })
+    }
+    /**
+    * Upload avatar in storage and update in database
+    * @param  uid       id of current user
+    * @param  imageData source of image to upload
+    */
+    uploadAvatar(userId, imageData: string) {
+        // references
+        let storageRef = firebase.storage().ref();
+        let oldRef = storageRef.child(`avatar/${userId}.jpg`);
+        oldRef.delete();
+        // replace image ref in storage
+        let imageRef = storageRef.child(`avatar/${userId}.jpg`);
+        let metaData = {
+            contentType: 'image/jpeg'
+        }
+
+        // upload image to storage
+        return imageRef.putString(imageData, 'base64', metaData)
             .then(() => {
                 // get image path 
                 console.log('url : ' + imageRef);
                 imageRef.getDownloadURL().then(rootPath => {
                     console.log('rootPath :  ' + rootPath);
-                    return rootPath;
+                    // update avatar in database 
+                    this.firestore.collection('users').doc(userId).update({
+                        avatar: rootPath
+                    })
                 })
             }, er => {
                 console.log(er);
-                return '';
             })
-            return '';
     }
 }

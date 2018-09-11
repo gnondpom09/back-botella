@@ -19,8 +19,7 @@ const routes: Routes = [
   { path: 'add-award', loadChildren: './awards/add-award/add-award.module#AddAwardPageModule' },
   { path: 'add-painting', loadChildren: './gallery/add-painting/add-painting.module#AddPaintingPageModule' },
   { path: 'edit-bio/:id', loadChildren: './about/edit-bio/edit-bio.module#EditBioPageModule' },
-  { path: 'preview/:id', loadChildren: './gallery/preview/preview.module#PreviewPageModule' }
-];
+  { path: 'preview/:id', loadChildren: './gallery/preview/preview.module#PreviewPageModule' },];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

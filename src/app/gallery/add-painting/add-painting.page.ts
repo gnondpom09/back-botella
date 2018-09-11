@@ -6,6 +6,8 @@ import { UserService } from "../../services/user/user.service";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import * as firebase from 'firebase';
+import { AngularFirestore, } from "angularfire2/firestore";
+
 
 @Component({
     selector: 'app-add-painting',
@@ -15,6 +17,7 @@ import * as firebase from 'firebase';
 export class AddPaintingPage implements OnInit {
     // Properties
     addPaintingForm;
+    imageId: string = '';
     technic: string = '';
     category: string = '';
     width: string = '';
@@ -29,6 +32,7 @@ export class AddPaintingPage implements OnInit {
         private paintingProvider: PaintingService,
         private userProvider: UserService,
         private router: Router,
+        private firestore: AngularFirestore,
         formBuilder: FormBuilder
     ) {
         // Init form
@@ -174,6 +178,7 @@ export class AddPaintingPage implements OnInit {
     }
     async addNewPainting() {
         const loader = await this.loadingCtrl.create();
+        const id = this.imageId;
         const title = this.addPaintingForm.value.title;
         const technic = this.technic;
         const category = this.category;
@@ -184,7 +189,7 @@ export class AddPaintingPage implements OnInit {
 
         // Add new painting in database
         if (technic && category && width && height && image !== '') {
-            this.paintingProvider.addNewPainting(title, technic, category, width, height, image)
+            this.paintingProvider.createNewPainting(id, title, technic, category, width, height, image)
             .then(
                 () => {
                     // new painting create in database with succcess
@@ -200,7 +205,7 @@ export class AddPaintingPage implements OnInit {
             )
         } else {
             const alert = this.alertCtrl.create({
-                message: 'Tous les champs ne sont pas remplis'
+                message: 'Tous les champs ne sont pas remplis!'
             })
             alert.then(err => {
                 err.present();
@@ -209,7 +214,7 @@ export class AddPaintingPage implements OnInit {
         return await loader.present();
     }
     /**
-    * Load image from camera or photo library
+    * Load image from library
     * @param  selectedSourceType Source type
     */
     async loadImage(selectedSourceType: number) {
@@ -231,15 +236,9 @@ export class AddPaintingPage implements OnInit {
         this.camera.getPicture(cameraOptions).then((imageData) => {
             if (imageData != null) {
 
-                // Initialize and get image format
-                let base64Picture = "data:image/jpeg;base64," + imageData;
-
                 // Upload image in storage and get image path
                 this.uploadImage(imageData)
-                    .then(data => {
-                        console.log('GET PICTURE');
-                        console.log('get image path : ' + this.imagePath); 
-                        console.log(data);
+                    .then(() => {
                         loader.dismiss();
                     })
                     .catch(er => {
@@ -251,34 +250,30 @@ export class AddPaintingPage implements OnInit {
         });
 
         return await loader.present()
-
     }
     /**
-    * Upload image in staor
+    * Upload image in storage
     * @param  uid       id of current user
     * @param  imageData source of image to upload
     */
     uploadImage(imageData: string) {
         // references
         let storageRef = firebase.storage().ref();
-        let imageName = this.paintingProvider.generateUID();
-        let imageRef = storageRef.child(`paintings/${imageName}.jpg`);
+        this.imageId = this.firestore.createId();
+        let imageRef = storageRef.child(`paintings/${this.imageId}.jpg`);
         let metaData = {
             contentType: 'image/jpeg'
         }
 
         // upload image to storage
         return imageRef.putString(imageData, 'base64', metaData)
-            .then(url => {
+            .then(() => {
                 // get image path 
                 console.log('url : ' + imageRef);
                 imageRef.getDownloadURL().then(rootPath => {
                     console.log('rootPath :  ' + rootPath);
                     this.imagePath = rootPath;
                 })
-                console.log('image ref storage : ' + url.ref.fullPath);
-                console.log('FILE UPLOADED TO STORAGE !!!!!!!');
-                console.log('file : ' + this.imagePath);
             }, er => {
                 console.log(er);
             })

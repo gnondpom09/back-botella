@@ -9,27 +9,33 @@
 
 <ion-content padding>
     <form [formGroup]="createEventForm" (submit)="createEvent()">
+
         <ion-item>
             <ion-label stacked>Titre de l'évènement</ion-label>
             <ion-input formControlName="title" type="text">
             </ion-input>
         </ion-item>
-
         <ion-item>
             <ion-label stacked>Période de l'évènement</ion-label>
             <ion-input formControlName="subTitle" type="text">
             </ion-input>
         </ion-item>
-
         <ion-item>
             <ion-label stacked>Description</ion-label>
             <ion-input formControlName="content" type="text">
             </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Image</ion-label>
+            <ion-card>
+                <img [src]="imagePath" alt="">
+            </ion-card>
         </ion-item>
 
         <ion-button expand="block" type="submit" [disabled]="!createEventForm.valid">
             créer l'évèvenement
         </ion-button>
     </form>
+    <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
     <ion-button routerLink="/events">Annuler</ion-button>
 </ion-content>

@@ -41,11 +41,4 @@ export class UserService {
     getInformations(id) {
         return this.firestore.collection('users').doc(id);
     }
-    /**
-     * change avatar
-     * @param image image of avatar
-     */
-    editAvatar(image) {
-
-    }
 }
