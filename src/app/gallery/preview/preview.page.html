@@ -1,19 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-        <ion-buttons slot="start">
-                <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-    <ion-title>preview</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content padding>
-    <ion-card>
+<ion-content class="preview">
+    <!-- <ion-slides pager="true">
+        <ion-slide *ngFor="let image of paintings" >
+            <ion-card>
+                <img [src]="image.path" alt="">
+            </ion-card>
+        </ion-slide>
+    </ion-slides> -->
+    <ion-card *ngIf="painting" >
         <ion-card-title>
             {{paintingTitle}}
         </ion-card-title>
-        <img [src]="paintingImg" alt="">
+        <ion-card-content>
+            <img [src]="paintingImg" alt="">
+        </ion-card-content>
     </ion-card>
-    <ion-button routerLink="/gallery">close</ion-button>
-    <ion-button *ngIf="auth === true"  (click)="deletePainting()">Supprimer</ion-button>
+    <ion-footer>
+            <ion-buttons class="start">
+                <ion-button (click)="deletePainting()">
+                    <ion-icon name="trash"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-buttons class="end">
+                <ion-button (click)="modalCtrl.dismiss()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-footer>
 </ion-content>

@@ -46,7 +46,7 @@ export class EventService {
     getLastEvent(): AngularFirestoreCollection<Event> {
         return this.firestore.collection(this.path, ref => {
             let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.limit(1);
+            query = query.limit(1).orderBy('date');
             return query;
         })
     }

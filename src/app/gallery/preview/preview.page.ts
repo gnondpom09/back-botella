@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlertController, LoadingController } from "@ionic/angular";
+import { AlertController, LoadingController, NavParams, NavController, ModalController } from "@ionic/angular";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PaintingService } from "../../services/painting/painting.service";
 import { AuthService } from "../../services/auth/auth.service";
@@ -23,6 +23,9 @@ export class PreviewPage implements OnInit {
     paintingHeight: string = '';
     painting: Observable<any>;
     auth: boolean = false;
+    path: string = '';
+    paintings;
+    slides;
 
     constructor(
         public alertCtrl: AlertController,
@@ -31,9 +34,38 @@ export class PreviewPage implements OnInit {
         private authProvider: AuthService,
         private route: ActivatedRoute,
         private router: Router,
+        private navParams: NavParams,
+        public modalCtrl: ModalController,
+        private navCtrl: NavController
     ) {
         // get painting id 
-        this.paintingId = this.route.snapshot.paramMap.get('id');
+        this.paintingId = this.navParams.get('id');
+        console.log('get id : ' + this.paintingId);
+        // get url of image path
+        this.path = this.navParams.get('url');
+        console.log('get url : ' + this.path);
+        // get array of paintings
+        this.paintings = this.navParams.get('images');
+        console.log('get images : ' + this.paintings);
+
+        // this.paintings.forEach(item => {
+        //     console.log('get item : ' + item.path);
+        //     let i = 0;
+        //     this.slides.push({
+        //         id: i + 1,
+        //         title: item.title,
+        //         path: item.path,
+        //         width: item.width,
+        //         height: item.height,
+        //         category: item.category
+        //     })
+        //     console.log(this.slides.id + this.slides.title);
+            
+        // });
+        // console.log(this.slides);
+        
+        
+        
         console.log(this.paintingId);
         // Check if user is authentificate
         this.authProvider.getCurrentUser()
@@ -82,9 +114,9 @@ export class PreviewPage implements OnInit {
                     text: 'OK',
                     handler: () => {
                         // Delete event and return to list of events
-                        this.PaintingProvider.deletePainting(this.paintingId).then(() => {
-                            this.router.navigateByUrl('gallery');
-                        });
+                        this.PaintingProvider.deletePainting(this.paintingId);
+                        alert.dismiss();
+                        this.modalCtrl.dismiss();
                     },
                 },
             ],

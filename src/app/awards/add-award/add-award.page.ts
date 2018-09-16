@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { AwardService } from '../../services/award/award.service';
+import { AuthService } from "../../services/auth/auth.service";
 
 
 @Component({
@@ -23,8 +24,20 @@ export class AddAwardPage implements OnInit {
         public loadingCtrl: LoadingController,
         public alertCtrl: AlertController,
         private router: Router,
-        formBuilder: FormBuilder
-    ) { 
+        formBuilder: FormBuilder,
+        private authProvider: AuthService
+    ) {
+        // Check if user is authentificate
+        this.authProvider.getCurrentUser()
+            .subscribe(authState => {
+                if (authState) {
+                    console.log('login as : ' + authState.uid);
+
+                } else {
+                    // redirect to home page
+                    this.router.navigateByUrl('');
+                }
+            })
         // Init tab selected
         this.category = this.addDate;
         // Init date form
@@ -50,18 +63,18 @@ export class AddAwardPage implements OnInit {
 
         // Add new date in database
         this.awardProvider.createDate(year)
-        .then(
-            () => {
-                loader.dismiss().then(() => {
-                    // redirect to lit when date is create with success
-                    this.router.navigateByUrl('/awards');
-                }), err => {
-                    loader.dismiss();
-                    console.log(err);
-                    
+            .then(
+                () => {
+                    loader.dismiss().then(() => {
+                        // redirect to lit when date is create with success
+                        this.router.navigateByUrl('/awards');
+                    }), err => {
+                        loader.dismiss();
+                        console.log(err);
+
+                    }
                 }
-            }
-        )
+            )
     }
     /**
      * Add a new award
@@ -74,17 +87,17 @@ export class AddAwardPage implements OnInit {
 
         // create award in database
         this.awardProvider.createAward(name, description, year)
-        .then(
-            () => {
-                loader.dismiss().then(() => {
-                    // Redirect to list when award is created
-                    this.router.navigateByUrl('/awards');
-                })
-            }, err => {
-                loader.dismiss();
-                console.log(err);   
-            }
-        )
+            .then(
+                () => {
+                    loader.dismiss().then(() => {
+                        // Redirect to list when award is created
+                        this.router.navigateByUrl('/awards');
+                    })
+                }, err => {
+                    loader.dismiss();
+                    console.log(err);
+                }
+            )
         return await loader.present();
     }
 

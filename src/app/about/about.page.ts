@@ -58,6 +58,7 @@ export class AboutPage implements OnInit {
                 {
                     text: 'Ouvrir la bibliothèque',
                     handler: () => {
+                        // load avatar from library
                         this.paintingProvider.loadAvatar(this.uid);
                     }
                 }, {

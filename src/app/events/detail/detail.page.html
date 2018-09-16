@@ -7,18 +7,27 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
     <ion-card>
-        <ion-card-title>
-            {{(event | async)?.title}}
-        </ion-card-title>
-        <img [src]="(event | async)?.imagePath" alt="">
+        <div class="header-news">
+            <img class="thumb" [src]="(event | async)?.imagePath" alt="">
+        </div>
         <ion-card-content>
-            {{(event | async)?.content}}
+            <ion-label>
+                <h2>
+                    {{(event | async)?.title}}
+                </h2>
+                <h3>
+                    {{(event | async)?.subTitle}}
+                </h3>
+            </ion-label>
+            <p>
+                {{(event | async)?.content}}
+            </p>
+            <ion-button routerLink="/events">Retour</ion-button>
         </ion-card-content>
     </ion-card>
-    <ion-button *ngIf="auth === true"  expand="block" (click)="deleteEvent()" >Supprimer</ion-button>
-    <ion-button routerLink="/events">Retour</ion-button>
+    <ion-button *ngIf="auth === true" expand="block" (click)="deleteEvent()">Supprimer</ion-button>
 
 </ion-content>

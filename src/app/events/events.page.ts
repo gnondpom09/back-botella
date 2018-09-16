@@ -34,6 +34,7 @@ export class EventsPage implements OnInit {
 
     ngOnInit() {
         this.events = this.eventProvider.getAllEvents().valueChanges();
+
     }
 
 }

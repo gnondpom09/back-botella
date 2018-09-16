@@ -16,6 +16,9 @@ import * as firebase from 'firebase';
 import { IonicStorageModule } from "@ionic/storage";
 import { AngularFireAuth } from "angularfire2/auth";
 import { Camera } from "@ionic-native/camera/ngx";
+import { EmailComposer } from "@ionic-native/email-composer/ngx";
+import { ComponentsModule } from "./components/components.module";
+import { GalleryPageModule } from "./gallery/gallery.module";
 
 // Initialize Firebase
 var config = {
@@ -31,7 +34,6 @@ firebase.initializeApp(config);
 
 @NgModule({
     declarations: [AppComponent],
-    entryComponents: [],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
@@ -39,14 +41,17 @@ firebase.initializeApp(config);
         IonicStorageModule.forRoot(),
         AngularFirestoreModule,
         AppRoutingModule,
-        HttpModule
+        HttpModule,
+        ComponentsModule,
+        GalleryPageModule
     ],
     providers: [
         StatusBar,
         SplashScreen,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         AngularFireAuth,
-        Camera
+        Camera,
+        EmailComposer,
     ],
     bootstrap: [AppComponent]
 })

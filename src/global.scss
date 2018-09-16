@@ -10,3 +10,10 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+// Menu
+ion-list {
+    ion-item:last-child {
+        position: relative;
+        bottom: 0;
+    }
+}

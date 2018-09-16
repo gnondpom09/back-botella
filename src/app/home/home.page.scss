@@ -1,13 +1,48 @@
 :host {
-    ion-card, ion-card-title {
-        background: var(--ion-color-dark);
-        color: white;
-        padding: 10px;
-        margin: 0;
-    }
+    .body {
+        min-height: 100vh !important;
+        //background: var(--ion-color-danger);
+        display: flex;
+        .vertical {
+            width: 5px;
+            font-size: 0.9em;
+            margin: auto;
+            padding-top: 20px;
+        }
+        .title {
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 15px 0 10px 0;
+        }
+        .row-1 {
+            height: 25vh;
+        }
+        .row-2 {
+            height: 50vh;
+        }
+        .row-3 {
+            height: 25vh;
+        }
+        .news {
+            text-align: center;
+            background: var(--ion-color-dark);
+            color: white;
+            //padding: 10px;
+            margin: 0;
+            border-radius: 0;
+        }
+        .copyright, .btn {
+            background: var(--ion-color-primary);
+            color: white;
+        }
+        .sc-ion-row-h {
+            .sc-ion-col-h {
+                padding: 0;
+                img {
+                    border-image-width: 0 !important;
+                }
+            }
+        }
 
-    .copyright, .btn {
-        background: var(--ion-color-primary);
-        color: white;
     }
 }

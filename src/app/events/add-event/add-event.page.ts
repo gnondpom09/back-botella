@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingController, AlertController, ActionSheetController } from '@ionic/angular';
 import { EventService } from '../../services/event/event.service';
 import { PaintingService } from "../../services/painting/painting.service";
+import { AuthService } from "../../services/auth/auth.service";
 import * as moment from 'moment';
 import { Camera } from "@ionic-native/camera/ngx";
 import { AngularFirestore } from "angularfire2/firestore";
@@ -30,8 +31,21 @@ export class AddEventPage implements OnInit {
         private router: Router,
         private camera: Camera,
         private firestore: AngularFirestore,
-        formBuilder: FormBuilder
+        formBuilder: FormBuilder,
+        private authProvider: AuthService
     ) {
+        // Check if user is authentificate
+        this.authProvider.getCurrentUser()
+            .subscribe(authState => {
+                if (authState) {
+                    console.log('login as : ' + authState.uid);
+
+                } else {
+                    // redirect to home page
+                    this.router.navigateByUrl('');
+                }
+            })
+        // Init event form
         this.createEventForm = formBuilder.group({
             title: ['', Validators.required],
             subTitle: ['', Validators.required],
@@ -70,8 +84,8 @@ export class AddEventPage implements OnInit {
         // Init loader
         const loader = await this.loadingCtrl.create();
 
-        // Set image infos from source selected
-        let cameraOptions = this.paintingProvider.getCameraOptions();
+        // Set camera options
+        let cameraOptions = this.paintingProvider.getCameraOptions(75, 500, 700);
 
         // Upload image to user account
         this.camera.getPicture(cameraOptions).then((imageData) => {

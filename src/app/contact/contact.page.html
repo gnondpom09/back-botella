@@ -3,14 +3,40 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>
-            <div class="logo">
-                <img src="assets/signature.png" alt="">
-            </div>
-        </ion-title>
+        <ion-title>Contact</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+    <form [formGroup]="contactForm" (submit)="sendEmail()">
 
+        <ion-item>
+            <ion-label stacked>Nom</ion-label>
+            <ion-input formControlName="lastName" type="text">
+            </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Prénom</ion-label>
+            <ion-input formControlName="firstName" type="text">
+            </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Email</ion-label>
+            <ion-input formControlName="email" type="text">
+            </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Sujet</ion-label>
+            <ion-input formControlName="subject" type="text">
+            </ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Message</ion-label>
+            <textarea formControlName="message"></textarea>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" [disabled]="!contactForm.valid">
+            Envoyer
+        </ion-button>
+    </form>
 </ion-content>

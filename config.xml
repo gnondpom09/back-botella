@@ -87,5 +87,6 @@
     <plugin name="cordova-plugin-telerik-imagepicker" spec="^2.2.2">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
     </plugin>
-    <engine name="ios" spec="4.5.5" />
+    <plugin name="cordova-plugin-email-composer" spec="^0.8.15" />
+    <plugin name="com-sarriaroman-photoviewer" spec="^1.1.18" />
 </widget>

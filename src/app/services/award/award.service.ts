@@ -43,8 +43,13 @@ export class AwardService {
      * Get list of dates
      */
     getAllDates(): AngularFirestoreCollection<Date> {
-        return this.firestore.collection('dates');
+        return this.firestore.collection('dates', ref => {
+            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            query = query.orderBy('year', 'desc');
+            return query;
+        });
     }
+
     /**
      * Get list of awards
      */

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { LoadingController, AlertController, ActionSheetController } from "@ionic/angular";
 import { UserService } from "../../services/user/user.service";
+import { AuthService } from "../../services/auth/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
 
@@ -25,8 +26,21 @@ export class EditBioPage implements OnInit {
         public loadingCtrl: LoadingController,
         private UserProvider: UserService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private authProvider: AuthService
     ) {
+        // Check if user is authentificate
+        this.authProvider.getCurrentUser()
+            .subscribe(authState => {
+                if (authState) {
+                    console.log('login as : ' + authState.uid);
+
+                } else {
+                    // redirect to home page
+                    this.router.navigateByUrl('');
+                }
+            })
+
         // get id of artist
         this.artistId = this.route.snapshot.paramMap.get('id');
         console.log('artist id : ' + this.artistId);

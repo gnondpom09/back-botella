@@ -17,12 +17,20 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-card *ngFor="let event of events | async" routerLink="/detail/{{event.id}}">
-        <ion-card-title>
-            {{event.title}}
-        </ion-card-title>
+    <ion-card *ngFor="let event of events | async">
+        <div class="header-news">
+            <ion-img class="thumb" [src]="event.imagePath"></ion-img>
+        </div>
         <ion-card-content>
-            {{event.content}}
+            <ion-label>
+                <h2>
+                    {{event.title}}
+                </h2>
+                <p>
+                    {{event.subTitle}}
+                </p>
+            </ion-label>
+            <ion-button expand="full" routerLink="/detail/{{event.id}}">Voir plus</ion-button>
         </ion-card-content>
     </ion-card>
 </ion-content>

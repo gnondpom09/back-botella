@@ -39,7 +39,7 @@ export class PaintingService {
      * @param height heigth
      * @param imagePath path of image in storage
      */
-    createNewPainting(id, title, technic, category, width, height, path) {
+    createNewPainting(id, title, technic, category, width, height, path, thumb) {
         // create painting in database
         return this.firestore.collection('paintings').doc(id).set({
             id,
@@ -48,7 +48,8 @@ export class PaintingService {
             category,
             width,
             height,
-            path
+            path,
+            thumb
         })
     }
     /**
@@ -95,8 +96,8 @@ export class PaintingService {
     deletePainting(imageId: string): any {
         //Get image of user from storage
         let storeRef = firebase.storage().ref();
-        let imageRef = storeRef.child(`paintings/${imageId}.jpg`);
-        // remove image selected from storage
+        let imageRef = storeRef.child(`paintings/${imageId}`); 
+        // delete complete folder with image and thumb
         imageRef.delete();
         // Delete painting in database 
         this.firestore.collection('paintings').doc(imageId).delete();
@@ -114,13 +115,13 @@ export class PaintingService {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
     }
-    getCameraOptions() {
+    getCameraOptions(quality, width, height) {
         let cameraOptions: CameraOptions = {
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
-            quality: 75,
-            targetWidth: 500,
-            targetHeight: 700,
+            quality: quality,
+            targetWidth: width,
+            targetHeight: height,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
             correctOrientation: true,
@@ -135,8 +136,8 @@ export class PaintingService {
         // Init loader
         const loader = await this.loadingCtrl.create();
 
-        // Set image infos from source selected
-        let cameraOptions = this.getCameraOptions();
+        // Set camera options
+        let cameraOptions = this.getCameraOptions(75, 500, 700);
 
         // Upload image to user account
         this.camera.getPicture(cameraOptions).then((imageData) => {
@@ -164,8 +165,8 @@ export class PaintingService {
         // Init loader
         const loader = await this.loadingCtrl.create();
 
-        // Set image infos from source selected
-        let cameraOptions = this.getCameraOptions();
+        // Set camera options
+        let cameraOptions = this.getCameraOptions(75, 500, 700);
 
         // Upload image to user account
         this.camera.getPicture(cameraOptions).then((imageData) => {
