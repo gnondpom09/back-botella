@@ -140,11 +140,12 @@ export class AddEventPage implements OnInit {
         const title = this.createEventForm.value.title;
         const subTitle = this.createEventForm.value.subTitle;
         const content = this.createEventForm.value.content;
+        const date = moment().format();
         const image = this.imagePath;
 
-        if (id && title && subTitle && content && image !== '') {
+        if (id && title && subTitle && content ) {
             // create event in database
-            this.eventProvider.createEvent(id, title, subTitle, content, '12/12/12', image)
+            this.eventProvider.createEvent(id, title, subTitle, content, date, image)
                 .then(
                     () => {
                         loader.dismiss().then(() => {
@@ -163,6 +164,7 @@ export class AddEventPage implements OnInit {
                 buttons: ['OK']
             })
             alert.then(err => {
+                loader.dismiss();
                 err.present();
             })
         }

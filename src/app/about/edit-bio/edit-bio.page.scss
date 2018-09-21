@@ -1,0 +1,12 @@
+:host {
+    textarea {
+        width: 100%;
+        margin: 10px 0;
+        padding: 5px;
+        min-height: 300px;
+    }
+    ion-button {
+        margin: 10px;
+        border-radius: 0 !important;
+    }
+}

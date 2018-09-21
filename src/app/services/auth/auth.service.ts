@@ -39,4 +39,16 @@ export class AuthService {
     getCurrentUser() {
         return this.afAuth.authState;
     }
+    /**
+     * Reset password
+     * @param  email email
+     * @return       send email
+     */
+    resetPassword(email: string) {
+        let auth = this.afAuth.auth;
+
+        return auth.sendPasswordResetEmail(email)
+          .then(() => console.log("email sent"))
+          .catch((error) => console.log(error))
+    }
 }

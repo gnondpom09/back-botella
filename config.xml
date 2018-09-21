@@ -2,7 +2,7 @@
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Laurent Botella</name>
     <description>Portfolio de  Laurent Botella.</description>
-    <author email="hi@ionicframework" href="http://laurentbotella-artist.com">Laurent Botella</author>
+    <author email="laurent.botella@vivaldi.net" href="http://laurentbotella-artist.com">Laurent Botella</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -89,4 +89,6 @@
     </plugin>
     <plugin name="cordova-plugin-email-composer" spec="^0.8.15" />
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.18" />
+    <plugin name="info.protonet.imageresizer" spec="^0.1.1" />
+    <engine name="ios" spec="4.5.5" />
 </widget>

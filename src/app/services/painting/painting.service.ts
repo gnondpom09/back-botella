@@ -115,6 +115,12 @@ export class PaintingService {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
     }
+    /**
+     * set options of image
+     * @param quality quality of image
+     * @param width width
+     * @param height height
+     */
     getCameraOptions(quality, width, height) {
         let cameraOptions: CameraOptions = {
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,

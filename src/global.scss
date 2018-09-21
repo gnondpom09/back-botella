@@ -11,9 +11,157 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 // Menu
+ion-card {
+    margin: 0 !important;
+}
 ion-list {
     ion-item:last-child {
         position: relative;
         bottom: 0;
+    }
+}
+// .label-stacked {
+//     color: var(--ion-color-primary) !important;
+// }
+
+.mobile {
+    display: block;
+}
+.desktop, .desktop-news {
+    display: none;
+}
+
+// Menu 
+.active { 
+    background: var(--ion-color-primary) !important;
+}
+
+
+/* Desktop ----------- */
+@media only screen and (orientation: landscape) and (min-device-width : 760px) {
+/* Styles */
+    ion-fab {
+        display: none;
+    }
+    .logo {
+        text-align: center;
+        img {
+            width: 25%;
+            margin: auto;
+        }
+    }
+    .row-1 {
+        padding-top: 0 !important;
+        height: 100% !important;
+        width: 100%;
+        col {
+            background: var(--ion-color-primary);
+            img {
+                width: 100%;
+            }
+        }
+    }
+    .row-2 {
+        display: none;
+    }
+    .row-3 {
+        position: absolute;
+        bottom: 0;
+    }
+    ion-card {
+        width: 90% !important; 
+        margin: 5% !important;
+    }
+    .gallery {
+        .item {
+            height: 250px !important;
+            padding: 10px !important;
+        }
+    }
+    .mobile {
+        display: none;
+    }
+    .desktop {
+        padding-top: 15px;
+        display: block;
+        float: left;
+        img {
+            width: 100%;
+        }
+        .download {
+            width: 100% !important;
+            img {
+                width: 25%;
+                display: inline-block;
+            }
+        }
+    }
+    .modal-wrapper {
+        width: 90%;
+        height: 90%;
+        margin: auto;
+        .sc-ion-card-md-s img {
+            width: auto;
+            margin: auto;
+            height: 75vh;
+        }
+        ion-card {
+            width: 100% !important;
+            margin: 0 !important;
+        }
+    }
+    .btn {
+        position: relative;
+        z-index: 960;
+        height: 100%;
+        .vertical {
+            font-size: 2em !important;
+        }
+    }
+    .desktop-news {
+        display: block;
+        position: absolute;
+        top:0;
+        right: 0;
+        color: white;
+        background: var(--ion-color-primary);
+        padding: 0;
+        box-shadow: 0;
+        margin: 0 !important;
+        padding: 10px;
+        text-align: center;
+        height: 80%;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-direction: column;
+        ion-card-title, ion-card-content {
+            color: white;
+            box-shadow: 0;
+        }
+    }
+    .footer {
+        color: white;
+        //padding: 20px;
+        height: 20% !important;
+        .home {
+            padding: 0 40px;
+            h1, h2 {
+                display: inline-block;
+            }
+            h1 {
+                font-size: 2em;
+                span {
+                    font-weight: 700;
+                    text-transform: uppercase;
+                }
+            }
+            h2 {
+                font-weight: 100;
+                text-transform: uppercase;
+                padding-left: 40px;
+                letter-spacing: 0.4em;
+            }
+        }
     }
 }

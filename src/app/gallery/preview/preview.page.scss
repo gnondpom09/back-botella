@@ -1,6 +1,22 @@
 :host {
 .preview {
     height: 100vh;
+    ion-card {
+        ion-card-title {
+            text-align: center;
+            padding: 5px;
+            font-size: 1.1em;
+        }
+        ion-card-content {
+            p {
+                padding: 5px 0;
+                span {
+                    display: block;
+                    float: right;
+                }
+            }
+        }
+    }
     img {
         max-height: 90vh;
         text-align: center;

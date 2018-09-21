@@ -19,6 +19,7 @@ import { Camera } from "@ionic-native/camera/ngx";
 import { EmailComposer } from "@ionic-native/email-composer/ngx";
 import { ComponentsModule } from "./components/components.module";
 import { GalleryPageModule } from "./gallery/gallery.module";
+import { ImageResizer } from "@ionic-native/image-resizer/ngx";
 
 // Initialize Firebase
 var config = {
@@ -52,6 +53,7 @@ firebase.initializeApp(config);
         AngularFireAuth,
         Camera,
         EmailComposer,
+        ImageResizer
     ],
     bootstrap: [AppComponent]
 })

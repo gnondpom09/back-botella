@@ -1,64 +1,97 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>
             <div class="logo">
-                <img src="assets/signature.png" alt="">
+                <img src="assets/signature_white.png" alt="">
             </div>
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="body">
-    <ion-row class="row-1">
-        <ion-col class="btn" size="2" routerLink="/gallery">
+    <div class="row-1 mobile">
+        <div class="btn col col-2" size="2" routerLink="/gallery">
             <h5 class="vertical">GALERIE</h5>
-        </ion-col>
-        <ion-col size="10" class="top">
-            <ion-img *ngIf="paintingTop" [src]="paintingTop.image" alt="">
+        </div>
+        <div size="10" class="top col col-10">
+            <!-- <ion-img *ngIf="paintingTop" [src]="paintingTop.image" alt="">
                 <ion-fab *ngIf="auth === true" vertical="top" horizontal="end" color="primary">
                     <ion-fab-button (click)="updateImageHome(paintingTop.id)">
                         <ion-icon name="add"></ion-icon>
                     </ion-fab-button>
                 </ion-fab>
-            </ion-img>
+            </ion-img> -->
+            <img *ngIf="paintingTop" [src]="paintingTop.image" alt="" />
+            <ion-fab *ngIf="auth === true" vertical="top" horizontal="end" color="primary">
+                <ion-fab-button (click)="updateImageHome(paintingTop.id)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </div>
+    </div>
+    <div class="row-1 desktop">
+        <!-- <div class="btn col col-1" size="2" routerLink="/gallery">
+            <h5 class="vertical">GALERIE</h5>
+        </div> -->
+        <div size="10" class="top col col-8">
+            <img *ngIf="paintingTop" [src]="paintingTop.image" alt="painting" />
+        </div>
+        <ion-card class="desktop-news col col-4" *ngFor="let event of events | async" routerLink="/detail/{{event.id}}">
+            <div>
+                <h2 class="advert">Prochainement</h2>
+                <ion-card-title class="title">
+                    {{event.title}}
+                </ion-card-title>
+                <ion-card-content>
+                    <h2>
+                        {{event.subTitle}}
+                    </h2>
+                    <div class="download">
+                        <p>Bientot disponible</p>
+                        <img src="assets/icon/appstore.png" alt="">
+                    </div>
+                </ion-card-content>
+            </div>
+        </ion-card>
+    </div>
+    <div class="row-2">
+        <div class="col col-6" size="6">
+            <img *ngIf="paintingLeft" [src]="paintingLeft.image" alt="" />
+            <ion-fab *ngIf="auth === true" vertical="top" horizontal="end" class="fab-left" color="primary">
+                <ion-fab-button (click)="updateImageHome(paintingLeft.id)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </div>
+        <div class="col col-6" size="6">
+            <img *ngIf="paintingRight" [src]="paintingRight.image" alt="" />
+            <ion-fab *ngIf="auth === true" vertical="top" horizontal="end" color="primary">
+                <ion-fab-button (click)="updateImageHome(paintingRight.id)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </div>
+    </div>
+    <ion-row class="desktop footer row-3">
+        <ion-col class="col-12 home">
+            <h1>Laurent <span>Botella </span> </h1>
+            <h2> Artiste Peintre</h2>
         </ion-col>
     </ion-row>
-    <ion-row>
-        <ion-col class="row-2">
-            <ion-img *ngIf="paintingLeft" [src]="paintingLeft.image" alt="">
-                <ion-fab *ngIf="auth === true" vertical="top" horizontal="end" color="primary">
-                    <ion-fab-button (click)="updateImageHome(paintingLeft.id)">
-                        <ion-icon name="add"></ion-icon>
-                    </ion-fab-button>
-                </ion-fab>
-            </ion-img>
-        </ion-col>
-        <ion-col class="row-2">
-            <ion-img *ngIf="paintingRight" [src]="paintingRight.image" alt="">
-                <ion-fab *ngIf="auth === true" vertical="top" horizontal="end" color="primary">
-                    <ion-fab-button (click)="updateImageHome(paintingRight.id)">
-                        <ion-icon name="add"></ion-icon>
-                    </ion-fab-button>
-                </ion-fab>
-            </ion-img>
-        </ion-col>
-    </ion-row>
-    <ion-row class="row-3">
+    <ion-row class="row-3 mobile">
         <ion-col size="10" class="news">
-            <div *ngFor="let event of events | async">
+            <div *ngFor="let event of events | async" routerLink="/detail/{{event.id}}">
                 <div class="title">
                     {{event.title}}
-                </div>
-                <div>
-                    <ion-button class="more" fill="outline" routerLink="/detail/{{event.id}}">Voir plus</ion-button>
+                    <ion-icon name="arrow-forward" color="light"></ion-icon>
                 </div>
             </div>
         </ion-col>
-        <ion-col class="copyright" size="2">
-            <h2 class="vertical">2018</h2>
-        </ion-col>
+        <!-- <ion-col class="copyright mail" size="2" routerLink="/contact">
+            <ion-icon class="icon" name="mail"></ion-icon>
+        </ion-col> -->
     </ion-row>
 </ion-content>

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, AlertController, ActionSheetController } from "@ionic/angular";
-import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
+import { Camera } from "@ionic-native/camera/ngx";
 import { PaintingService } from "../../services/painting/painting.service";
-import { UserService } from "../../services/user/user.service";
 import { AuthService } from "../../services/auth/auth.service";
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import * as firebase from 'firebase';
 import { AngularFirestore, } from "angularfire2/firestore";
+//import { ImageResizer } from '@ionic-native/image-resizer/ngx';
 
 
 @Component({
@@ -23,8 +23,9 @@ export class AddPaintingPage implements OnInit {
     category: string = '';
     width: string = '';
     height: string = '';
+    format: string = '';
     imagePath: string = '';
-    thumb: string = '';
+    thumbnail: string = '';
 
     constructor(
         public alertCtrl: AlertController,
@@ -32,11 +33,11 @@ export class AddPaintingPage implements OnInit {
         public actionSheetCtrl: ActionSheetController,
         private camera: Camera,
         private paintingProvider: PaintingService,
-        private userProvider: UserService,
         private router: Router,
         private firestore: AngularFirestore,
         formBuilder: FormBuilder,
-        private authProvider: AuthService
+        private authProvider: AuthService,
+        //private imageResizer: ImageResizer
     ) {
         // Check if user is authentificate
         this.authProvider.getCurrentUser()
@@ -58,6 +59,9 @@ export class AddPaintingPage implements OnInit {
     ngOnInit() {
 
     }
+    /**
+     * select technic of the painting
+     */
     async openTechnic() {
         // Create alert to display list of technics
         const alert = await this.alertCtrl.create({
@@ -84,6 +88,9 @@ export class AddPaintingPage implements OnInit {
         // display alert
         return await alert.present();
     }
+    /**
+     * Select category of painting
+     */
     async openCategory() {
         // create alert to display list of categories
         const alert = await this.alertCtrl.create({
@@ -109,6 +116,9 @@ export class AddPaintingPage implements OnInit {
         // Display alert
         return await alert.present();
     }
+    /**
+     * Select width of painting
+     */
     async openWidth() {
         const numbers = [];
         // set value of modal to select width
@@ -126,9 +136,7 @@ export class AddPaintingPage implements OnInit {
                 {
                     text: 'OK',
                     handler: data => {
-                        console.log(data);
                         this.width = data;
-                        console.log(this.width);
                     }
                 },
                 {
@@ -139,6 +147,9 @@ export class AddPaintingPage implements OnInit {
         // display modal
         return alert.present();
     }
+    /**
+     * Select height of painting
+     */
     async openHeight() {
         const numbers = [];
         // set value of modal to select height
@@ -190,6 +201,9 @@ export class AddPaintingPage implements OnInit {
         // display action sheet
         return await actionSheet.present();
     }
+    /**
+     * create new painting
+     */
     async addNewPainting() {
         const loader = await this.loadingCtrl.create();
         const id = this.imageId;
@@ -239,9 +253,14 @@ export class AddPaintingPage implements OnInit {
         // Set camera options
         let cameraOptions = this.paintingProvider.getCameraOptions(75, 500, 700);
 
-        // Upload image to user account
+        // Open library and get image from library
         this.camera.getPicture(cameraOptions).then((imageData) => {
             if (imageData != null) {
+
+                // Create imageId for thumbnail and large image
+                this.imageId = this.firestore.createId();
+
+                // generate thumbnail and upload in storage
 
                 // Upload image in storage and get image path
                 this.uploadImage(imageData)
@@ -254,19 +273,75 @@ export class AddPaintingPage implements OnInit {
                     })
             }
             loader.dismiss();
-        });
+        })
 
         return await loader.present()
     }
+    optionsThumbnail(imageUri) {
+        let options = {
+            uri: imageUri,
+            quality: 50,
+            width: 150,
+            height: 150
+        }
+        return options;
+    }
     /**
-    * Upload image in storage
+     * compress image and upload to storage
+     * @param image image from library
+     */
+    createThumbnail(image) {
+        // compress image
+        this.generateFromImage(image, 150, 150, 0.5, data => {
+            console.log('data : ' + data);
+            // upload thumbnail in storage and get thumbnail url
+            this.uploadThumb(data)
+                .then(data => {
+                    console.log('upload thumb : ' + data);
+                })
+        })
+    }
+    generateFromImage(img, MAX_WIDTH: number = 700, MAX_HEIGHT: number = 700, quality: number = 1, callback) {
+        var canvas: any = document.createElement("canvas");
+        var image = new Image();
+
+        image.onload = () => {
+            var width = image.width;
+            var height = image.height;
+
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+
+            ctx.drawImage(image, 0, 0, width, height);
+
+            // IMPORTANT: 'jpeg' NOT 'jpg'
+            var dataUrl = canvas.toDataURL('image/jpeg', quality);
+
+            callback(dataUrl)
+        }
+        image.src = img;
+    }
+    /**
+    * Upload painting in storage
     * @param  uid       id of current user
     * @param  imageData source of image to upload
     */
     uploadImage(imageData: string) {
         // references
         let storageRef = firebase.storage().ref();
-        this.imageId = this.firestore.createId();
+        //this.imageId = this.firestore.createId();
         let imageRef = storageRef.child(`paintings/${this.imageId}/${this.imageId}.jpg`);
         let metaData = {
             contentType: 'image/jpeg'
@@ -293,7 +368,7 @@ export class AddPaintingPage implements OnInit {
     uploadThumb(imageData: string) {
         // references
         let storageRef = firebase.storage().ref();
-        this.imageId = this.firestore.createId();
+        //this.imageId = this.firestore.createId();
         let imageRef = storageRef.child(`paintings/${this.imageId}/thumb/${this.imageId}.jpg`);
         let metaData = {
             contentType: 'image/jpeg'
@@ -305,8 +380,8 @@ export class AddPaintingPage implements OnInit {
                 // get image path 
                 console.log('url : ' + imageRef);
                 imageRef.getDownloadURL().then(rootPath => {
-                    console.log('rootPath :  ' + rootPath);
-                    this.imagePath = rootPath;
+                    console.log('thumbnailPath :  ' + rootPath);
+                    this.thumbnail = rootPath;
                 })
             }, er => {
                 console.log(er);

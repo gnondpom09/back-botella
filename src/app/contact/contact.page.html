@@ -1,42 +1,61 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Contact</ion-title>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature_white.png" alt="">
+            </div>
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-    <form [formGroup]="contactForm" (submit)="sendEmail()">
+<ion-content>
+    <!-- <ion-card class="desktop">
+        <ion-card-content>
+            <p>Besoin de renseignements sur le prix d'une oeuvre, exposition, stage...</p>
+            <ion-button (click)="sendEmail()">
+                Contactez moi
+            </ion-button>
+            <div class="download">
+                <p>Bientot disponible</p>
+                <img src="assets/icon/appstore.png" alt="">
+            </div>
+        </ion-card-content>
+    </ion-card> -->
+    <ion-card class="">
+        <form [formGroup]="contactForm" (submit)="sendEmail()">
+            <ion-list>
+                <ion-item>
+                    <ion-label position="stacked">Nom</ion-label>
+                    <ion-input formControlName="lastName" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Prénom</ion-label>
+                    <ion-input formControlName="firstName" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Email</ion-label>
+                    <ion-input formControlName="email" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Sujet</ion-label>
+                    <ion-input formControlName="subject" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Message</ion-label>
+                    <textarea formControlName="message"></textarea>
+                </ion-item>
+            </ion-list>
 
-        <ion-item>
-            <ion-label stacked>Nom</ion-label>
-            <ion-input formControlName="lastName" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Prénom</ion-label>
-            <ion-input formControlName="firstName" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Email</ion-label>
-            <ion-input formControlName="email" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Sujet</ion-label>
-            <ion-input formControlName="subject" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Message</ion-label>
-            <textarea formControlName="message"></textarea>
-        </ion-item>
-
-        <ion-button expand="block" type="submit" [disabled]="!contactForm.valid">
-            Envoyer
-        </ion-button>
-    </form>
+            <ion-button expand="block" type="submit" [disabled]="!contactForm.valid">
+                Envoyer
+            </ion-button>
+        </form>
+    </ion-card>
 </ion-content>

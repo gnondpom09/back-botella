@@ -63,6 +63,12 @@ export class GalleryPage implements OnInit {
         })
         
     }
+    /**
+     * Open modal to view large image
+     * @param id id of painting
+     * @param path path of image
+     * @param category category of painting
+     */
     async viewLarge(id, path, category) {
         console.log('params: ' + this.images);
         

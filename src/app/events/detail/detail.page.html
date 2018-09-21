@@ -1,9 +1,15 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-button routerLink="/events">
+                <ion-icon name="arrow-back" slot="start"></ion-icon>
+            </ion-button>
         </ion-buttons>
-        <ion-title>detail</ion-title>
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature_white.png" alt="">
+            </div>
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -25,9 +31,13 @@
             <p>
                 {{(event | async)?.content}}
             </p>
-            <ion-button routerLink="/events">Retour</ion-button>
         </ion-card-content>
     </ion-card>
-    <ion-button *ngIf="auth === true" expand="block" (click)="deleteEvent()">Supprimer</ion-button>
-
+    <ion-footer>
+        <ion-buttons class="start" *ngIf="auth === true">
+            <ion-button (click)="deleteEvent()">
+                <ion-icon name="trash"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-footer>
 </ion-content>

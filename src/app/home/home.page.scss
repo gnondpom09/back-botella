@@ -9,19 +9,85 @@
             margin: auto;
             padding-top: 20px;
         }
+        .mail {
+            text-align: center;
+            vertical-align: middle;
+            .icon {
+                padding-top: 30px;
+                font-size: 1.2em;
+            }
+        }
         .title {
             font-size: 1.2em;
             font-weight: 600;
-            padding: 15px 0 10px 0;
+            padding: 15px 0 0 0;
+            color: white !important;
+            ion-icon {
+                font-size: 1.1em;
+                position: relative;
+                top: 4px;
+            }
+        }
+        .advert {
+            font-weight: 700;
+            text-transform: uppercase;
         }
         .row-1 {
-            height: 25vh;
+            //height: 25%;
+            height: 240px;
         }
         .row-2 {
-            height: 50vh;
+            position: absolute;
+            //height: 55vh;
         }
         .row-3 {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
             height: 25vh;
+            overflow: hidden;
+            background: var(--ion-color-dark);
+        }
+        .col {
+            display: block;
+            float: left;
+        }
+        .col-1 {
+            width: 10%;
+        }
+        .col-2 {
+            width: 20%;
+            overflow: hidden;
+            height: 100%;
+        }
+        .col-3 {
+            width: 25%;
+        }
+        .col-4 {
+            width: 30% !important;
+        }
+        .col-6 {
+            width: 50%;
+            .fab-left {
+                z-index: 900;
+                position: absolute;
+                left: 10px;
+            }
+        }
+        .col-7 {
+            width: 60%;
+        }
+        .col-8 {
+            width: 70%;
+        }
+        .col-10 {
+            width: 80%;
+        }
+        .col-11 {
+            width: 90%;
+        }
+        .col-12 {
+            width: 100%;
         }
         .news {
             text-align: center;
@@ -34,14 +100,15 @@
         .copyright, .btn {
             background: var(--ion-color-primary);
             color: white;
+            overflow: hidden;
+            display: flex;
+            align-items: center !important;
+            justify-content: center !important;
         }
-        .sc-ion-row-h {
-            .sc-ion-col-h {
-                padding: 0;
-                img {
-                    border-image-width: 0 !important;
-                }
-            }
+        img {
+            border-image-width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
     }

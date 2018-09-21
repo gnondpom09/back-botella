@@ -9,6 +9,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     templateUrl: 'app.component.html'
 })
 export class AppComponent {
+    // Properties
+    isActive: boolean = false;
+
     public appPages = [
         { title: 'Accueil', url: '/home', icon: 'home' },
         { title: 'A propos', url: '/about', icon: 'information-circle' },
@@ -30,7 +33,19 @@ export class AppComponent {
     initializeApp() {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
+            this.statusBar.styleLightContent();
             this.splashScreen.hide();
         });
+    }
+    selectItem() {
+        if (this.isActive = false) {
+            this.isActive = true;
+            console.log(this.isActive);
+            
+        } else {
+            this.isActive = false;
+            console.log(this.isActive);
+            
+        }
     }
 }

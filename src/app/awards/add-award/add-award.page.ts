@@ -75,6 +75,7 @@ export class AddAwardPage implements OnInit {
                     }
                 }
             )
+        return await loader.present();
     }
     /**
      * Add a new award

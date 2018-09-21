@@ -1,41 +1,45 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-button routerLink="/events">
+                <ion-icon name="arrow-back" slot="start"></ion-icon>
+            </ion-button>
         </ion-buttons>
-        <ion-title>Ajouter un évènement</ion-title>
+        <ion-title>Nouvel évènement</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-    <form [formGroup]="createEventForm" (submit)="createEvent()">
+<ion-content>
+    <ion-card>
+        <form [formGroup]="createEventForm" (submit)="createEvent()">
 
-        <ion-item>
-            <ion-label stacked>Titre de l'évènement</ion-label>
-            <ion-input formControlName="title" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Période de l'évènement</ion-label>
-            <ion-input formControlName="subTitle" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Description</ion-label>
-            <ion-input formControlName="content" type="text">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label stacked>Image</ion-label>
-            <ion-card>
-                <img [src]="imagePath" alt="">
-            </ion-card>
-        </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Titre de l'évènement</ion-label>
+                <ion-input formControlName="title" type="text">
+                </ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Période de l'évènement</ion-label>
+                <ion-input formControlName="subTitle" type="text">
+                </ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Description</ion-label>
+                <textarea formControlName="content"></textarea>
+            </ion-item>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
+                </ion-col>
+                <ion-col class="thumb" size="4">
+                    <img *ngIf="!imagePath" src="assets/icon/thumb.svg" alt="">
+                    <img *ngIf="imagePath" [src]="imagePath" alt="">
+                </ion-col>
+            </ion-row>
 
-        <ion-button expand="block" type="submit" [disabled]="!createEventForm.valid">
-            créer l'évèvenement
-        </ion-button>
-    </form>
-    <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
-    <ion-button routerLink="/events">Annuler</ion-button>
+            <ion-button expand="block" type="submit" [disabled]="!createEventForm.valid">
+                créer l'évèvenement
+            </ion-button>
+        </form>
+    </ion-card>
 </ion-content>

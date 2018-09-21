@@ -1,4 +1,12 @@
-
+<ion-header>
+        <ion-toolbar color="dark">
+            <ion-title>
+                <div class="logo">
+                    <img src="assets/signature_white.png" alt="">
+                </div>
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
 <ion-content class="preview">
     <!-- <ion-slides pager="true">
         <ion-slide *ngFor="let image of paintings" >
@@ -13,10 +21,16 @@
         </ion-card-title>
         <ion-card-content>
             <img [src]="paintingImg" alt="">
+            <p>
+                {{paintingTechnic}}
+                <span>
+                    {{paintingHeight}} cm x {{paintingWidth}} cm
+                </span>
+            </p>
         </ion-card-content>
     </ion-card>
     <ion-footer>
-            <ion-buttons class="start">
+            <ion-buttons class="start" *ngIf="auth === true" >
                 <ion-button (click)="deletePainting()">
                     <ion-icon name="trash"></ion-icon>
                 </ion-button>

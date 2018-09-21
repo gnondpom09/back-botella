@@ -47,6 +47,7 @@ export class PreviewPage implements OnInit {
         // get array of paintings
         this.paintings = this.navParams.get('images');
         console.log('get images : ' + this.paintings);
+        
 
         // this.paintings.forEach(item => {
         //     console.log('get item : ' + item.path);
@@ -91,6 +92,8 @@ export class PreviewPage implements OnInit {
             this.paintingImg = painting.path;
             this.paintingCategory = painting.category;
             this.paintingTechnic = painting.technic;
+            this.paintingHeight = painting.height;
+            this.paintingWidth = painting.width;
         })
         console.log(this.painting);
 

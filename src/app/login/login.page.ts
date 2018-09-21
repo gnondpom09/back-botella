@@ -86,5 +86,11 @@ export class LoginPage implements OnInit {
         this.authProvider.logout();
         this.auth = false;
     }
+    /**
+     * Send link to reset password
+     */
+    lostPassword() {
+        this.authProvider.resetPassword('laurent.botella@vivaldi.net');
+    }
 
 }

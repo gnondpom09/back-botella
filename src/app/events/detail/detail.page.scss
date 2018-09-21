@@ -16,6 +16,18 @@
         overflow: hidden;
         .thumb {
             width: 100%;
+            //min-width: 100%;
+        }
+    }
+    ion-footer {
+        max-height: 10vh;
+        .start {
+            display: block;
+            float: left;
+        }
+        .end {
+            display: block;
+            float: right;
         }
     }
 }
