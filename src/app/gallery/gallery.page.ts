@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PaintingService } from "../services/painting/painting.service";
+import { CategoryService } from "../services/category/category.service";
 import { AuthService } from "../services/auth/auth.service";
 import { ModalController } from '@ionic/angular';
 import { PreviewPage } from "../gallery/preview/preview.page";
+import { Category } from '../models/category.model';
 
 @Component({
     selector: 'app-gallery',
@@ -13,6 +15,7 @@ import { PreviewPage } from "../gallery/preview/preview.page";
 export class GalleryPage implements OnInit {
     // Properties
     category;
+    categories;
     cat1: string = 'pastel drawing';
     cat2: string = 'escapade';
     cat3: string = 'intimite';
@@ -24,6 +27,7 @@ export class GalleryPage implements OnInit {
 
     constructor(
         private paintingProvider: PaintingService,
+        private categoryService: CategoryService,
         private authProvider: AuthService,
         private modalCtrl: ModalController
     ) { 
@@ -32,36 +36,42 @@ export class GalleryPage implements OnInit {
            .subscribe(authState => {
                if (authState) {
                    this.auth = true;
-                   console.log(this.auth);
-                   console.log('login as : ' + authState.uid);
 
                } else {
                    this.auth = false;
-                   console.log(this.auth);
                }
            })
     }
 
     ngOnInit() {
-        // select init tab
-        this.category = this.cat1;
-        // get list of paintings by category
-        this.paintings = this.paintingProvider.getAllPaintings().valueChanges();
+        // Get categories
+        this.categories = this.categoryService.getAllCategories().valueChanges();
+        this.categories.subscribe(categories => {
+            // Get first category to display list of paintings
+            this.category = categories[0].id;
+            // get list of paintings of first category
+            this.getPaintings(this.category);
+        });
+
         // fill array of images path for viewer
-        this.paintingsList = this.paintingProvider.getAllPaintings().valueChanges();
-        this.paintingsList.subscribe(images => {
-            this.images = images;
-            console.log('images list :  ' + this.images);
-            
-            images.forEach(image => {
-                console.log('image : ' + image.path);
-                // fill array of images path
-                this.images.push({
-                    url: image.path
-                });
-            });    
-        })
+        // this.paintingsList = this.paintingProvider.getAllPaintings().valueChanges();
+        // this.paintingsList.subscribe(images => {
+        //     this.images = images;            
+        //     images.forEach(image => {
+        //         // fill array of images path
+        //         this.images.push({
+        //             url: image.path
+        //         });
+        //     });    
+        // })
         
+    }
+    public getPaintings(id: string) {
+        this.paintings = this.paintingProvider.getPaintingsByCategory(id).valueChanges();
+    }
+    public selectCategory(id: string) {
+        this.category = id;
+        this.getPaintings(this.category);
     }
     /**
      * Open modal to view large image
