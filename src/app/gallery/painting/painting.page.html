@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="dark">
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+          <div class="logo">
+              <img src="assets/signature_white.png" alt="">
+          </div>
+      </ion-title>
+      <ion-buttons slot="end" *ngIf="auth === true">
+          <ion-button routerLink="/add-painting">
+              <ion-icon slot="icon-only" name="add"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <figure>
+      <img [src]="painting.path" [alt]="painting.title">
+  </figure>
+  <div>
+      <h2>
+          {{painting.title}}
+      </h2>
+      <h5>Dimensions</h5>
+      <ul>
+          <li>Hauteur: {{painting.height}}</li>
+          <li>Largeur : {{painting.width}}</li>
+      </ul>
+  </div>
+  <ion-button (click)="viewLarge(painting.id, painting.path, painting.category)">
+      Zoom
+  </ion-button>
+  <!-- <button (click)="viewLarge(painting.path)">Zoom</button> -->
+  <ion-button color="light" routerLink="/gallery">Retour vers la galerie</ion-button>
+</ion-content>

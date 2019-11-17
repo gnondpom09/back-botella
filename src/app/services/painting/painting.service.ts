@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { LoadingController, AlertController } from "@ionic/angular";
 import { Painting } from "../../models/painting.model";
-import { AngularFirestore, AngularFirestoreCollection } from "angularfire2/firestore";
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "angularfire2/firestore";
 import * as firebase from 'firebase';
 import { Storage } from "@ionic/storage";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
@@ -86,7 +86,7 @@ export class PaintingService {
      * get painting detail
      * @param id id of painting
      */
-    getPainting(id) {
+    getPainting(id): AngularFirestoreDocument<Painting> {
         return this.firestore.collection('paintings').doc(id);
     }
     /**

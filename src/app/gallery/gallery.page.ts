@@ -6,6 +6,8 @@ import { AuthService } from "../services/auth/auth.service";
 import { ModalController } from '@ionic/angular';
 import { PreviewPage } from "../gallery/preview/preview.page";
 import { Category } from '../models/category.model';
+import { Painting } from "../models/painting.model";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-gallery',
@@ -16,10 +18,6 @@ export class GalleryPage implements OnInit {
     // Properties
     category;
     categories;
-    cat1: string = 'pastel drawing';
-    cat2: string = 'escapade';
-    cat3: string = 'intimite';
-    cat4: string = 'portrait';
     paintings;
     paintingsList; // array of paintings to pass in params to viewer
     images;
@@ -29,7 +27,8 @@ export class GalleryPage implements OnInit {
         private paintingProvider: PaintingService,
         private categoryService: CategoryService,
         private authProvider: AuthService,
-        private modalCtrl: ModalController
+        private modalCtrl: ModalController,
+        private router: Router
     ) { 
            // Check if user is authentificate
            this.authProvider.getCurrentUser()
@@ -73,6 +72,15 @@ export class GalleryPage implements OnInit {
         this.category = id;
         this.getPaintings(this.category);
     }
+
+    /**
+     * View informations of painting
+     * @param painting Painting selected
+     */
+    viewDetail(painting: Painting) {
+        this.router.navigateByUrl(`painting/${painting.id}`);
+    }
+
     /**
      * Open modal to view large image
      * @param id id of painting

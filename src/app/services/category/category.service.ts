@@ -11,7 +11,41 @@ export class CategoryService {
 
   constructor(public firestore: AngularFirestore) { }
 
+  /**
+   * List all categories
+   */
   getAllCategories(): AngularFirestoreCollection<Category> {
     return this.firestore.collection('categories');
+  }
+
+  /**
+   * Create new vategory
+   * @param id id of category
+   * @param name name of category
+   */
+  createCategory(id: string, name: string): Promise<void> {
+    return this.firestore.collection('categories').doc(id).set({
+      id: id,
+      name: name
+    })
+  }
+
+  /**
+   * Modify name of category
+   * @param id id of category to update
+   * @param name new name of category
+   */
+  updateCategory(id: string, name: string): Promise<void> {
+    return this.firestore.collection('categories').doc(id).update({
+      name: name
+    })
+  }
+
+  /**
+   * Delete category
+   * @param id id of category to delete
+   */
+  deleteCategory(id: string): Promise<void> {
+    return this.firestore.collection('categories').doc(id).delete();
   }
 }

@@ -1,0 +1,17 @@
+<div>
+  <figure>
+      <img [src]="painting.thumb" [alt]="painting.title">
+  </figure>
+  <div>
+      <h2>
+          {{painting.title}}
+      </h2>
+      <h5>Dimensions</h5>
+      <ul>
+          <li>Hauteur: {{painting.height}}</li>
+          <li>Largeur : {{painting.width}}</li>
+      </ul>
+  </div>
+  <!-- <button (click)="viewLarge(painting.path)">Zoom</button> -->
+  <button routerLink="/gallery">Retour vers la galerie</button>
+</div>

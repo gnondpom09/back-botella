@@ -26,13 +26,10 @@
         <div [ngSwitch]="category">
             <div *ngFor="let painting of paintings | async">
                 <ion-list *ngSwitchCase="painting.category">
-                    <ion-item class="item" (click)="viewLarge(painting.id, painting.path, painting.category)">
+                    <ion-item class="item" (click)="viewDetail(painting)">
                         <ion-thumbnail slot="start">
-                            <ion-img [src]="painting.path"></ion-img>
+                            <ion-img [src]="painting.thumb"></ion-img>
                         </ion-thumbnail>
-                        <p>
-                            {{painting.title}}
-                        </p>
                     </ion-item>
                 </ion-list>
             </div>

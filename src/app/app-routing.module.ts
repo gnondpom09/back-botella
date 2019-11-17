@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'gallery', loadChildren: './gallery/gallery.module#GalleryPageModule' },
+  { path: 'painting/:id', loadChildren: './gallery/painting/painting.module#PaintingPageModule' },
   { path: 'events', loadChildren: './events/events.module#EventsPageModule' },
   { path: 'awards', loadChildren: './awards/awards.module#AwardsPageModule' },
   { path: 'contact', loadChildren: './contact/contact.module#ContactPageModule' },
