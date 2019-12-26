@@ -3,15 +3,27 @@
         margin: 0;
         border-radius: 0;
         h2 {
-            font-size: 1.4em;
+            font-size: 2em;
             font-weight: 700;
+            letter-spacing: 3px;
         }
-    }
-    .header-news {
-        height: 150px;
-        overflow: hidden;
-        .thumb {
+        h3 {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--ion-color-primary);
+        }
+        .next {
+            display: flex;
+            align-items: flex-end;
+            flex-flow: column;
+            border-top: var(--ion-color-medium) solid 1px;
             width: 100%;
+            margin-top: 10px;
+            .btn-next {
+                text-transform: none;
+                font-size: 0.9em;
+                text-align: right;
+            }
         }
     }
 }

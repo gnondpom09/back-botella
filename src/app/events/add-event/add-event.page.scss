@@ -6,14 +6,32 @@
             height: auto;
         }
     }
-    ion-button {
-        margin: 10px;
-        border-radius: 0;
-    }
-    textarea {
-        width: 100%;
-        padding: 5px;
-        margin: 10px 0;
-        min-height: 150px;
+    .form {
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.6em;
+            font-weight: 600;
+            color: var(--ion-color-primary);
+        }
+        display: flex;
+        justify-content: center;
+        ion-card {
+            margin-top: 20px !important;
+            width: 50%;
+            margin: auto;
+            background: var(--ion-color-white);
+            padding: 20px;
+            ion-button {
+                margin: 10px;
+                border-radius: 0;
+            }
+            textarea {
+                margin: 10px 0;
+                padding: 10px;
+                min-height: 150px;
+                width: 100%;
+            }
+        }
     }
 }

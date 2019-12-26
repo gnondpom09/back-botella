@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { GalleryPage } from './gallery.page';
 import { PreviewPage } from "./preview/preview.page";
+import { PaintingPage } from "./painting/painting.page";
+// import { AddPaintingPage } from "./add-painting/add-painting.page";
 
 const routes: Routes = [
     {
@@ -24,10 +26,14 @@ const routes: Routes = [
     ],
     declarations: [
         GalleryPage,
-        PreviewPage
+        PreviewPage,
+        PaintingPage,
+        // AddPaintingPage
     ],
     entryComponents: [
-        PreviewPage
+        PreviewPage,
+        PaintingPage,
+        // AddPaintingPage
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

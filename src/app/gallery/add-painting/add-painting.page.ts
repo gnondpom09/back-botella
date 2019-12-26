@@ -1,22 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { LoadingController, AlertController, ActionSheetController } from "@ionic/angular";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoadingController, AlertController, ActionSheetController, RadioGroup } from "@ionic/angular";
 import { Camera } from "@ionic-native/camera/ngx";
 import { PaintingService } from "../../services/painting/painting.service";
+import { CategoryService } from "../../services/category/category.service";
 import { AuthService } from "../../services/auth/auth.service";
+import { UserService } from "../../services/user/user.service";
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import * as firebase from 'firebase';
-import { AngularFirestore, } from "angularfire2/firestore";
-//import { ImageResizer } from '@ionic-native/image-resizer/ngx';
-
+import { AngularFirestore } from "angularfire2/firestore";
+import { Ng2ImgMaxService } from "ng2-img-max";
+import { Subscription } from 'rxjs';
+import { Category } from '../../models/category.model';
 
 @Component({
     selector: 'app-add-painting',
     templateUrl: './add-painting.page.html',
     styleUrls: ['./add-painting.page.scss'],
 })
-export class AddPaintingPage implements OnInit {
+export class AddPaintingPage implements OnInit, OnDestroy {
     // Properties
+    isAdmin: boolean = false;
+    subscription: Subscription;
+    subscriptionCategory: Subscription;
+    categories: Category[];
+    radioCategories: any[] = [];
     addPaintingForm;
     imageId: string = '';
     technic: string = '';
@@ -24,8 +32,11 @@ export class AddPaintingPage implements OnInit {
     width: string = '';
     height: string = '';
     format: string = '';
+
     imagePath: string = '';
     thumbnail: string = '';
+    selectedFile: File;
+    thumbnailFile: File;
 
     constructor(
         public alertCtrl: AlertController,
@@ -33,23 +44,14 @@ export class AddPaintingPage implements OnInit {
         public actionSheetCtrl: ActionSheetController,
         private camera: Camera,
         private paintingProvider: PaintingService,
+        private categoryService: CategoryService,
         private router: Router,
         private firestore: AngularFirestore,
         formBuilder: FormBuilder,
         private authProvider: AuthService,
-        //private imageResizer: ImageResizer
+        private userService: UserService,
+        private ng2imgMax: Ng2ImgMaxService
     ) {
-        // Check if user is authentificate
-        this.authProvider.getCurrentUser()
-            .subscribe(authState => {
-                if (authState) {
-                    console.log('login as : ' + authState.uid);
-
-                } else {
-                    // redirect to home page
-                    this.router.navigateByUrl('');
-                }
-            })
         // Init form
         this.addPaintingForm = formBuilder.group({
             title: ['', Validators.required],
@@ -57,7 +59,41 @@ export class AddPaintingPage implements OnInit {
     }
 
     ngOnInit() {
-
+        // Check if user is authentificate
+        this.authProvider.getCurrentUser()
+            .subscribe(authState => {
+                if (authState) {
+                    this.subscription = this.userService.getInformations(authState.uid).valueChanges()
+                        .subscribe(user => {
+                            this.isAdmin = user.role === 'admin' ? true : false;
+                        })
+                    this.subscriptionCategory = this.categoryService.getAllCategories().valueChanges()
+                        .subscribe(categories => {
+                            this.categories = categories;
+                            this.fillRadioCategories(this.categories);                            
+                        })
+                } else {
+                    // redirect to home page
+                    this.router.navigateByUrl('');
+                }
+            })
+    }
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+        this.subscriptionCategory.unsubscribe();
+    }
+    /**
+     * Fill radio buttons with values of categories
+     * @param categories categories
+     */
+    fillRadioCategories(categories: Category[]) {
+        categories.forEach(category => {
+            this.radioCategories.push({
+                type: 'radio',
+                label: category.name,
+                value: category.id
+            })
+        });
     }
     /**
      * select technic of the painting
@@ -94,12 +130,7 @@ export class AddPaintingPage implements OnInit {
     async openCategory() {
         // create alert to display list of categories
         const alert = await this.alertCtrl.create({
-            inputs: [
-                { type: 'radio', label: 'Escapade', value: 'escapade' },
-                { type: 'radio', label: 'Pastel drawing', value: 'pastel drawing' },
-                { type: 'radio', label: 'Intimité', value: 'intimite' },
-                { type: 'radio', label: 'Portrait', value: 'portrait' },
-            ],
+            inputs: this.radioCategories,
             buttons: [
                 {
                     text: 'OK',
@@ -213,8 +244,7 @@ export class AddPaintingPage implements OnInit {
         const width = this.width;
         const height = this.height;
         const image = this.imagePath;
-        const thumb = this.imagePath;
-        console.log('control image path arg : ' + image);
+        const thumb = this.thumbnail;
 
         // Add new painting in database
         if (technic && category && width && height && image !== '') {
@@ -243,6 +273,45 @@ export class AddPaintingPage implements OnInit {
         return await loader.present();
     }
     /**
+     * Get file from desktop
+     * @param event file selected
+     */
+    onFileChanged(event) {
+        this.selectedFile = event.target.files[0];
+    }
+    
+    /**
+     * Load image and thumbnail in storage
+     */
+    async onUpload() {
+        const loader = await this.loadingCtrl.create();
+
+        // Create imageId for thumbnail and large image
+        this.imageId = this.firestore.createId();
+
+        // Generate thumbnail
+        this.ng2imgMax.resizeImage(this.selectedFile, 300, 300)
+            .subscribe(res => {
+                this.thumbnailFile = res;
+            })
+
+        // Upload image and thumbnail in storage and get image path
+        this.uploadFile(this.selectedFile)
+            .then(() => {
+                console.log('image uploaded');
+                // Upload thumnail generated
+                this.uploadThumbnailFile(this.thumbnailFile, this.imageId).then(() => {
+                    console.log('thumbnail uploaded');
+                    loader.dismiss();
+                })
+            })
+            .catch(er => {
+                console.log(er);
+                loader.dismiss();
+            })
+        return loader.present();
+    }
+    /**
     * Load image from library for add new painting in database
     * @param  selectedSourceType Source type
     */
@@ -260,12 +329,19 @@ export class AddPaintingPage implements OnInit {
                 // Create imageId for thumbnail and large image
                 this.imageId = this.firestore.createId();
 
-                // generate thumbnail and upload in storage
+                // Create and upload thumbnail and upload in storage
+                this.ng2imgMax.resizeImage(imageData, 300, 300)
+                .subscribe(res => {
+                    this.thumbnailFile = new File([res], res.name);
+                })
 
-                // Upload image in storage and get image path
+                // Upload image and thumbnail in storage and get image path
                 this.uploadImage(imageData)
                     .then(() => {
-                        loader.dismiss();
+                        this.uploadThumbnailFile(this.thumbnailFile, this.imageId)
+                            .then(() => {
+                                loader.dismiss();
+                            })
                     })
                     .catch(er => {
                         console.log(er);
@@ -277,64 +353,8 @@ export class AddPaintingPage implements OnInit {
 
         return await loader.present()
     }
-    optionsThumbnail(imageUri) {
-        let options = {
-            uri: imageUri,
-            quality: 50,
-            width: 150,
-            height: 150
-        }
-        return options;
-    }
     /**
-     * compress image and upload to storage
-     * @param image image from library
-     */
-    createThumbnail(image) {
-        // compress image
-        this.generateFromImage(image, 150, 150, 0.5, data => {
-            console.log('data : ' + data);
-            // upload thumbnail in storage and get thumbnail url
-            this.uploadThumb(data)
-                .then(data => {
-                    console.log('upload thumb : ' + data);
-                })
-        })
-    }
-    generateFromImage(img, MAX_WIDTH: number = 700, MAX_HEIGHT: number = 700, quality: number = 1, callback) {
-        var canvas: any = document.createElement("canvas");
-        var image = new Image();
-
-        image.onload = () => {
-            var width = image.width;
-            var height = image.height;
-
-            if (width > height) {
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
-                }
-            } else {
-                if (height > MAX_HEIGHT) {
-                    width *= MAX_HEIGHT / height;
-                    height = MAX_HEIGHT;
-                }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            var ctx = canvas.getContext("2d");
-
-            ctx.drawImage(image, 0, 0, width, height);
-
-            // IMPORTANT: 'jpeg' NOT 'jpg'
-            var dataUrl = canvas.toDataURL('image/jpeg', quality);
-
-            callback(dataUrl)
-        }
-        image.src = img;
-    }
-    /**
-    * Upload painting in storage
+    * Upload image in storage
     * @param  uid       id of current user
     * @param  imageData source of image to upload
     */
@@ -351,9 +371,7 @@ export class AddPaintingPage implements OnInit {
         return imageRef.putString(imageData, 'base64', metaData)
             .then(() => {
                 // get image path 
-                console.log('url : ' + imageRef);
                 imageRef.getDownloadURL().then(rootPath => {
-                    console.log('rootPath :  ' + rootPath);
                     this.imagePath = rootPath;
                 })
             }, er => {
@@ -361,30 +379,47 @@ export class AddPaintingPage implements OnInit {
             })
     }
     /**
-    * Upload thumb in storage
+    * Upload file in storage
     * @param  uid       id of current user
     * @param  imageData source of image to upload
     */
-    uploadThumb(imageData: string) {
+    uploadFile(imageData: File) {
         // references
         let storageRef = firebase.storage().ref();
         //this.imageId = this.firestore.createId();
-        let imageRef = storageRef.child(`paintings/${this.imageId}/thumb/${this.imageId}.jpg`);
-        let metaData = {
-            contentType: 'image/jpeg'
-        }
+        let imageRef = storageRef.child(`paintings/${this.imageId}/${this.imageId}.jpg`);
 
         // upload image to storage
-        return imageRef.putString(imageData, 'base64', metaData)
+        return imageRef.put(imageData)
             .then(() => {
                 // get image path 
-                console.log('url : ' + imageRef);
                 imageRef.getDownloadURL().then(rootPath => {
-                    console.log('thumbnailPath :  ' + rootPath);
-                    this.thumbnail = rootPath;
+                    this.imagePath = rootPath;
                 })
             }, er => {
                 console.log(er);
             })
     }
+
+    /**
+    * Upload thumb in storage
+    * @param  uid       id of current user
+    * @param  imageData source of image to upload
+    */
+   uploadThumbnailFile(imageData: File, imageId: string) {
+    // references
+    let storageRef = firebase.storage().ref();
+    let imageRef = storageRef.child(`paintings/${imageId}/thumb/${imageId}.jpg`);
+
+    // upload image to storage
+    return imageRef.put(imageData)
+        .then(() => {
+            // get image path 
+            imageRef.getDownloadURL().then(rootPath => {
+                this.thumbnail = rootPath;
+            })
+        }, er => {
+            console.log(er);
+        })
+}
 }

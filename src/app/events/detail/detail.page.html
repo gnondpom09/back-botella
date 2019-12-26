@@ -1,42 +1,59 @@
-<ion-header>
+<ion-header no-border no-shadow>
     <ion-toolbar color="dark">
         <ion-buttons slot="start">
-            <ion-button routerLink="/events">
-                <ion-icon name="arrow-back" slot="start"></ion-icon>
+            <div class="logo" routerLink="/">
+                <ion-button size="small" fill="clear" >
+                <img src="assets/signature_white.png" alt="logo">
+                </ion-button>
+            </div>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalCtrl.dismiss()">
+                <ion-icon name="close" slot="start"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>
-            <div class="logo">
-                <img src="assets/signature_white.png" alt="">
-            </div>
-        </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
 
-    <ion-card>
-        <div class="header-news">
-            <img class="thumb" [src]="(event | async)?.imagePath" alt="">
-        </div>
-        <ion-card-content>
-            <ion-label>
-                <h2>
-                    {{(event | async)?.title}}
-                </h2>
-                <h3>
-                    {{(event | async)?.subTitle}}
-                </h3>
-            </ion-label>
-            <p>
-                {{(event | async)?.content}}
-            </p>
-        </ion-card-content>
-    </ion-card>
+    <ion-grid fixed class="margin-top">
+        <ion-row>
+            <ion-col size="5">
+                <img class="thumb" [src]="event.imagePath" alt="event">
+            </ion-col>
+            <ion-col size="7">
+                <ion-card class="event-detail">
+                    <ion-card-title class="title">
+                        <h2>
+                            {{event.title}}
+                        </h2>
+                    </ion-card-title>
+                    <ion-card-content>
+                        <h3>
+                            {{event.subTitle}}
+                        </h3>
+                        <p>
+                            {{event.content}}
+                        </p>
+                        <!-- <p>
+                            {{event.date.toDate() | date: 'dd/MM/yyyy'}}
+                        </p> -->
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
     <ion-footer>
-        <ion-buttons class="start" *ngIf="auth === true">
+        <ion-buttons class="start" *ngIf="isAdmin">
             <ion-button (click)="deleteEvent()">
                 <ion-icon name="trash"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons class="end" *ngIf="isAdmin">
+            <ion-button (click)="updateEvent()">
+                <ion-icon name="create"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-footer>

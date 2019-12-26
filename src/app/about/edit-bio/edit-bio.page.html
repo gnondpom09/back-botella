@@ -1,37 +1,47 @@
-<ion-header>
+
+<ion-header no-border no-shadow>
     <ion-toolbar color="dark">
         <ion-buttons slot="start">
-            <ion-button routerLink="/about">
-                <ion-icon name="arrow-back" slot="start"></ion-icon>
+            <div class="logo" routerLink="/">
+                <ion-button size="small" fill="clear" >
+                <img src="assets/signature_white.png" alt="logo">
+                </ion-button>
+            </div>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalCtrl.dismiss()">
+                <ion-icon name="close" slot="start"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>Modifier biographie</ion-title>
     </ion-toolbar>
 </ion-header>
-
+    
 <ion-content>
-    <ion-card>
-        <ion-list>
-            <ion-item>
-                <ion-label position="stacked">interview</ion-label>
-                <ion-input [(ngModel)]="interview" type="text">
-                </ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="stacked">Auteur</ion-label>
-                <ion-input [(ngModel)]="author" type="text">
-                </ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label position="stacked">Biographie</ion-label>
-                <textarea [(ngModel)]="biography"></textarea>
-            </ion-item>
-        </ion-list>
-
-        <ion-button expand="block" type="submit" (click)="updateBio()">
-            Modifier
-        </ion-button>
-    </ion-card>
+    <div class="large-header"></div>
+    <div class="relative-content form">
+        <ion-card>
+            <ion-list>
+                <ion-item>
+                    <ion-label position="stacked">interview</ion-label>
+                    <ion-input [(ngModel)]="interview" type="text">
+                    </ion-input>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="stacked">Auteur</ion-label>
+                    <ion-input [(ngModel)]="author" type="text">
+                    </ion-input>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="stacked">Biographie</ion-label>
+                    <textarea [(ngModel)]="biography"></textarea>
+                </ion-item>
+            </ion-list>
+    
+            <ion-button expand="block" type="submit" (click)="updateBio()">
+                Modifier
+            </ion-button>
+        </ion-card>
+    </div>
 </ion-content>

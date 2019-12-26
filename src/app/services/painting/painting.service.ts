@@ -23,7 +23,7 @@ export class PaintingService {
         return this.firestore.collection('paintings');
     }
     // test
-    getPaintingsByCategory(id): AngularFirestoreCollection<Painting> {
+    getPaintingsByCategory(id: string): AngularFirestoreCollection<Painting> {
         return this.firestore.collection('paintings', ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
             query = query.where("category", "==", id);

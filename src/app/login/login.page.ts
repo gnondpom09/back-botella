@@ -1,46 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Router } from "@angular/router";
 import { LoadingController, AlertController } from "@ionic/angular";
 import { Storage } from "@ionic/storage";
 import * as firebase from 'firebase';
 import { AuthService } from "../services/auth/auth.service";
+import { UserService } from "../services/user/user.service";
+import { User } from "../models/user.model";
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
     styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit , OnDestroy{
     // Properties
     username: string = '';
     password: string = '';
     uid: string = '';
     auth: boolean = false;
+    currentUser: User;
+    subscription: Subscription;
 
     constructor(
         public alertCtrl: AlertController,
         public loadingCtrl: LoadingController,
         public storage: Storage,
         public authProvider: AuthService,
+        private userService: UserService,
         private router: Router
     ) {
-        // Check if user is authentificate
-        this.authProvider.getCurrentUser()
-            .subscribe(authState => {
-                if (authState) {
-                    this.auth = true;
-                    console.log(this.auth); 
-                    console.log('login as : ' + authState.uid);
-
-                } else {
-                    this.auth = false;
-                    console.log(this.auth);      
-                }
-            })
     }
 
     ngOnInit() {
+        // Check if user is authentificate
+        this.authProvider.getCurrentUser()
+        .subscribe(authState => {
+            if (authState) {
+                this.auth = true;
+                this.subscription = this.userService.getInformations(authState.uid).valueChanges()  
+                    .subscribe(user => {
+                        this.currentUser = user;
+                    })
+            } else {
+                this.auth = false;
+            }
+        })
+    }
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
     /**
      * Authentification and login
@@ -90,6 +99,8 @@ export class LoginPage implements OnInit {
      * Send link to reset password
      */
     lostPassword() {
+        console.log('lien envoyé');
+        
         this.authProvider.resetPassword('laurent.botella@vivaldi.net');
     }
 

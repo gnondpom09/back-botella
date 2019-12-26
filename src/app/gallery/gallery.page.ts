@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PaintingService } from "../services/painting/painting.service";
 import { CategoryService } from "../services/category/category.service";
 import { AuthService } from "../services/auth/auth.service";
 import { ModalController } from '@ionic/angular';
 import { PreviewPage } from "../gallery/preview/preview.page";
-import { Category } from '../models/category.model';
 import { Painting } from "../models/painting.model";
-import { Router } from "@angular/router";
+import { PaintingPage } from './painting/painting.page';
+import { Subscription } from 'rxjs';
+import { UserService } from '../services/user/user.service';
+import { AddPaintingPage } from './add-painting/add-painting.page';
 
 @Component({
     selector: 'app-gallery',
     templateUrl: './gallery.page.html',
     styleUrls: ['./gallery.page.scss'],
 })
-export class GalleryPage implements OnInit {
+export class GalleryPage implements OnInit, OnDestroy {
     // Properties
     category;
     categories;
@@ -22,20 +24,26 @@ export class GalleryPage implements OnInit {
     paintingsList; // array of paintings to pass in params to viewer
     images;
     auth: boolean = false;
+    subscription: Subscription;
+    isAdmin: boolean = false;
 
     constructor(
         private paintingProvider: PaintingService,
         private categoryService: CategoryService,
         private authProvider: AuthService,
-        private modalCtrl: ModalController,
-        private router: Router
+        private userService: UserService,
+        private modalCtrl: ModalController
     ) { 
            // Check if user is authentificate
            this.authProvider.getCurrentUser()
            .subscribe(authState => {
                if (authState) {
                    this.auth = true;
-
+                   // Check role if admin
+                   this.userService.getInformations(authState.uid).valueChanges()
+                    .subscribe(user => {
+                        this.isAdmin = user.role === 'admin' ? true : false
+                    })
                } else {
                    this.auth = false;
                }
@@ -51,23 +59,27 @@ export class GalleryPage implements OnInit {
             // get list of paintings of first category
             this.getPaintings(this.category);
         });
+    }
 
-        // fill array of images path for viewer
-        // this.paintingsList = this.paintingProvider.getAllPaintings().valueChanges();
-        // this.paintingsList.subscribe(images => {
-        //     this.images = images;            
-        //     images.forEach(image => {
-        //         // fill array of images path
-        //         this.images.push({
-        //             url: image.path
-        //         });
-        //     });    
-        // })
-        
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
+
+    /**
+     * Get list of paintings by category
+     * @param id id of category
+     */
     public getPaintings(id: string) {
-        this.paintings = this.paintingProvider.getPaintingsByCategory(id).valueChanges();
+        this.subscription = this.paintingProvider.getPaintingsByCategory(id).valueChanges()
+            .subscribe(paintings => {
+                this.paintings = paintings;
+            })
     }
+
+    /**
+     * Update category selected and get paintings
+     * @param id Id of category
+     */
     public selectCategory(id: string) {
         this.category = id;
         this.getPaintings(this.category);
@@ -77,8 +89,14 @@ export class GalleryPage implements OnInit {
      * View informations of painting
      * @param painting Painting selected
      */
-    viewDetail(painting: Painting) {
-        this.router.navigateByUrl(`painting/${painting.id}`);
+    async viewDetail(painting: Painting) {
+        let modal = await this.modalCtrl.create({
+            component: PaintingPage,
+            componentProps: {
+                id: painting.id
+            }
+        })
+        return await modal.present();
     }
 
     /**
@@ -98,6 +116,16 @@ export class GalleryPage implements OnInit {
                 images: this.images
             }
         });
+        return await modal.present();
+    }
+
+    /**
+     * Open Form to ad new painting
+     */
+    async addPainting() {
+        let modal = await this.modalCtrl.create({
+            component: AddPaintingPage
+        })
         return await modal.present();
     }
 }

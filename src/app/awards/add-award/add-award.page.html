@@ -1,63 +1,56 @@
-<ion-header>
-    <ion-toolbar color="dark">
-        <ion-buttons slot="start">
-            <ion-button routerLink="/awards">
-                <ion-icon name="arrow-back" slot="start"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Nouvelle récompense</ion-title>
-    </ion-toolbar>
-</ion-header>
-
-
 <ion-content>
-    <ion-segment [(ngModel)]="category">
-        <ion-segment-button [value]="addDate">
-            Ajouter une date
-        </ion-segment-button>
-        <ion-segment-button [value]="addAward">
-            Ajouter une récompense
-        </ion-segment-button>
-    </ion-segment>
-    <div [ngSwitch]="category">
-        <ion-list *ngSwitchCase="addDate">
-            <ion-card>
-                <form [formGroup]="createDateForm" (submit)="createDate()">
-                    <ion-item>
-                        <ion-label position="stacked">Année</ion-label>
-                        <ion-input formControlName="year" type="text">
-                        </ion-input>
-                    </ion-item>
-                    <ion-button expand="block" type="submit" [disabled]="!createDateForm.valid">
-                        Ajouter la date
-                    </ion-button>
-                </form>
-            </ion-card>
-        </ion-list>
-        <ion-list *ngSwitchCase="addAward">
-            <ion-card>
-                <form [formGroup]="createAwardForm" (submit)="createAward()">
-                    <ion-item>
-                        <ion-label position="stacked">Nom de la récompense</ion-label>
-                        <ion-input formControlName="name" type="text">
-                        </ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label position="stacked">Descriptif et lieu</ion-label>
-                        <ion-input formControlName="description" type="text">
-                        </ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label position="stacked">Année</ion-label>
-                        <ion-input formControlName="year" type="text">
-                        </ion-input>
-                    </ion-item>
-                    <ion-button expand="block" type="submit" [disabled]="!createAwardForm.valid">
-                        Ajouter la récompense
-                    </ion-button>
-                </form>
-            </ion-card>
-        </ion-list>
+
+    <div class="large-header"></div>
+    <div class="relative-content form">
+        <ion-card>
+            <ion-button routerLink="/awards">
+                <ion-icon slot="start" name="arrow-back"></ion-icon>Retour
+            </ion-button>
+            <ion-segment [(ngModel)]="category">
+                <ion-segment-button [value]="addDate">
+                    Ajouter une date
+                </ion-segment-button>
+                <ion-segment-button [value]="addAward">
+                    Ajouter une récompense
+                </ion-segment-button>
+            </ion-segment>
+            <div [ngSwitch]="category">
+                <ion-list *ngSwitchCase="addDate">
+                    <form [formGroup]="createDateForm" (submit)="createDate()">
+                        <ion-item>
+                            <ion-label position="stacked">Année</ion-label>
+                            <ion-input formControlName="year" type="text">
+                            </ion-input>
+                        </ion-item>
+                        <ion-button expand="block" type="submit" [disabled]="!createDateForm.valid">
+                            Ajouter la date
+                        </ion-button>
+                    </form>
+                </ion-list>
+                <ion-list *ngSwitchCase="addAward">
+                    <form [formGroup]="createAwardForm" (submit)="createAward()">
+                        <ion-item>
+                            <ion-label position="stacked">Nom de la récompense</ion-label>
+                            <ion-input formControlName="name" type="text">
+                            </ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="stacked">Descriptif et lieu</ion-label>
+                            <ion-input formControlName="description" type="text">
+                            </ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="stacked">Année</ion-label>
+                            <ion-input formControlName="year" type="text">
+                            </ion-input>
+                        </ion-item>
+                        <ion-button expand="block" type="submit" [disabled]="!createAwardForm.valid">
+                            Ajouter la récompense
+                        </ion-button>
+                    </form>
+                </ion-list>
+            </div>
+        </ion-card>
     </div>
 
 </ion-content>

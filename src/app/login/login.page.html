@@ -1,44 +1,35 @@
-<ion-header>
-    <ion-toolbar color="dark">
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>
-            <div class="logo">
-                <img src="assets/signature_white.png" alt="">
-            </div>
-        </ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-content>
+    <div class="large-header"></div>
 
-<ion-content padding>
-    <ion-card>
-        <div class="login" *ngIf="auth === false">
-            <div class="logo center">
-                <h1>Administration</h1>
+    <div class="relative-content form">
+        <ion-card class="margin-top">
+            <div *ngIf="auth === false">
+                <h1>Connexion</h1>
+                <ion-list>
+                    <ion-item>
+                        <ion-label position="stacked">Username</ion-label>
+                        <ion-input type="text" [(ngModel)]="username"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Mot de passe</ion-label>
+                        <ion-input type="Password" [(ngModel)]="password"></ion-input>
+                    </ion-item>
+                </ion-list>
+                <ion-button expand="full" (click)="signIn()">Login</ion-button>
+                <ion-button fill="clear" expand="full" (click)="lostPassword()">Mot de passe perdu?</ion-button>
             </div>
-            <ion-list>
+            <div *ngIf="auth === true">
                 <ion-item>
-                    <ion-avatar item-start>
-                        <img [src]="assets/icon/user.png" alt="">
-                    </ion-avatar>
-                    <ion-label position="stacked">Username</ion-label>
-                    <ion-input type="text" [(ngModel)]="username"></ion-input>
+                    <ion-thumbnail slot="start">
+                        <img [src]="currentUser.avatar" />
+                    </ion-thumbnail>
+                    <ion-label>
+                        Bonjour {{currentUser.pseudo}}
+                    </ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-avatar item-start>
-                        <img [src]="assets/icon/lock.png" alt="">
-                    </ion-avatar>
-                    <ion-label position="stacked">Mot de passe</ion-label>
-                    <ion-input type="Password" [(ngModel)]="password"></ion-input>
-                </ion-item>
-            </ion-list>
-            <ion-button expand="full" (click)="signIn()">Login</ion-button>
-            <ion-button fill="clear" expand="full" (click)="lostPassword()" >Mot de passe perdu?</ion-button>
-        </div>
-        <div *ngIf="auth === true">
-            <ion-button (click)="logout()">Déconnexion</ion-button>
-        </div>
-    </ion-card>
+                <ion-button (click)="logout()">Déconnexion</ion-button>
+            </div>
+        </ion-card>
+    </div>
 
 </ion-content>

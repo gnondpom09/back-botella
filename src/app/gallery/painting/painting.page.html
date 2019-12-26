@@ -1,38 +1,60 @@
-<ion-header>
-  <ion-toolbar color="dark">
-      <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>
-          <div class="logo">
-              <img src="assets/signature_white.png" alt="">
-          </div>
-      </ion-title>
-      <ion-buttons slot="end" *ngIf="auth === true">
-          <ion-button routerLink="/add-painting">
-              <ion-icon slot="icon-only" name="add"></ion-icon>
-          </ion-button>
-      </ion-buttons>
-  </ion-toolbar>
+<ion-header no-border no-shadow>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <div class="logo" routerLink="/">
+                <ion-button size="small" fill="clear" >
+                <img src="assets/signature_white.png" alt="logo">
+                </ion-button>
+            </div>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalCtrl.dismiss()">
+                <ion-icon name="close" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <figure>
-      <img [src]="painting.path" [alt]="painting.title">
-  </figure>
-  <div>
-      <h2>
-          {{painting.title}}
-      </h2>
-      <h5>Dimensions</h5>
-      <ul>
-          <li>Hauteur: {{painting.height}}</li>
-          <li>Largeur : {{painting.width}}</li>
-      </ul>
-  </div>
-  <ion-button (click)="viewLarge(painting.id, painting.path, painting.category)">
-      Zoom
-  </ion-button>
-  <!-- <button (click)="viewLarge(painting.path)">Zoom</button> -->
-  <ion-button color="light" routerLink="/gallery">Retour vers la galerie</ion-button>
+<ion-content color="dark">
+    <ion-grid fixed class="margin-top">
+        <ion-row>
+            <ion-col size="8">
+                <figure>
+                    <img [src]="painting.path" [alt]="painting.title">
+                </figure>
+            </ion-col>
+            <ion-col size="4">
+                <ion-card class="detail-painting">
+                    <ion-card-title>
+                        <h2>
+                            {{painting.title}}
+                        </h2>
+                    </ion-card-title>
+                    <ion-card-content>
+                        <h3>
+                            {{painting.technic}}
+                        </h3>
+                        <h5>Dimensions</h5>
+                        <ul>
+                            <li>Hauteur: {{painting.height}} cm</li>
+                            <li>Largeur: {{painting.width}} cm</li>
+                        </ul>
+                        <h4>
+                            {{painting.price}}
+                        </h4>
+                        <ion-button *ngIf="painting.price" expand="full" color="primary" (click)="addToCart()">
+                            Ajouter au panier
+                        </ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-footer>
+        <ion-buttons class="start" *ngIf="isAdmin" >
+            <ion-button (click)="deletePainting()">
+                <ion-icon color="primary" name="trash"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-footer>
 </ion-content>

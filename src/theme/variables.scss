@@ -1,13 +1,52 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+@font-face {
+  font-family: "Emberly";
+  src: url("../assets/fonts/Emberly/WOFF2/Emberly-BoldCondensed.woff2") format("woff2"),
+         url("../assets/fonts/Emberly/WOFF/Emberly-BoldCondensed.woff") format("woff"),
+         url("../assets/fonts/Emberly/TTF/Emberly-BoldCondensed.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Emberly-bold-narrow";
+  src: url("../assets/fonts/Emberly/WOFF2/Emberly-MediumNarrow.woff2") format("woff2"),
+         url("../assets/fonts/Emberly/WOFF/Emberly-MediumNarrow.woff") format("woff"),
+         url("../assets/fonts/Emberly/TTF/Emberly-MediumNarrow.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Emberly-medium-narrow";
+  src: url("../assets/fonts/Emberly/WOFF2/Emberly-MediumNarrow.woff2") format("woff2"),
+         url("../assets/fonts/Emberly/WOFF/Emberly-MediumNarrow.woff") format("woff"),
+         url("../assets/fonts/Emberly/TTF/Emberly-MediumNarrow.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Morganite-Thin";
+  src: url("../assets/fonts/Morganite/Morganite-Thin.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Morganite-Book";
+  src: url("../assets/fonts/Morganite/Morganite-Book.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Morganite-Medium";
+  src: url("../assets/fonts/Morganite/Morganite-Medium.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Morganite-Bold";
+  src: url("../assets/fonts/Morganite/Morganite-Bold.ttf") format("ttf");
+ }
+ @font-face {
+  font-family: "Morganite-ExtraBold";
+  src: url("../assets/fonts/Morganite/Morganite-ExtraBold.ttf") format("ttf");
+ }
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
   --ion-color-primary: #A896CA;
 
   /** secondary **/
-  --ion-color-secondary: #32db64;
+  --ion-color-secondary: #837F8E;
 
   /** tertiary **/
   --ion-color-tertiary: #f4a942;
@@ -25,8 +64,11 @@
   --ion-color-light: #f4f4f4;
 
   /** medium **/
-  --ion-color-medium: #989aa2;
+  --ion-color-medium: rgba(168, 150, 202, 0.25);
   
   /** dark **/
-  --ion-color-dark: #222;
+  --ion-color-dark: #3A3646;
+
+  /** white **/
+  --ion-color-white: #ffffff;
 }

@@ -38,7 +38,7 @@ export class UserService {
      * Get informations of the artist
      * @param id id of artist
      */
-    getInformations(id) {
+    getInformations(id): AngularFirestoreDocument<User> {
         return this.firestore.collection('users').doc(id);
     }
 }

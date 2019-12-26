@@ -1,48 +1,31 @@
 :host {
-    .center {
-        text-align: center;
-    }
-    ion-avatar {
-
-        margin-bottom: 0 !important;
-
-        img {
-            width: 25px !important;
-            height: 25px !important;
-            position: absolute;
-            bottom: 5px;
+    .form {
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.6em;
+            font-weight: 600;
+            color: var(--ion-color-primary);
         }
-    }
-    a, p {
-        font-size: 0.8em;
-        padding: 4px;
-    }
-    .submit {
-        margin: 40px 0 10px 0;
-        height: 50px;
-        box-shadow: 0 10px 40px 10px var(--ion-color-secondary);
-    }
-    .clear, .clear:hover {
-        background: white !important;
-        border: 1px solid var(--ion-color-primay);
-        color: var(--ion-color-primary) !important;
-        margin-top: 0;
-    }
-    .social {
-        width: 40px;
-        height: 40px;
-        margin: auto;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        border: 1px solid var(--ion-color-primary);
-        border-radius: 50%;
-        img {
-            height: 100%;
-            padding: 4px;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        ion-card {
+            margin-top: 20px !important;
+            width: 35%;
+            margin: auto;
+            background: var(--ion-color-white);
+            padding: 20px;
+            ion-button {
+                margin: 10px;
+                border-radius: 0;
+            }
+            textarea {
+                margin: 10px 0;
+                padding: 10px;
+                min-height: 150px;
+                width: 100%;
+            }
         }
-    }
-    ion-button {
-        margin: 10px;
-        border-radius: 0;
     }
 }

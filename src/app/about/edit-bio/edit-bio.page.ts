@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { LoadingController, AlertController, ActionSheetController } from "@ionic/angular";
+import { LoadingController, AlertController, ActionSheetController, ModalController, NavParams } from "@ionic/angular";
 import { UserService } from "../../services/user/user.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-edit-bio',
     templateUrl: './edit-bio.page.html',
     styleUrls: ['./edit-bio.page.scss'],
 })
-export class EditBioPage implements OnInit {
+export class EditBioPage implements OnInit, OnDestroy {
     // Properties
     interview;
     author: string = '';
@@ -19,6 +20,8 @@ export class EditBioPage implements OnInit {
     artistId: string;
     artist: Observable<any>;
     avatar: string = '';
+    isAdmin: boolean = false;
+    subscriptionGetRole: Subscription;
 
     constructor(
         public actionSheetCtrl: ActionSheetController,
@@ -27,23 +30,24 @@ export class EditBioPage implements OnInit {
         private UserProvider: UserService,
         private route: ActivatedRoute,
         private router: Router,
-        private authProvider: AuthService
+        private authProvider: AuthService,
+        private modalCtrl: ModalController,
+        private navParams: NavParams
     ) {
         // Check if user is authentificate
         this.authProvider.getCurrentUser()
             .subscribe(authState => {
                 if (authState) {
-                    console.log('login as : ' + authState.uid);
+                    this.subscriptionGetRole = this.UserProvider.getInformations(authState.uid).valueChanges()
+                        .subscribe(user => {
+                            this.isAdmin = user.role === 'admin' ? true : false;
+                        })
 
-                } else {
-                    // redirect to home page
-                    this.router.navigateByUrl('');
                 }
             })
 
         // get id of artist
-        this.artistId = this.route.snapshot.paramMap.get('id');
-        console.log('artist id : ' + this.artistId);
+        this.artistId = this.navParams.get('id');
     }
 
     ngOnInit() {
@@ -58,17 +62,22 @@ export class EditBioPage implements OnInit {
         })
 
     }
+    ngOnDestroy() {
+        this.subscriptionGetRole.unsubscribe();
+    }
+    /**
+     * Update Biography
+     */
     async updateBio() {
         const loader = await this.loadingCtrl.create();
-        console.log('submit');
 
-        // create event in database
+        // Update biography in database
         this.UserProvider.editBiography(this.artistId, this.biography, this.interview, this.author)
             .then(
                 () => {
                     loader.dismiss().then(() => {
-                        // Redirect to home when event is created
-                        this.router.navigateByUrl('/about');
+                        // close modal when biography is updated
+                        this.modalCtrl.dismiss();
                     })
                 }, err => {
                     loader.dismiss();

@@ -1,32 +1,28 @@
 :host {
-    .image-container {
-        height: 150px;
-        overflow: hidden;
-    }
- 
-    .one-image {
-        margin: 2px;
-    }
-    ion-card {
-        padding: 10px;
-    }
-    // ion-item, .item { 
-    //     display: inline-block;
-    //     //width: 25%;
-    //     height: 80px;
-    //     margin: auto;
-    //     padding: 2px;
-    //     ion-thumbnail {
-    //         //width: 100%;
-    //         width: auto;
-    //         height: 100%;
-    //     }
-    //     button {
-    //         display: none !important;
-    //     }
-    // }
-
-    .ion-segment-button {
-        border-radius: 0;
+    .gallery {
+        margin-top: 100px;
+        .item-square {
+            height: 250px;
+            overflow: hidden;
+            .thumbnail {
+                width: 140%;
+                height: auto;
+                transition: all ease 0.5s;
+                img {
+                }
+            }
+        }
+        .item-square:hover {
+            cursor: pointer;
+            .thumbnail {
+                width: 150%;
+                transition: all ease 0.5s;
+            }
+        }
+        @media screen and (orientation: portrait) {
+            .item-square {
+                width: 100%;
+            }
+        }
     }
 }

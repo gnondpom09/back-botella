@@ -1,26 +1,26 @@
 :host {
     ion-card {
-        margin: 0;
-        border-radius: 0;
-        ion-card-header {
-            padding: 0;
+        border: none;
+        padding-top: 80px;
+        .interview
+        {
+            margin-bottom: 20px;
+            color: var(--ion-color-white);
+            .bold {
+               font-weight: 700;
+               font-size: 1.2em;
+           }
+            .legend {
+                font-weight: 100;
+                font-style: italic;
+                padding-top: 10px;
+            }
+        }
+        .text {
+            font-weight: 300;
+            margin-top: 80px;
+            font-size: 1.1em;
+            line-height: 1.8em;
         }
     }
-
-    .interview
-     {
-         margin-bottom: 20px;
-         .bold {
-            font-weight: 700;
-            font-size: 1.2em;
-        }
-         .legend {
-             font-weight: 100;
-             font-style: italic;
-             padding-top: 10px;
-         }
-     }
-     .text {
-         font-weight: 300;
-     }
 }

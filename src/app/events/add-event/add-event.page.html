@@ -1,45 +1,52 @@
-<ion-header>
-    <ion-toolbar color="dark">
-        <ion-buttons slot="start">
-            <ion-button routerLink="/events">
-                <ion-icon name="arrow-back" slot="start"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Nouvel évènement</ion-title>
-    </ion-toolbar>
-</ion-header>
-
 <ion-content>
-    <ion-card>
-        <form [formGroup]="createEventForm" (submit)="createEvent()">
+    <div class="large-header"></div>
+    <div class="relative-content form">
+        <ion-card>
+            <form [formGroup]="createEventForm" (submit)="createEvent()">
+                <ion-button routerLink="/events">
+                    <ion-icon slot="start" name="arrow-back"></ion-icon>Retour
+                </ion-button>
+                <ion-item>
+                    <ion-label position="stacked">Titre de l'évènement</ion-label>
+                    <ion-input formControlName="title" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Période de l'évènement</ion-label>
+                    <ion-input formControlName="subTitle" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Description</ion-label>
+                    <textarea formControlName="content"></textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Date de début</ion-label>
+                    <ion-datetime formControlName="startDate" (ionChange)="getStartDate($event)" displayFormat="MM DD YYYY" value="2020-01-01" min="2019" max="2030" placeholder="Select Date"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Date de fin</ion-label>
+                    <ion-datetime formControlName="endDate" (ionChange)="getEndDate($event)" displayFormat="MM DD YYYY" value="2020-01-01" min="2019" max="2030" placeholder="Select Date"></ion-datetime>
+                </ion-item>
+                <ion-row>
+                    <ion-col size="6">
+                        <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
+                    </ion-col>
+                    <ion-col class="thumb" size="4">
+                        <img *ngIf="!thumbnail" src="assets/icon/thumb.svg" alt="">
+                        <img *ngIf="thumbnail" [src]="thumbnail" alt="">
+                    </ion-col>
+                </ion-row>
 
-            <ion-item>
-                <ion-label position="stacked">Titre de l'évènement</ion-label>
-                <ion-input formControlName="title" type="text">
-                </ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Période de l'évènement</ion-label>
-                <ion-input formControlName="subTitle" type="text">
-                </ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Description</ion-label>
-                <textarea formControlName="content"></textarea>
-            </ion-item>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
-                </ion-col>
-                <ion-col class="thumb" size="4">
-                    <img *ngIf="!imagePath" src="assets/icon/thumb.svg" alt="">
-                    <img *ngIf="imagePath" [src]="imagePath" alt="">
-                </ion-col>
-            </ion-row>
-
-            <ion-button expand="block" type="submit" [disabled]="!createEventForm.valid">
-                créer l'évèvenement
-            </ion-button>
-        </form>
-    </ion-card>
+                <div class="desktop">
+                    <input type="file" (change)="onFileChanged($event)">
+                    <ion-button (click)="onUpload()">Envoyer</ion-button>
+                </div>
+    
+                <ion-button expand="block" type="submit" [disabled]="!createEventForm.valid">
+                    créer l'évèvenement
+                </ion-button>
+            </form>
+        </ion-card>
+    </div>
 </ion-content>

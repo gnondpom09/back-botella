@@ -1,13 +1,19 @@
-<ion-header>
-        <ion-toolbar color="dark">
-            <ion-title>
-                <div class="logo">
-                    <img src="assets/signature_white.png" alt="">
-                </div>
-            </ion-title>
-        </ion-toolbar>
-    </ion-header>
-<ion-content class="preview">
+<ion-header no-border no-shadow>
+    <ion-toolbar color="dark">
+        <ion-title>
+            <div class="logo">
+                <img src="assets/signature_white.png" alt="">
+            </div>
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalCtrl.dismiss()">
+                <ion-icon name="close" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark" class="preview">
     <!-- <ion-slides pager="true">
         <ion-slide *ngFor="let image of paintings" >
             <ion-card>
@@ -30,15 +36,10 @@
         </ion-card-content>
     </ion-card>
     <ion-footer>
-            <ion-buttons class="start" *ngIf="auth === true" >
-                <ion-button (click)="deletePainting()">
-                    <ion-icon name="trash"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-            <ion-buttons class="end">
-                <ion-button (click)="modalCtrl.dismiss()">
-                    <ion-icon name="close"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-        </ion-footer>
+        <ion-buttons class="start" *ngIf="auth === true" >
+            <ion-button (click)="deletePainting()">
+                <ion-icon color="primary" name="trash"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-footer>
 </ion-content>

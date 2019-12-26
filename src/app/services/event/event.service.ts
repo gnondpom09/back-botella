@@ -23,15 +23,21 @@ export class EventService {
      * @param content description of event
      * @param date date of publish
      * @param imagePath path of thumb image
+     * @param thumbnail thumbnail of image event
+     * @param startDate Start date of event
+     * @param endDate end date of event
      */
-    createEvent(id, title, subTitle, content, date, imagePath): Promise<void> {
+    createEvent(id, title, subTitle, content, date, imagePath, thumbnail, startDate, endDate): Promise<void> {
         return this.firestore.collection(this.path).doc(id).set({
             id,
             title,
             subTitle,
             content,
             date,
-            imagePath
+            imagePath,
+            thumbnail,
+            startDate,
+            endDate
         })
     }
     /**
@@ -42,11 +48,12 @@ export class EventService {
     }
     /**
      * get last event
+     * @param now date of the day
      */
-    getLastEvent(): AngularFirestoreCollection<Event> {
+    getLastEvent(date: number): AngularFirestoreCollection<Event> {
         return this.firestore.collection(this.path, ref => {
             let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.limit(1).orderBy('date');
+            query = query.where("endDate", ">", date).orderBy("endDate", "asc").limit(1);
             return query;
         })
     }

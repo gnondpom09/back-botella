@@ -20,6 +20,9 @@ import { EmailComposer } from "@ionic-native/email-composer/ngx";
 import { ComponentsModule } from "./components/components.module";
 import { GalleryPageModule } from "./gallery/gallery.module";
 import { ImageResizer } from "@ionic-native/image-resizer/ngx";
+import { DetailPage } from "./events/detail/detail.page";
+import { EditEventPage } from "./events/edit-event/edit-event.page";
+import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 // Initialize Firebase
 var config = {
@@ -34,7 +37,11 @@ firebase.initializeApp(config);
 
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [
+        AppComponent,
+        DetailPage,
+        EditEventPage
+    ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
@@ -44,7 +51,8 @@ firebase.initializeApp(config);
         AppRoutingModule,
         HttpModule,
         ComponentsModule,
-        GalleryPageModule
+        GalleryPageModule,
+        Ng2ImgMaxModule
     ],
     providers: [
         StatusBar,
@@ -54,6 +62,10 @@ firebase.initializeApp(config);
         Camera,
         EmailComposer,
         ImageResizer
+    ],
+    entryComponents: [
+        DetailPage,
+        EditEventPage
     ],
     bootstrap: [AppComponent]
 })

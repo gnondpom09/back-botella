@@ -1,115 +1,80 @@
 :host {
     .body {
         min-height: 100vh !important;
-        //background: var(--ion-color-danger);
         display: flex;
-        .vertical {
-            width: 5px;
-            font-size: 0.9em;
-            margin: auto;
-            padding-top: 20px;
-        }
-        .mail {
-            text-align: center;
-            vertical-align: middle;
-            .icon {
-                padding-top: 30px;
+        #title {
+            position: relative;
+            top: 110px;
+            text-align: right;
+            h1 {
+                font-size: 3.4em;
+                font-family: "Morganite-Book";
+                letter-spacing: 7px;
+                color: var(--ion-color-light);
+                .bold {
+                    font-family: "Morganite-ExtraBold";
+                    text-transform: uppercase;
+                }
+                margin-bottom: 0px;
+            }
+            h2 {
+                color: var(--ion-color-dark);
+                font-family: "Poppins";
                 font-size: 1.2em;
+                text-transform: uppercase;
+                font-weight: 100;
+                letter-spacing: 12px;
+                margin-top: 10px;
             }
         }
-        .title {
-            font-size: 1.2em;
-            font-weight: 600;
-            padding: 15px 0 0 0;
-            color: white !important;
-            ion-icon {
-                font-size: 1.1em;
-                position: relative;
-                top: 4px;
+        .new-event {
+            position: relative;
+            top: 180px;
+            box-shadow: none !important;
+            ion-card-title {
+                h2 {
+                    font-family: "Morganite-Bold";
+                    color: var(--ion-color-dark);
+                    letter-spacing: 5px;
+                    font-size: 1.5em;
+                    margin: 4px 0 0 8px;
+                }
+            }
+            ion-card-content {
+                margin-top: 0;
+                margin-left: 20px;
+                padding: 0 20px;
+                h3 {
+                    font-weight: 700;
+                    color: var(--ion-color-primary);
+                    text-transform: uppercase;
+                    letter-spacing: 2.25px;
+                    font-size: 1.1em;
+                    margin-bottom: 40px;
+                }
+                .next {
+                    display: flex;
+                    align-items: flex-end;
+                    flex-flow: column;
+                    border-top: var(--ion-color-medium) solid 1px;
+                    width: 100%;
+                    margin-top: 10px;
+                    .btn-next {
+                        text-transform: none;
+                        font-size: 0.9em;
+                        text-align: right;
+                    }
+                }
             }
         }
-        .advert {
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .row-1 {
-            //height: 25%;
-            height: 240px;
-        }
-        .row-2 {
-            position: absolute;
-            //height: 55vh;
-        }
-        .row-3 {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 25vh;
-            overflow: hidden;
-            background: var(--ion-color-dark);
-        }
-        .col {
+        .new-event::before {
+            content: '';
             display: block;
-            float: left;
-        }
-        .col-1 {
-            width: 10%;
-        }
-        .col-2 {
-            width: 20%;
-            overflow: hidden;
+            position: absolute;
+            width: 25px;
             height: 100%;
-        }
-        .col-3 {
-            width: 25%;
-        }
-        .col-4 {
-            width: 30% !important;
-        }
-        .col-6 {
-            width: 50%;
-            .fab-left {
-                z-index: 900;
-                position: absolute;
-                left: 10px;
-            }
-        }
-        .col-7 {
-            width: 60%;
-        }
-        .col-8 {
-            width: 70%;
-        }
-        .col-10 {
-            width: 80%;
-        }
-        .col-11 {
-            width: 90%;
-        }
-        .col-12 {
-            width: 100%;
-        }
-        .news {
-            text-align: center;
-            background: var(--ion-color-dark);
-            color: white;
-            //padding: 10px;
-            margin: 0;
-            border-radius: 0;
-        }
-        .copyright, .btn {
-            background: var(--ion-color-primary);
-            color: white;
             overflow: hidden;
-            display: flex;
-            align-items: center !important;
-            justify-content: center !important;
+            background-color: var(--ion-color-medium);
         }
-        img {
-            border-image-width: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
     }
 }

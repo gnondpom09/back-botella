@@ -1,53 +1,50 @@
-<ion-header>
-    <ion-toolbar color="dark">
-        <ion-buttons slot="start">
-            <ion-button routerLink="/gallery">
-                <ion-icon name="arrow-back" slot="start"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>nouvelle oeuvre</ion-title>
-    </ion-toolbar>
-</ion-header>
 
 <ion-content>
+    <div class="large-header"></div>
+    <div class="relative-content form">
+        <ion-card>
+            <form [formGroup]="addPaintingForm" (submit)="addNewPainting()">
+                <ion-item>
+                    <ion-label position="stacked">Titre de l'oeuvre</ion-label>
+                    <ion-input formControlName="title" type="text">
+                    </ion-input>
+                </ion-item>
+                <ion-item button (click)="openTechnic()">
+                    <span *ngIf="!technic">Technique</span>
+                    <span *ngIf="technic">{{technic}}</span>
+                </ion-item>
+                <ion-item button (click)="openCategory()">
+                    <span *ngIf="!category">Categorie</span>
+                    <span *ngIf="category">{{category}}</span>
+                </ion-item>
+                <ion-item button (click)="openWidth()">
+                    <span *ngIf="!width">Largeur</span>
+                    <span *ngIf="width">{{width}} cm</span>
+                </ion-item>
+                <ion-item button (click)="openHeight()">
+                    <span *ngIf="!height">Hauteur</span>
+                    <span *ngIf="height">{{height}} cm</span>
+                </ion-item>
+                <ion-row>
+                    <ion-col size="6">
+                        <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
+                    </ion-col>
+                    <ion-col class="thumb" size="4">
+                        <img *ngIf="!thumbnail" src="assets/icon/thumb.svg" alt="">
+                        <img *ngIf="thumbnail" [src]="thumbnail" alt="">
+                    </ion-col>
+                </ion-row>
 
-    <ion-card>
-        <form [formGroup]="addPaintingForm" (submit)="addNewPainting()">
-            <ion-item>
-                <ion-label position="stacked">Titre de l'oeuvre</ion-label>
-                <ion-input formControlName="title" type="text">
-                </ion-input>
-            </ion-item>
-            <ion-item button (click)="openTechnic()">
-                <span *ngIf="!technic">Technique</span>
-                <span *ngIf="technic">{{technic}}</span>
-            </ion-item>
-            <ion-item button (click)="openCategory()">
-                <span *ngIf="!category">Categorie</span>
-                <span *ngIf="category">{{category}}</span>
-            </ion-item>
-            <ion-item button (click)="openWidth()">
-                <span *ngIf="!width">Largeur</span>
-                <span *ngIf="width">{{width}} cm</span>
-            </ion-item>
-            <ion-item button (click)="openHeight()">
-                <span *ngIf="!height">Hauteur</span>
-                <span *ngIf="height">{{height}} cm</span>
-            </ion-item>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
-                </ion-col>
-                <ion-col class="thumb" size="4">
-                    <img *ngIf="!imagePath" src="assets/icon/thumb.svg" alt="">
-                    <img *ngIf="imagePath" [src]="imagePath" alt="">
-                </ion-col>
-            </ion-row>
-
-            <ion-button expand="block" type="submit" [disabled]="!addPaintingForm.valid">
-                Ajouter l'oeuvre
-            </ion-button>
-        </form>
-    </ion-card>
+                <div class="desktop">
+                    <input type="file" (change)="onFileChanged($event)">
+                    <ion-button (click)="onUpload()">Envoyer</ion-button>
+                </div>
+    
+                <ion-button expand="block" type="submit" [disabled]="!addPaintingForm.valid">
+                    Ajouter l'oeuvre
+                </ion-button>
+            </form>
+        </ion-card>
+    </div>
 
 </ion-content>

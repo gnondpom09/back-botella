@@ -1,13 +1,29 @@
 :host {
-    .thumb {
-        text-align: right;
-        img {
-            width: 100%;
-            height: auto;
+    .form {
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.6em;
+            font-weight: 600;
+            color: var(--ion-color-primary);
         }
-    }
-    ion-button {
-        margin: 10px;
-        border-radius: 0;
+        display: flex;
+        justify-content: center;
+        ion-card {
+            margin-top: 20px !important;
+            margin: auto;
+            background: var(--ion-color-white);
+            padding: 20px;
+            ion-button {
+                margin: 10px;
+                border-radius: 0;
+            }
+            textarea {
+                margin: 10px 0;
+                padding: 10px;
+                min-height: 150px;
+                width: 100%;
+            }
+        }
     }
 }

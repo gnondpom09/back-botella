@@ -10,7 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
     // Properties
-    isActive: boolean = false;
+    isOpen: boolean = true;
 
     public appPages = [
         { title: 'Accueil', url: '/home', icon: 'home' },
@@ -18,8 +18,7 @@ export class AppComponent {
         { title: 'Galerie', url: '/gallery', icon: 'images' },
         { title: 'Récompenses', url: '/awards', icon: 'trophy' },
         { title: 'Évènements', url: '/events', icon: 'list' },
-        { title: 'Contact', url: '/contact', icon: 'mail' },
-        { title: 'Login', url: '/login', icon: 'log-in' }
+        { title: 'Contact', url: '/contact', icon: 'mail' }
     ];
 
     constructor(
@@ -30,6 +29,9 @@ export class AppComponent {
         this.initializeApp();
     }
 
+    /**
+     * Stilize toolbar for mobile
+     */
     initializeApp() {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
@@ -37,15 +39,19 @@ export class AppComponent {
             this.splashScreen.hide();
         });
     }
-    selectItem() {
-        if (this.isActive = false) {
-            this.isActive = true;
-            console.log(this.isActive);
-            
+    /**
+     * Toggle menu
+     */
+    toggleMenu(isOpen: boolean) {
+        let menu = document.getElementById('menu');
+        this.isOpen = !isOpen;
+        
+        if (this.isOpen) {
+            // close menu on click toggle
+            menu.classList.remove('on');
         } else {
-            this.isActive = false;
-            console.log(this.isActive);
-            
+            // open menu on click toggle
+            menu.classList.add('on');
         }
     }
 }

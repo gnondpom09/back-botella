@@ -72,5 +72,6 @@ export class ContactPage implements OnInit {
             // redirect to home page
             this.router.navigateByUrl('');
         }
+        
     }
 }

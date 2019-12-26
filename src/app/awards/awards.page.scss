@@ -1,4 +1,9 @@
 :host {
+    .awards {
+        ion-card {
+            background: var(--ion-color-white);
+        }
+    }
     ion-button {
         margin: 10px;
         border-radius: 0;

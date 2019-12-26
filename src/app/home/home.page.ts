@@ -1,51 +1,61 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ActionSheetController, LoadingController } from "@ionic/angular";
+import { ActionSheetController, LoadingController, ModalController } from "@ionic/angular";
 import { EventService } from "../services/event/event.service";
 import { PaintingService } from "../services/painting/painting.service";
 import { AuthService } from "../services/auth/auth.service";
+import { UserService } from "../services/user/user.service";
+import { DetailPage } from '../events/detail/detail.page';
+import { Event } from '../models/event.model';
+import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-home',
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
     // Properties
     events;
     paintingTop;
-    paintingLeft;
-    paintingRight;
-    auth: boolean = false;
+    isAdmin: boolean = false;
+    subscription: Subscription;
+    subscriptionEvent: Subscription;
 
     constructor(
         public actionSheetCtrl: ActionSheetController,
         private eventProvider: EventService,
         private paintingProvider: PaintingService,
         private authProvider: AuthService,
-        private loadingCtrl: LoadingController
+        private userService: UserService,
+        private loadingCtrl: LoadingController,
+        private modalCtrl: ModalController
     ) {
-        // Check if user is authentificate
-        this.authProvider.getCurrentUser()
-            .subscribe(authState => {
-                if (authState) {
-                    this.auth = true;
-                    console.log(this.auth);
-                    console.log('login as : ' + authState.uid);
-
-                } else {
-                    this.auth = false;
-                    console.log(this.auth);
-                }
-            })
     }
     ngOnInit() {
+        // Check if user is authentificate
+        this.authProvider.getCurrentUser()
+        .subscribe(authState => {
+            if (authState) {
+                this.subscription = this.userService.getInformations(authState.uid).valueChanges()
+                    .subscribe(user => {
+                        this.isAdmin = user.role === 'admin' ? true : false;
+                    })
+
+            }
+        })
+
         // get last event
-        this.events = this.eventProvider.getLastEvent().valueChanges();
+        const now = Date.now();
+        this.events = this.eventProvider.getLastEvent(now).valueChanges();
 
         // get images of home page
         this.displayImages();
 
+    }
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
     /**
      * Display images of home page
@@ -63,26 +73,6 @@ export class HomePage implements OnInit {
                 paint.forEach(image => {
                     console.log(image);
                     this.paintingTop = image;
-                })
-                // hide loader
-                loader.then(load => {
-                    load.dismiss();
-                })
-            })
-            this.paintingProvider.getPaintingLeft().valueChanges().subscribe(paint => {
-                paint.forEach(image => {
-                    console.log(image);
-                    this.paintingLeft = image;
-                })
-                // hide loader
-                loader.then(load => {
-                    load.dismiss();
-                })
-            })
-            this.paintingProvider.getPaintingRight().valueChanges().subscribe(paint => {
-                paint.forEach(image => {
-                    console.log(image);
-                    this.paintingRight = image;
                 })
                 // hide loader
                 loader.then(load => {
@@ -111,5 +101,18 @@ export class HomePage implements OnInit {
         });
         // display action sheet
         return await actionSheet.present();
+    }
+    /**
+     * Display modal to view detail of event
+     * @param event event 
+     */
+    async viewDetail(event: Event) {
+        let modal = await this.modalCtrl.create({
+            component: DetailPage,
+            componentProps: {
+                id: event.id
+            }
+        })
+        return await modal.present();
     }
 }

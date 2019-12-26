@@ -1,7 +1,8 @@
 :host {
 .preview {
-    height: 100vh;
+    // height: 100vh;
     ion-card {
+        width: auto;
         ion-card-title {
             text-align: center;
             padding: 5px;
