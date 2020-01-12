@@ -41,7 +41,7 @@ export class ContactPage implements OnInit {
         const sender = this.contactForm.value.email;
         const subject = this.contactForm.value.subject;
         const message = this.contactForm.value.message;
-        const admin = 'laurent.botella@vivaldi.net';
+        const admin = 'laurent.botella@neuf.fr';
 
         // content of email
         const email = {

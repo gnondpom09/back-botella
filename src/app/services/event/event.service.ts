@@ -50,10 +50,10 @@ export class EventService {
      * get last event
      * @param now date of the day
      */
-    getLastEvent(date: number): AngularFirestoreCollection<Event> {
+    getLastEvent(): AngularFirestoreCollection<Event> {
         return this.firestore.collection(this.path, ref => {
             let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.where("endDate", ">", date).orderBy("endDate", "asc").limit(1);
+            query = query.orderBy("startDate", "desc").limit(1);
             return query;
         })
     }

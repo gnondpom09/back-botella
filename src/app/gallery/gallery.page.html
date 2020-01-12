@@ -1,15 +1,18 @@
 <ion-content class="gallery">
 
-    <div class="large-header"></div>
-    <div class="relative-content">
-        <div class="navigation">
+    <div class="large-header animated" id="header"></div>
+
+    <div class="relative-content animated">
+
+        <div class="navigation animated" id="content">
             <ion-segment [(ngModel)]="category">
                 <ion-segment-button *ngFor="let cat of categories | async" [value]="cat.id" (click)="selectCategory(cat.id)">
                     {{cat.name}}
                 </ion-segment-button>
             </ion-segment>
         </div>
-        <div class="gallery">
+
+        <div class="gallery animated" id="slider">
             <ion-grid [ngSwitch]="category">
                 <ion-row class="">
                     <ion-col size-lg="3" size-md="6" size-sm="12" class="item-square" *ngFor="let painting of paintings" >
@@ -25,8 +28,7 @@
             <ion-fab-button routerLink="/add-painting">
                 <ion-icon name="add"></ion-icon>
             </ion-fab-button>
-        </ion-fab>
-        
+        </ion-fab>    
     </div>
 
 </ion-content>

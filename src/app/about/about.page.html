@@ -1,13 +1,14 @@
 <ion-content>
 
-    <div class="large-header"></div>
+    <div class="large-header animated" id="header"></div>
 
-    <ion-card class="margin-top relative-content">
+    <ion-card class="margin-top relative-content animated">
         <ion-grid fixed>
             <ion-row>
-                <ion-col size="5">
+
+                <ion-col size="5" class="animated" id="slider">
                     <ion-card-header>
-                        <ion-img [src]="(artist | async)?.avatar"></ion-img>
+                        <ion-img [src]="artist.avatar"></ion-img>
                         <ion-fab *ngIf="isAdmin" vertical="top" horizontal="end" color="primary">
                             <ion-fab-button (click)="updateBiography(uid)">
                                 <ion-icon name="add"></ion-icon>
@@ -15,20 +16,21 @@
                         </ion-fab>
                     </ion-card-header>
                 </ion-col>
-                <ion-col size="7">
+
+                <ion-col size="7" class="animated" id="content">
                     <ion-card-content>
                         <div class="interview">
                             <p>
                                 <span class="bold">
-                                    {{(artist | async)?.interview}}
+                                    {{artist.interview}}
                                 </span>
                             </p>
                             <p>
-                                <span class="legend">- {{(artist | async)?.author}} -</span>
+                                <span class="legend">- {{artist.author}} -</span>
                             </p>
                         </div>
                         <p class="text">
-                            {{(artist | async)?.biography}}
+                            {{artist.biography}}
                         </p>
                     </ion-card-content>
                 </ion-col>

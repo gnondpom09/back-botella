@@ -8,7 +8,7 @@ import { UserService } from "../services/user/user.service";
 import { DetailPage } from '../events/detail/detail.page';
 import { Event } from '../models/event.model';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 
 @Component({
     selector: 'app-home',
@@ -18,8 +18,9 @@ import * as moment from 'moment';
 export class HomePage implements OnInit, OnDestroy {
     // Properties
     events;
+    event: Event;
     paintingTop;
-    isAdmin: boolean = false;
+    isAdmin: boolean;
     subscription: Subscription;
     subscriptionEvent: Subscription;
 
@@ -38,48 +39,63 @@ export class HomePage implements OnInit, OnDestroy {
         this.authProvider.getCurrentUser()
         .subscribe(authState => {
             if (authState) {
-                this.subscription = this.userService.getInformations(authState.uid).valueChanges()
+                this.userService.getInformations(authState.uid).valueChanges()
                     .subscribe(user => {
                         this.isAdmin = user.role === 'admin' ? true : false;
-                    })
+                    });
 
             }
-        })
+        });
 
         // get last event
-        const now = Date.now();
-        this.events = this.eventProvider.getLastEvent(now).valueChanges();
+        this.subscriptionEvent = this.eventProvider.getLastEvent().valueChanges()
+            .subscribe(events => {
+                const now = Date.now();
+                console.log('now : ' + now);
+                
+                events.forEach(event => {
+                    console.log(event);
+                    this.event = event;
+                    
+                    // const endDate = event.endDate.toDateString();
+                    // console.log(endDate);
+                    // if (moment(now).diff(endDate) < 0) {
+                    //     this.event = event;
+                    // }
+                });
+            })
 
         // get images of home page
         this.displayImages();
 
     }
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.subscriptionEvent.unsubscribe();
     }
     /**
      * Display images of home page
      */
     displayImages() {
+        // Display loader
         const loader = this.loadingCtrl.create({
             spinner: 'dots'
         });
         loader.then(load => {
             load.present();
-        })
+        });
 
+        // Get image to display
         const request = new Promise(() => {
             this.paintingProvider.getPaintingTop().valueChanges().subscribe(paint => {
                 paint.forEach(image => {
-                    console.log(image);
                     this.paintingTop = image;
-                })
+                });
                 // hide loader
                 loader.then(load => {
                     load.dismiss();
-                })
-            })
-        })
+                });
+            });
+        });
         return request;
     }
     /**
@@ -107,7 +123,7 @@ export class HomePage implements OnInit, OnDestroy {
      * @param event event 
      */
     async viewDetail(event: Event) {
-        let modal = await this.modalCtrl.create({
+        const modal = await this.modalCtrl.create({
             component: DetailPage,
             componentProps: {
                 id: event.id

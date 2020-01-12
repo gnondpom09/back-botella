@@ -1,7 +1,7 @@
 export interface Event {
     id: string;
     title: string;
-    subTilte: string;
+    subTitle: string;
     content: string;
     date: Date;
     imagePath: string;

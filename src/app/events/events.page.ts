@@ -16,10 +16,9 @@ import { Event } from "../models/event.model";
 export class EventsPage implements OnInit, OnDestroy {
     // Properties
     events;
-    auth: boolean = false;
-    isAdmin: boolean = false;
+    auth: boolean;
+    isAdmin: boolean;
     subscription: Subscription;
-    subscriptionGetRole: Subscription;
 
     constructor(
         private eventProvider: EventService,
@@ -32,7 +31,7 @@ export class EventsPage implements OnInit, OnDestroy {
             .subscribe(authState => {
                 if (authState) {
                     this.auth = true;
-                    this.subscriptionGetRole = this.userService.getInformations(authState.uid).valueChanges()
+                    this.userService.getInformations(authState.uid).valueChanges()
                         .subscribe(user => {
                             this.isAdmin = user.role === 'admin' ? true : false;
                         })
@@ -44,14 +43,12 @@ export class EventsPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscription = this.eventProvider.getAllEvents().valueChanges()
+        this.eventProvider.getAllEvents().valueChanges()
             .subscribe(events => {
                 this.events = events;
-            })
+            });
     }
     ngOnDestroy() {
-        this.subscription.unsubscribe();
-        this.subscriptionGetRole.unsubscribe();
     }
 
     /**
@@ -59,7 +56,7 @@ export class EventsPage implements OnInit, OnDestroy {
      * @param event event 
      */
     async viewDetail(event: Event) {
-        let modal = await this.modalCtrl.create({
+        const modal = await this.modalCtrl.create({
             component: DetailPage,
             componentProps: {
                 id: event.id

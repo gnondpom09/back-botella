@@ -1,13 +1,11 @@
+import { User } from './../models/user.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ActionSheetController, ModalController } from "@ionic/angular";
 import { AuthService } from "../services/auth/auth.service";
 import { UserService } from "../services/user/user.service";
 import { PaintingService } from "../services/painting/painting.service";
-import { Observable } from 'rxjs';
-import { User } from "../models/user.model";
 import { Router } from "@angular/router";
-import { Camera } from "@ionic-native/camera/ngx";
 import { Subscription } from 'rxjs';
 import { EditBioPage } from './edit-bio/edit-bio.page';
 
@@ -21,7 +19,7 @@ export class AboutPage implements OnInit, OnDestroy {
     auth: boolean = false;
     // id of artist
     uid: string = "4YzVcpgUziTOLmbQNhZXwnQKZSF2";
-    artist;
+    artist: User;
     isAdmin: boolean = false;
     subscription: Subscription;
 
@@ -31,7 +29,6 @@ export class AboutPage implements OnInit, OnDestroy {
         public authProvider: AuthService,
         private userProvider: UserService,
         private paintingProvider: PaintingService,
-        private camera: Camera,
         public router: Router
     ) {
         // Check if user is authentificate
@@ -39,7 +36,7 @@ export class AboutPage implements OnInit, OnDestroy {
             .subscribe(authState => {
                 if (authState) {
                     this.auth = true;
-                    this.subscription = this.userProvider.getInformations(authState.uid).valueChanges()
+                    this.userProvider.getInformations(authState.uid).valueChanges()
                         .subscribe(user => {
                             this.isAdmin = user.role === 'admin' ? true : false;
                         })
@@ -52,11 +49,13 @@ export class AboutPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         // display informations of artist
-        this.artist = this.userProvider.getInformations(this.uid).valueChanges();
+        this.userProvider.getInformations(this.uid).valueChanges()
+            .subscribe(user => {
+                this.artist = user;
+            })
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
     }
     /**
     * Open modal to open library

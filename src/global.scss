@@ -12,7 +12,6 @@
 
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
-// Menu
 ion-card {
     margin: 0 !important;
 }
@@ -41,6 +40,11 @@ body {
     .large-header {
         background: var(--ion-color-dark);
         height: 240px;
+    }
+    @media (max-width: 1080px) and (orientation: landscape) {
+        .large-header {
+            height: 200px;
+        }
     }
     .navigation {
         position: relative;
@@ -124,10 +128,10 @@ body {
     }
 }
 
-// Menu 
-.active { 
-    background: var(--ion-color-primary) !important;
-}
+/** Menu Style **/ 
+// .active { 
+//     background: var(--ion-color-primary) !important;
+// }
 
 .logo {
     width: 25%;
@@ -140,11 +144,11 @@ body {
     }
 }
 
-/** MENU **/
 ion-toolbar {
     --background: transparent;   
     --ion-color-base: transparent !important;  
 }
+/** Menu Toggle **/
 #menu {
     display: flex;
     flex-direction: column;
@@ -202,7 +206,7 @@ ion-toolbar {
     height: 100vh;
     width: 100%;
     left: 0px;
-    background: var(--ion-color-dark);
+    // background: var(--ion-color-dark);
     left: -100%;
     transition: all ease 0.5s;
     box-shadow: 0;
@@ -214,6 +218,7 @@ ion-toolbar {
         background-color: transparent;
     }
 }
+/** Toggle button **/
 .toggle {
     position: absolute;
     left: -4px;
@@ -223,9 +228,44 @@ ion-toolbar {
         font-size: 1.8em;
     }
 }
+.animated {
+    -webkit-animation-duration: 0.5s;animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both;
+    transition: all ease 0.5s;
+}
+@-webkit-keyframes fade-out {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ 
+ @keyframes fade-out {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ @-webkit-keyframes fade-in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+ 
+ @keyframes fade-in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+.fade-in {
+    -webkit-animation-name: fade-in;
+    animation-name: fade-in;
+}
+.fade-out {
+    -webkit-animation-name: fade-out;
+    animation-name: fade-out;
+}
 .on {
     transform: translate(100%);
-    transition: all ease 0.5s;
+    transition: all ease 1s;
+}
+.translate {
+    height: 100% !important;
+    transition: all ease 0.8s;
 }
 .sc-ion-router-outlet-h {
     transform: translateX(0px) !important;

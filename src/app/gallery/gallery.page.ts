@@ -24,7 +24,6 @@ export class GalleryPage implements OnInit, OnDestroy {
     paintingsList; // array of paintings to pass in params to viewer
     images;
     auth: boolean = false;
-    subscription: Subscription;
     isAdmin: boolean = false;
 
     constructor(
@@ -62,7 +61,6 @@ export class GalleryPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
     }
 
     /**
@@ -70,7 +68,7 @@ export class GalleryPage implements OnInit, OnDestroy {
      * @param id id of category
      */
     public getPaintings(id: string) {
-        this.subscription = this.paintingProvider.getPaintingsByCategory(id).valueChanges()
+        this.paintingProvider.getPaintingsByCategory(id).valueChanges()
             .subscribe(paintings => {
                 this.paintings = paintings;
             })
@@ -90,7 +88,7 @@ export class GalleryPage implements OnInit, OnDestroy {
      * @param painting Painting selected
      */
     async viewDetail(painting: Painting) {
-        let modal = await this.modalCtrl.create({
+        const modal = await this.modalCtrl.create({
             component: PaintingPage,
             componentProps: {
                 id: painting.id
@@ -106,9 +104,7 @@ export class GalleryPage implements OnInit, OnDestroy {
      * @param category category of painting
      */
     async viewLarge(id, path, category) {
-        console.log('params: ' + this.images);
-        
-        let modal = await this.modalCtrl.create({
+        const modal = await this.modalCtrl.create({
             component: PreviewPage,
             componentProps: {
                 id: id,
@@ -123,7 +119,7 @@ export class GalleryPage implements OnInit, OnDestroy {
      * Open Form to ad new painting
      */
     async addPainting() {
-        let modal = await this.modalCtrl.create({
+        const modal = await this.modalCtrl.create({
             component: AddPaintingPage
         })
         return await modal.present();

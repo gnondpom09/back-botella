@@ -10,7 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
     // Properties
-    isOpen: boolean = true;
+    isOpen = true;
 
     public appPages = [
         { title: 'Accueil', url: '/home', icon: 'home' },
@@ -39,19 +39,32 @@ export class AppComponent {
             this.splashScreen.hide();
         });
     }
+
     /**
      * Toggle menu
+     * @param isOpen state of menu
      */
     toggleMenu(isOpen: boolean) {
-        let menu = document.getElementById('menu');
+        const menu = document.getElementById('menu');
+        const header = document.getElementById('header');
+        const content = document.getElementById('content');
+        const slider = document.getElementById('slider');
         this.isOpen = !isOpen;
-        
+        // Check state of toggle menu
         if (this.isOpen) {
             // close menu on click toggle
+            header.classList.remove('translate');
             menu.classList.remove('on');
+            content.classList.remove('fade-out');
+            slider.classList.remove('fade-out');
+            content.classList.add('fade-in');
+            slider.classList.add('fade-in');
         } else {
             // open menu on click toggle
+            header.classList.add('translate');
             menu.classList.add('on');
+            content.classList.add('fade-out');
+            slider.classList.add('fade-out');
         }
     }
 }
