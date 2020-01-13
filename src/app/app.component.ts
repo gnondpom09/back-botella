@@ -53,18 +53,41 @@ export class AppComponent {
         // Check state of toggle menu
         if (this.isOpen) {
             // close menu on click toggle
-            header.classList.remove('translate');
-            menu.classList.remove('on');
-            content.classList.remove('fade-out');
-            slider.classList.remove('fade-out');
-            content.classList.add('fade-in');
-            slider.classList.add('fade-in');
+            this.closeMenu(header, menu, content, slider);
+
         } else {
             // open menu on click toggle
-            header.classList.add('translate');
-            menu.classList.add('on');
-            content.classList.add('fade-out');
-            slider.classList.add('fade-out');
+            this.openMenu(header, menu, content, slider);
         }
+    }
+
+    /**
+     * Open menu on click toggle and fade in content of the page
+     * @param header 
+     * @param menu 
+     * @param content 
+     * @param slider 
+     */
+    openMenu(header, menu, content, slider) {
+        header.classList.add('translate');
+        menu.classList.add('on');
+        content.classList.add('fade-out');
+        slider.classList.add('fade-out');
+    }
+
+    /**
+     * Close menu on click toggle and fade out content of the page
+     * @param header 
+     * @param menu 
+     * @param content 
+     * @param slider 
+     */
+    closeMenu(header, menu, content, slider) {
+        header.classList.remove('translate');
+        menu.classList.remove('on');
+        content.classList.remove('fade-out');
+        slider.classList.remove('fade-out');
+        content.classList.add('fade-in');
+        slider.classList.add('fade-in');
     }
 }

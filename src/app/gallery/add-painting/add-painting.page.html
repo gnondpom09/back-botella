@@ -1,9 +1,12 @@
 
 <ion-content>
-    <div class="large-header"></div>
-    <div class="relative-content form">
+    <div class="large-header animated" id="header"></div>
+    <div class="relative-content form animated" id="content">
         <ion-card>
             <form [formGroup]="addPaintingForm" (submit)="addNewPainting()">
+                <ion-button routerLink="/gallery">
+                    <ion-icon slot="start" name="arrow-back"></ion-icon>Retour
+                </ion-button>
                 <ion-item>
                     <ion-label position="stacked">Titre de l'oeuvre</ion-label>
                     <ion-input formControlName="title" type="text">

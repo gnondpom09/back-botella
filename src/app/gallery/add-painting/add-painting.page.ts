@@ -20,9 +20,7 @@ import { Category } from '../../models/category.model';
 })
 export class AddPaintingPage implements OnInit, OnDestroy {
     // Properties
-    isAdmin: boolean = false;
-    subscription: Subscription;
-    subscriptionCategory: Subscription;
+    isAdmin: boolean;
     categories: Category[];
     radioCategories: any[] = [];
     addPaintingForm;
@@ -63,11 +61,11 @@ export class AddPaintingPage implements OnInit, OnDestroy {
         this.authProvider.getCurrentUser()
             .subscribe(authState => {
                 if (authState) {
-                    this.subscription = this.userService.getInformations(authState.uid).valueChanges()
+                    this.userService.getInformations(authState.uid).valueChanges()
                         .subscribe(user => {
                             this.isAdmin = user.role === 'admin' ? true : false;
                         })
-                    this.subscriptionCategory = this.categoryService.getAllCategories().valueChanges()
+                    this.categoryService.getAllCategories().valueChanges()
                         .subscribe(categories => {
                             this.categories = categories;
                             this.fillRadioCategories(this.categories);                            
@@ -79,8 +77,6 @@ export class AddPaintingPage implements OnInit, OnDestroy {
             })
     }
     ngOnDestroy() {
-        this.subscription.unsubscribe();
-        this.subscriptionCategory.unsubscribe();
     }
     /**
      * Fill radio buttons with values of categories

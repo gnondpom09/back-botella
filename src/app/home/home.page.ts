@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ActionSheetController, LoadingController, ModalController } from "@ionic/angular";
 import { EventService } from "../services/event/event.service";
@@ -7,7 +7,6 @@ import { AuthService } from "../services/auth/auth.service";
 import { UserService } from "../services/user/user.service";
 import { DetailPage } from '../events/detail/detail.page';
 import { Event } from '../models/event.model';
-import { Subscription } from 'rxjs';
 // import * as moment from 'moment';
 
 @Component({
@@ -15,14 +14,12 @@ import { Subscription } from 'rxjs';
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnInit {
     // Properties
     events;
     event: Event;
     paintingTop;
     isAdmin: boolean;
-    subscription: Subscription;
-    subscriptionEvent: Subscription;
 
     constructor(
         public actionSheetCtrl: ActionSheetController,
@@ -48,7 +45,7 @@ export class HomePage implements OnInit, OnDestroy {
         });
 
         // get last event
-        this.subscriptionEvent = this.eventProvider.getLastEvent().valueChanges()
+        this.eventProvider.getLastEvent().valueChanges()
             .subscribe(events => {
                 const now = Date.now();
                 console.log('now : ' + now);
@@ -68,9 +65,6 @@ export class HomePage implements OnInit, OnDestroy {
         // get images of home page
         this.displayImages();
 
-    }
-    ngOnDestroy() {
-        this.subscriptionEvent.unsubscribe();
     }
     /**
      * Display images of home page

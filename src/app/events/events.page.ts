@@ -64,4 +64,5 @@ export class EventsPage implements OnInit, OnDestroy {
         })
         return await modal.present();
     }
+    
 }

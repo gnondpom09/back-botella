@@ -5,6 +5,7 @@ import { EventService } from "../../services/event/event.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { UserService } from "../../services/user/user.service";
 import { Subscription } from "rxjs";
+import { AddEventPage } from "../add-event/add-event.page";
 
 @Component({
     selector: 'app-detail',
@@ -89,7 +90,14 @@ export class DetailPage implements OnInit, OnDestroy {
         // Display alert confirmation
         await alert.present();
     }
-    updateEvent() {
+    async updateEvent() {
+        const modal = await this.modalCtrl.create({
+            component: AddEventPage,
+            componentProps: {
+                id: this.eventId
+            }
+        })
+        return await modal.present();
     }
 
 }
