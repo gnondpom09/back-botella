@@ -1,0 +1,49 @@
+<ion-header no-border no-shadow>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <div class="logo" routerLink="/">
+                <ion-button size="small" fill="clear" >
+                <img src="assets/signature_white.png" alt="logo">
+                </ion-button>
+            </div>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalCtrl.dismiss()">
+                <ion-icon name="close" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+    <div class="large-header animated" id="header"></div>
+    <div class="relative-content form animated" id="content">
+        <ion-card>
+
+
+            <form>
+                <h1>Categories</h1>
+                <ion-item *ngFor="let category of categories; index as i">
+                    <ion-label position="fixed">
+                        {{category.id}}
+                    </ion-label>
+                    <input type="text" name="{{category.name}}" id="{{category.id}}" [value]="category.name" [(ngModel)]="categories[i].name" (change)="updateCategoryName(category.id, categories[i].name)">
+                    <ion-button color="primary" icon-right (click)="removeCategory(category.id)">
+                        <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label position="fixed">Nouvelle categorie</ion-label>
+                    <ion-input type="text" name="newCategory" id="newCategory" [(ngModel)]="newCategory"></ion-input>
+                    <ion-button color="primary" icon-right (click)="addNewCategory(newCategory)">
+                        <ion-icon name="add"></ion-icon>
+                    </ion-button>
+                </ion-item>
+                <ion-button (click)="save()">
+                    Valider
+                </ion-button>
+            </form> 
+        </ion-card>
+    </div>
+</ion-content>

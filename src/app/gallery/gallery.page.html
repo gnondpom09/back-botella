@@ -9,6 +9,9 @@
                 <ion-segment-button *ngFor="let cat of categories | async" [value]="cat.id" (click)="selectCategory(cat.id)">
                     {{cat.name}}
                 </ion-segment-button>
+                <ion-button *ngIf="isAdmin"  color="primary" (click)="openCategories()">
+                    Open categories
+                </ion-button>
             </ion-segment>
         </div>
 
@@ -16,10 +19,10 @@
             <ion-grid [ngSwitch]="category">
                 <ion-row class="">
                     <ion-col size-lg="3" size-md="6" size-sm="12" class="item-square" *ngFor="let painting of paintings" >
-                            <div *ngSwitchCase="painting.category" (click)="viewDetail(painting)" class="thumbnail">
-                                    <ion-img [src]="painting.thumb"></ion-img>
-                                </div>
-                            </ion-col>
+                        <div *ngSwitchCase="painting.category" (click)="viewDetail(painting)" class="thumbnail">
+                            <ion-img [src]="painting.thumb"></ion-img>
+                        </div>
+                    </ion-col>
                 </ion-row>
             </ion-grid>
         </div> 

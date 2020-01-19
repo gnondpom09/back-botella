@@ -26,6 +26,11 @@
                 min-height: 150px;
                 width: 100%;
             }
+            @media (max-width: 1080px) and (orientation: portrait) {
+                & {
+                    width: 100%;
+                }
+            }
         }
     }
 }

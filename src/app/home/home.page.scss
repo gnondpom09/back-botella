@@ -8,12 +8,13 @@
             text-align: right;
             h1 {
                 font-size: 3.4em;
-                font-family: "Morganite-Book";
+                font-family: 'Oswald', sans-serif;
                 letter-spacing: 7px;
+                font-weight: 200;
                 color: var(--ion-color-light);
                 .bold {
-                    font-family: "Morganite-ExtraBold";
                     text-transform: uppercase;
+                    font-weight: 400;
                 }
                 margin-bottom: 0px;
             }
@@ -52,10 +53,9 @@
             box-shadow: none !important;
             ion-card-title {
                 h2 {
-                    font-family: "Morganite-Bold";
+                    font-family: 'Stint Ultra Condensed';
                     color: var(--ion-color-dark);
-                    letter-spacing: 5px;
-                    font-size: 1.5em;
+                    letter-spacing: 0px;
                     margin: 4px 0 0 8px;
                 }
             }

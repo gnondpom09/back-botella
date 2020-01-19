@@ -18,6 +18,10 @@ export class CategoryService {
     return this.firestore.collection('categories');
   }
 
+  getDetailOfCategory(id: string): AngularFirestoreDocument<Category> {
+    return this.firestore.collection('categories').doc(id);
+  }
+
   /**
    * Create new vategory
    * @param id id of category
@@ -27,7 +31,7 @@ export class CategoryService {
     return this.firestore.collection('categories').doc(id).set({
       id: id,
       name: name
-    })
+    });
   }
 
   /**
@@ -38,7 +42,7 @@ export class CategoryService {
   updateCategory(id: string, name: string): Promise<void> {
     return this.firestore.collection('categories').doc(id).update({
       name: name
-    })
+    });
   }
 
   /**

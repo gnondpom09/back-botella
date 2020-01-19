@@ -2,6 +2,21 @@
     .awards {
         ion-card {
             background: var(--ion-color-white);
+            min-height: 330px;
+            h2 {
+                font-size: 1.6em;
+            }
+            h3 {
+                color: var(--ion-color-primary);
+            }
+            .date {
+                font-weight: 600;
+            }
+            @media (max-width: 1080px) and (orientation: portrait) {
+                & {
+                    min-height: auto;
+                }
+            }
         }
     }
     ion-button {

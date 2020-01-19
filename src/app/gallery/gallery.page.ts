@@ -1,3 +1,4 @@
+import { CategoriesComponent } from './categories/categories.component';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PaintingService } from "../services/painting/painting.service";
@@ -123,5 +124,15 @@ export class GalleryPage implements OnInit, OnDestroy {
             component: AddPaintingPage
         })
         return await modal.present();
+    }
+
+    /**
+     * Open categories to update
+     */
+    async openCategories() {
+        const Modal = await this.modalCtrl.create({
+            component: CategoriesComponent
+        })
+        return await Modal.present();
     }
 }

@@ -21,7 +21,8 @@ const routes: Routes = [
   { path: 'add-painting', loadChildren: './gallery/add-painting/add-painting.module#AddPaintingPageModule' },
   { path: 'edit-bio/:id', loadChildren: './about/edit-bio/edit-bio.module#EditBioPageModule' },
   { path: 'preview/:id', loadChildren: './gallery/preview/preview.module#PreviewPageModule' },
-  { path: 'edit-event', loadChildren: './events/edit-event/edit-event.module#EditEventPageModule' }
+  { path: 'edit-event/:id', loadChildren: './events/edit-event/edit-event.module#EditEventPageModule' },
+  { path: 'edit-painting/:id', loadChildren: './gallery/edit-painting/edit-painting.module#EditPaintingPageModule' }
 ]
 ;
 

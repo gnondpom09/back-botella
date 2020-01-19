@@ -47,19 +47,13 @@ export class HomePage implements OnInit {
         // get last event
         this.eventProvider.getLastEvent().valueChanges()
             .subscribe(events => {
-                const now = Date.now();
-                console.log('now : ' + now);
-                
-                events.forEach(event => {
-                    console.log(event);
-                    this.event = event;
-                    
-                    // const endDate = event.endDate.toDateString();
-                    // console.log(endDate);
-                    // if (moment(now).diff(endDate) < 0) {
-                    //     this.event = event;
-                    // }
-                });
+                this.events = events;
+                // const now = Date.now();
+                // const endDate = event.endDate.toDateString();
+                // console.log(endDate);
+                // if (moment(now).diff(endDate) < 0) {
+                //     this.event = event;
+                // }
             })
 
         // get images of home page

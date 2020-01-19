@@ -72,7 +72,9 @@ export class AppComponent {
         header.classList.add('translate');
         menu.classList.add('on');
         content.classList.add('fade-out');
-        slider.classList.add('fade-out');
+        if (slider) {
+            slider.classList.add('fade-out');
+        }
     }
 
     /**
@@ -86,8 +88,10 @@ export class AppComponent {
         header.classList.remove('translate');
         menu.classList.remove('on');
         content.classList.remove('fade-out');
-        slider.classList.remove('fade-out');
         content.classList.add('fade-in');
-        slider.classList.add('fade-in');
+        if (slider) {
+            slider.classList.remove('fade-out');
+            slider.classList.add('fade-in');
+        }
     }
 }

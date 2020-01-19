@@ -6,7 +6,7 @@ import { AuthService } from "../services/auth/auth.service";
 import { UserService } from "../services/user/user.service";
 import { PaintingService } from "../services/painting/painting.service";
 import { Router } from "@angular/router";
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { EditBioPage } from './edit-bio/edit-bio.page';
 
 @Component({
@@ -19,7 +19,7 @@ export class AboutPage implements OnInit, OnDestroy {
     auth: boolean = false;
     // id of artist
     uid: string = "4YzVcpgUziTOLmbQNhZXwnQKZSF2";
-    artist: User;
+    artist: Observable<User>;
     isAdmin: boolean = false;
     subscription: Subscription;
 
@@ -49,10 +49,7 @@ export class AboutPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         // display informations of artist
-        this.userProvider.getInformations(this.uid).valueChanges()
-            .subscribe(user => {
-                this.artist = user;
-            })
+        this.artist = this.userProvider.getInformations(this.uid).valueChanges();
     }
 
     ngOnDestroy() {

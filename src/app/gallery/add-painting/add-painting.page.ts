@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LoadingController, AlertController, ActionSheetController, RadioGroup } from "@ionic/angular";
+import { LoadingController, AlertController, ActionSheetController } from "@ionic/angular";
 import { Camera } from "@ionic-native/camera/ngx";
 import { PaintingService } from "../../services/painting/painting.service";
 import { CategoryService } from "../../services/category/category.service";
@@ -10,7 +10,6 @@ import { Router } from "@angular/router";
 import * as firebase from 'firebase';
 import { AngularFirestore } from "angularfire2/firestore";
 import { Ng2ImgMaxService } from "ng2-img-max";
-import { Subscription } from 'rxjs';
 import { Category } from '../../models/category.model';
 
 @Component({
@@ -30,6 +29,7 @@ export class AddPaintingPage implements OnInit, OnDestroy {
     width: string = '';
     height: string = '';
     format: string = '';
+    categoryName: string;
 
     imagePath: string = '';
     thumbnail: string = '';
@@ -53,7 +53,7 @@ export class AddPaintingPage implements OnInit, OnDestroy {
         // Init form
         this.addPaintingForm = formBuilder.group({
             title: ['', Validators.required],
-        })
+        });
     }
 
     ngOnInit() {
@@ -64,12 +64,12 @@ export class AddPaintingPage implements OnInit, OnDestroy {
                     this.userService.getInformations(authState.uid).valueChanges()
                         .subscribe(user => {
                             this.isAdmin = user.role === 'admin' ? true : false;
-                        })
+                        });
                     this.categoryService.getAllCategories().valueChanges()
                         .subscribe(categories => {
                             this.categories = categories;
-                            this.fillRadioCategories(this.categories);                            
-                        })
+                            this.fillRadioCategories(this.categories);
+                        });
                 } else {
                     // redirect to home page
                     this.router.navigateByUrl('');
@@ -131,8 +131,11 @@ export class AddPaintingPage implements OnInit, OnDestroy {
                 {
                     text: 'OK',
                     handler: data => {
-                        console.log(data);
                         this.category = data;
+                        this.categoryService.getDetailOfCategory(this.category).valueChanges()
+                        .subscribe(category => {
+                          this.categoryName = category.name;
+                        });
                     }
                 },
                 {
@@ -194,10 +197,7 @@ export class AddPaintingPage implements OnInit, OnDestroy {
                 {
                     text: 'OK',
                     handler: data => {
-                        console.log(data);
                         this.height = data;
-                        console.log(this.height);
-
                     }
                 },
                 {
@@ -416,6 +416,6 @@ export class AddPaintingPage implements OnInit, OnDestroy {
             })
         }, er => {
             console.log(er);
-        })
-}
+        });
+    }
 }

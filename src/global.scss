@@ -11,7 +11,13 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900|Stint+Ultra+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700&display=swap');
 
+/** reset **/
+figure {
+    margin: 0;
+}
 ion-card {
     margin: 0 !important;
 }
@@ -22,10 +28,14 @@ ion-list {
     }
 }
 h2 {
-    font-family: "Morganite-Bold";
-    letter-spacing: 5px;
-    font-size: 1.5em;
+    font-family: 'Stint Ultra Condensed';
+    letter-spacing: 0px;
+    font-size: 1.8em;
     margin: 4px 0 0 8px;
+    font-weight: 200;
+    &::first-letter {
+        text-transform: uppercase;
+    }
 }
 .margin-top {
     margin-top: 40px;
@@ -80,6 +90,13 @@ body {
                 background: var(--ion-color-dark);
                 box-shadow: none !important;
             }
+            @media (max-width: 1080px) and (orientation: portrait) {
+                & {
+                    margin: 8px;
+                    padding: 0 !important;
+                    justify-content: center;
+                }
+            }
         }
         .event-detail {
             box-shadow: none !important;
@@ -127,12 +144,6 @@ body {
         }
     }
 }
-
-/** Menu Style **/ 
-// .active { 
-//     background: var(--ion-color-primary) !important;
-// }
-
 .logo {
     width: 25%;
     ion-button {

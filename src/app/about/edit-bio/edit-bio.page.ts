@@ -41,10 +41,10 @@ export class EditBioPage implements OnInit, OnDestroy {
                     this.subscriptionGetRole = this.UserProvider.getInformations(authState.uid).valueChanges()
                         .subscribe(user => {
                             this.isAdmin = user.role === 'admin' ? true : false;
-                        })
+                        });
 
                 }
-            })
+            });
 
         // get id of artist
         this.artistId = this.navParams.get('id');
@@ -59,7 +59,7 @@ export class EditBioPage implements OnInit, OnDestroy {
             this.interview = user.interview;
             this.author = user.author;
             this.biography = user.biography;
-        })
+        });
 
     }
     ngOnDestroy() {

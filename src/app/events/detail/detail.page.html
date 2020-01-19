@@ -19,22 +19,22 @@
 
     <ion-grid fixed class="margin-top">
         <ion-row>
-            <ion-col size="5">
-                <img class="thumb" [src]="event.imagePath" alt="event">
+            <ion-col size-lg="5" size-md="5" size-sm="12">
+                <img class="thumb" [src]="(event | async)?.imagePath" alt="event">
             </ion-col>
-            <ion-col size="7">
+            <ion-col size-lg="7" size-md="7" size-sm="12">
                 <ion-card class="event-detail">
                     <ion-card-title class="title">
                         <h2>
-                            {{event.title}}
+                            {{((event | async)?.title)}}
                         </h2>
                     </ion-card-title>
                     <ion-card-content>
                         <h3>
-                            {{event.subTitle}}
+                            {{(event | async)?.subTitle}}
                         </h3>
                         <p>
-                            {{event.content}}
+                            {{(event | async)?.content}}
                         </p>
                         <!-- <p>
                             {{event.date.toDate() | date: 'dd/MM/yyyy'}}
@@ -52,7 +52,7 @@
             </ion-button>
         </ion-buttons>
         <ion-buttons class="end" *ngIf="isAdmin">
-            <ion-button (click)="updateEvent()">
+            <ion-button (click)="updateEvent(eventId)">
                 <ion-icon name="create"></ion-icon>
             </ion-button>
         </ion-buttons>

@@ -39,7 +39,7 @@ export class PaintingService {
      * @param height heigth
      * @param imagePath path of image in storage
      */
-    createNewPainting(id, title, technic, category, width, height, path, thumb) {
+    createNewPainting(id, title, technic, category, width, height, path, thumb, price: number = 0) {
         // create painting in database
         return this.firestore.collection('paintings').doc(id).set({
             id,
@@ -49,8 +49,30 @@ export class PaintingService {
             width,
             height,
             path,
-            thumb
-        })
+            thumb,
+            price
+        });
+    }
+    /**
+     * Update informations of painting
+     * @param id id of painting
+     * @param title title
+     * @param technic technic
+     * @param category category
+     * @param width width
+     * @param height height
+     * @param price price
+     */
+    updatePainting(id, title, technic, category, width, height, price = 0): Promise<void> {
+        // Update informations
+        return this.firestore.collection('paintings').doc(id).update({
+            title,
+            technic,
+            category,
+            width,
+            height,
+            price
+        });
     }
     /**
      * Get painting for top of home page
@@ -59,26 +81,6 @@ export class PaintingService {
         return this.firestore.collection('home', ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
             query = query.where("place", "==", "top");
-            return query;
-        })
-    }
-    /**
-     * Get painting for left of home page
-     */
-    getPaintingLeft() {
-        return this.firestore.collection('home', ref => {
-            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.where("place", "==", "left");
-            return query;
-        })
-    }
-    /**
-     * Get painting for right of home page
-     */
-    getPaintingRight() {
-        return this.firestore.collection('home', ref => {
-            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.where("place", "==", "right");
             return query;
         })
     }
@@ -95,10 +97,10 @@ export class PaintingService {
      */
     deletePainting(imageId: string): any {
         //Get image of user from storage
-        let storeRef = firebase.storage().ref();
-        let imageRef = storeRef.child(`paintings/${imageId}`); 
-        // delete complete folder with image and thumb
-        imageRef.delete();
+        // const storeRef = firebase.storage().ref();
+        // const imageRef = storeRef.child(`paintings/${imageId}`);
+        // // delete complete folder with image and thumb
+        // imageRef.delete();
         // Delete painting in database 
         this.firestore.collection('paintings').doc(imageId).delete();
     }

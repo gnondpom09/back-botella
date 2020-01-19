@@ -22,5 +22,13 @@
             font-size: 1.1em;
             line-height: 1.8em;
         }
+        @media (max-width: 1080px) and (orientation: portrait) {
+            & .interview {
+                display: none;
+            }
+            & .text {
+                margin-top: 0;
+            }
+        }
     }
 }

@@ -18,7 +18,6 @@ export class EventsPage implements OnInit, OnDestroy {
     events;
     auth: boolean;
     isAdmin: boolean;
-    subscription: Subscription;
 
     constructor(
         private eventProvider: EventService,

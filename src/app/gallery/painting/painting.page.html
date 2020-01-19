@@ -18,31 +18,31 @@
 <ion-content color="dark">
     <ion-grid fixed class="margin-top">
         <ion-row>
-            <ion-col size="8">
+            <ion-col size-lg="8" size-md="12" size-sm="12">
                 <figure>
-                    <img [src]="painting.path" [alt]="painting.title">
+                    <img [src]="(painting | async)?.path" [alt]="(painting | async)?.title">
                 </figure>
             </ion-col>
-            <ion-col size="4">
+            <ion-col size-lg="4" size-md="12" size-sm="12">
                 <ion-card class="detail-painting">
                     <ion-card-title>
                         <h2>
-                            {{painting.title}}
+                            {{(painting | async)?.title}}
                         </h2>
                     </ion-card-title>
                     <ion-card-content>
                         <h3>
-                            {{painting.technic}}
+                            {{(painting | async)?.technic}}
                         </h3>
                         <h5>Dimensions</h5>
                         <ul>
-                            <li>Hauteur: {{painting.height}} cm</li>
-                            <li>Largeur: {{painting.width}} cm</li>
+                            <li>Hauteur: {{(painting | async)?.height}} cm</li>
+                            <li>Largeur: {{(painting | async)?.width}} cm</li>
                         </ul>
-                        <h4>
-                            {{painting.price}}
+                        <h4 *ngIf="(painting | async)?.price > 0" >
+                            {{price}} €
                         </h4>
-                        <ion-button *ngIf="painting.price" expand="full" color="primary" (click)="addToCart()">
+                        <ion-button *ngIf="(painting | async)?.price > 0" expand="full" color="primary" (click)="addToCart()">
                             Ajouter au panier
                         </ion-button>
                     </ion-card-content>
@@ -50,10 +50,15 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-    <ion-footer>
-        <ion-buttons class="start" *ngIf="isAdmin" >
+    <ion-footer *ngIf="isAdmin" >
+        <ion-buttons class="start">
             <ion-button (click)="deletePainting()">
                 <ion-icon color="primary" name="trash"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons class="end">
+            <ion-button (click)="openEditForm(id)">
+                <ion-icon color="primary" name="create"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-footer>

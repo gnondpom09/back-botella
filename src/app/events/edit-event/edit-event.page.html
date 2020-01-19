@@ -1,9 +1,16 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>edit-event</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content padding>
+<ion-content>
+    <div class="large-header animated" id="header"></div>
+    <div class="relative-content form animated" id="content">
+    </div>
+    <ion-card>
+        <form action="">
+            <ion-button routerLink="/events">
+                <ion-icon slot="start" name="arrow-back"></ion-icon>Retour
+            </ion-button>
+            event to update : {{eventId}}
+        </form>
+    </ion-card>
+
 
 </ion-content>

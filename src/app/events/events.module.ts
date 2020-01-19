@@ -6,8 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { EventsPage } from './events.page';
-//import { AddEventPage } from "./add-event/add-event.page";
-// import { DetailPage } from "./detail/detail.page";
 
 const routes: Routes = [
     {

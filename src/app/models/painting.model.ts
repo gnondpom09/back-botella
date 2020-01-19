@@ -7,4 +7,5 @@ export interface Painting {
     width: number;
     category: string;
     technic: string;
+    price?: number;
 }

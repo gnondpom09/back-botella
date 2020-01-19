@@ -21,7 +21,6 @@ import { ComponentsModule } from "./components/components.module";
 import { GalleryPageModule } from "./gallery/gallery.module";
 import { ImageResizer } from "@ionic-native/image-resizer/ngx";
 import { DetailPage } from "./events/detail/detail.page";
-import { EditEventPage } from "./events/edit-event/edit-event.page";
 import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 // Initialize Firebase
@@ -39,8 +38,7 @@ firebase.initializeApp(config);
 @NgModule({
     declarations: [
         AppComponent,
-        DetailPage,
-        EditEventPage
+        DetailPage
     ],
     imports: [
         BrowserModule,
@@ -64,8 +62,7 @@ firebase.initializeApp(config);
         ImageResizer
     ],
     entryComponents: [
-        DetailPage,
-        EditEventPage
+        DetailPage
     ],
     bootstrap: [AppComponent]
 })
