@@ -1,6 +1,10 @@
 :host {
     figure { 
         margin-top: 0;
+        height: auto;
+        & > img {
+            max-height: 75vh;
+        }
     }
     .detail-painting {
         box-shadow: none !important;

@@ -17,8 +17,8 @@
 
         <div class="gallery animated" id="slider">
             <ion-grid [ngSwitch]="category">
-                <ion-row class="">
-                    <ion-col size-lg="3" size-md="6" size-sm="12" class="item-square" *ngFor="let painting of paintings" >
+                <ion-row>
+                    <ion-col size-lg="3" size-md="6" size-sm="12" size="12" class="item-square" *ngFor="let painting of paintings" >
                         <div *ngSwitchCase="painting.category" (click)="viewDetail(painting)" class="thumbnail">
                             <ion-img [src]="painting.thumb"></ion-img>
                         </div>

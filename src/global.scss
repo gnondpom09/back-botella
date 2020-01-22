@@ -79,6 +79,11 @@ body {
             margin-top: 100px !important;
             background: #ffffff;
         }
+        @media (max-width: 1080px) and (orientation: portrait) {
+            & {
+                padding: 20px;
+            }
+        }
     }
     .modal-wrapper {
         width: 100%;

@@ -1,4 +1,11 @@
 :host {
+    figure { 
+        margin-top: 0;
+        height: auto;
+        & > img {
+            max-height: 75vh;
+        }
+    }
     ion-card {
         margin: 0;
         border-radius: 0;
