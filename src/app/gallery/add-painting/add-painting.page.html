@@ -49,7 +49,9 @@
 
                     <ion-col size-lg="6" size-md="6" size-sm="12">
                         <img *ngIf="!thumbnail" src="assets/icon/thumb.svg" alt="">
-                        <img *ngIf="thumbnail" [src]="thumbnail" alt="">
+                        <figure>
+                            <img *ngIf="thumbnail" [src]="thumbnail" alt="">
+                        </figure>
                     </ion-col>
 
                 </ion-row>

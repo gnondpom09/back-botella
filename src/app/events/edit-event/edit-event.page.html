@@ -2,15 +2,61 @@
 <ion-content>
     <div class="large-header animated" id="header"></div>
     <div class="relative-content form animated" id="content">
-    </div>
-    <ion-card>
-        <form action="">
+        <ion-card>
             <ion-button routerLink="/events">
                 <ion-icon slot="start" name="arrow-back"></ion-icon>Retour
             </ion-button>
-            event to update : {{eventId}}
-        </form>
-    </ion-card>
+            <ion-row>
+                <ion-col size-lg="6" size-md="6" size-sm="12">
+                    <ion-item>
+                        <ion-label position="stacked">Titre de l'évènement</ion-label>
+                        <ion-input [(ngModel)]="title" value="{{event.title}}" type="text">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Période de l'évènement</ion-label>
+                        <ion-input [(ngModel)]="subTitle" value="{{event.subTitle}}" (ionChange)="test()" type="text">
+                        </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Date de début</ion-label>
+                        <ion-datetime [(ngModel)]="startDate" (ionChange)="getStartDate($event)" displayFormat="MM DD YYYY" value="2020-01-01" min="2019" max="2030" placeholder="Select Date"></ion-datetime>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Date de fin</ion-label>
+                        <ion-datetime [(ngModel)]="endDate" (ionChange)="getEndDate($event)" displayFormat="MM DD YYYY" value="2020-01-01" min="2019" max="2030" placeholder="Select Date"></ion-datetime>
+                    </ion-item>
 
+                    <ion-show-when platform="ios">
+                        <ion-button (click)="showActionSheet()">Ajouter une image</ion-button>
+                    </ion-show-when>
+
+                    <ion-show-when platform="desktop">
+                        <input type="file" (change)="onFileChanged($event)">
+                        <ion-button (click)="onUpload()">Envoyer</ion-button>
+                    </ion-show-when>
+
+                </ion-col>
+
+                <ion-col size-lg="6" size-md="6" size-sm="12">
+                    <figure>
+                        <img [src]="thumbnail" alt="painting">
+                    </figure>
+                </ion-col>
+
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-label position="stacked">Description</ion-label>
+                        <textarea [(ngModel)]="description" value="{{event.content}}"></textarea>
+                    </ion-item>
+                </ion-col>
+                
+            </ion-row>
+
+            <ion-button expand="block" (click)="updateEvent()">
+                Modifier l'évèvenement
+            </ion-button>
+        </ion-card>
+    </div>
 
 </ion-content>

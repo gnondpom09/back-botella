@@ -27,6 +27,13 @@ ion-list {
         bottom: 0;
     }
 }
+figure { 
+    margin-top: 0;
+    height: auto;
+    & > img {
+        max-height: 75vh;
+    }
+}
 h2 {
     font-family: 'Stint Ultra Condensed';
     letter-spacing: 0px;

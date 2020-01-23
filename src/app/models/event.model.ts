@@ -5,6 +5,7 @@ export interface Event {
     content: string;
     date: Date;
     imagePath: string;
+    thumbnail: string;
     startDate: Date;
     endDate: Date;
 }

@@ -7,32 +7,28 @@
             <ion-row>
 
                 <ion-col size-lg="5" size-md="5" size-sm="12" class="animated" id="slider">
-                    <ion-card-header>
-                        <ion-img [src]="(artist | async)?.avatar"></ion-img>
-                        <ion-fab *ngIf="isAdmin" vertical="top" horizontal="end" color="primary">
-                            <ion-fab-button (click)="updateBiography(uid)">
-                                <ion-icon name="add"></ion-icon>
-                            </ion-fab-button>
-                        </ion-fab>
-                    </ion-card-header>
+                    <ion-img [src]="(artist | async)?.avatar"></ion-img>
+                    <ion-fab *ngIf="isAdmin" vertical="top" horizontal="end" color="primary">
+                        <ion-fab-button (click)="updateBiography(uid)">
+                            <ion-icon name="add"></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab>
                 </ion-col>
 
                 <ion-col size-lg="7" size-md="7" size-sm="12" class="animated" id="content">
-                    <ion-card-content>
-                        <div class="interview">
-                            <p>
-                                <span class="bold">
-                                    {{(artist | async)?.interview}}
-                                </span>
-                            </p>
-                            <p>
-                                <span class="legend">- {{(artist | async)?.author}} -</span>
-                            </p>
-                        </div>
-                        <p class="text">
-                            {{(artist | async)?.biography}}
+                    <div class="interview">
+                        <p>
+                            <span class="bold">
+                                {{(artist | async)?.interview}}
+                            </span>
                         </p>
-                    </ion-card-content>
+                        <p>
+                            <span class="legend">- {{(artist | async)?.author}} -</span>
+                        </p>
+                    </div>
+                    <p class="text">
+                        {{(artist | async)?.biography}}
+                    </p>
                 </ion-col>
             </ion-row>
         </ion-grid>
