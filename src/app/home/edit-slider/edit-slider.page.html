@@ -1,0 +1,28 @@
+
+<ion-content>
+  <div class="large-header animated" id="header"></div>
+  <div class="relative-content form animated" id="content">
+      <ion-card>
+              <ion-button routerLink="/">
+                  <ion-icon slot="start" name="arrow-back"></ion-icon>Retour
+              </ion-button>
+
+              <ion-row>
+                  <ion-col size-lg="6" size-md="6" size-sm="12" size="12">
+                    <input type="file" (change)="onFileChanged($event)">
+                    <ion-button (click)="onUpload()">Envoyer</ion-button>
+                  </ion-col>
+                  <ion-col class="thumb" size-lg="6" size-md="6" size-sm="12" size="12">
+                      <figure>
+                          <img [src]="imagePath" alt="painting">
+                      </figure>
+                  </ion-col>
+              </ion-row>
+  
+              <ion-button (click)="updatePainting(paintingId)">
+                  Modifier l'oeuvre
+              </ion-button>
+      </ion-card>
+</div>
+
+</ion-content>

@@ -22,7 +22,8 @@ const routes: Routes = [
   { path: 'edit-bio/:id', loadChildren: './about/edit-bio/edit-bio.module#EditBioPageModule' },
   { path: 'preview/:id', loadChildren: './gallery/preview/preview.module#PreviewPageModule' },
   { path: 'edit-event/:id', loadChildren: './events/edit-event/edit-event.module#EditEventPageModule' },
-  { path: 'edit-painting/:id', loadChildren: './gallery/edit-painting/edit-painting.module#EditPaintingPageModule' }
+  { path: 'edit-painting/:id', loadChildren: './gallery/edit-painting/edit-painting.module#EditPaintingPageModule' },
+  { path: 'edit-slider/:id', loadChildren: './home/edit-slider/edit-slider.module#EditSliderPageModule' }
 ]
 ;
 

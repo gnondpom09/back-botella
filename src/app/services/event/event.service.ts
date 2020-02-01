@@ -72,11 +72,12 @@ export class EventService {
      * @param content description of event
      * @param imagePath path of thumb
      */
-    updateEvent(id, title, subTitle, content, imagePath): Promise<void> {
+    updateEvent(id, title, subTitle, content, thumbnail, imagePath): Promise<void> {
         return this.firestore.collection(this.path).doc(id).update({
             title: title,
             subTitle: subTitle,
             content: content,
+            thumbnail: thumbnail,
             imagePath: imagePath
         });
     }

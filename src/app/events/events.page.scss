@@ -10,6 +10,10 @@
             font-weight: 600;
             color: var(--ion-color-primary);
         }
+        ion-img {
+            max-height: 180px;
+            overflow: hidden;
+        }
         .next {
             display: flex;
             align-items: flex-end;
@@ -21,6 +25,25 @@
                 text-transform: none;
                 font-size: 0.9em;
                 text-align: right;
+            }
+        }
+    }
+    @media screen and (orientation: portrait) {
+        ion-card {
+            margin-top: 0 !important;
+            h2 {
+                font-size: 2em;
+            }
+            h3 {
+                font-size: 0.9em;
+            }
+            ion-card-content {
+                padding: 0 10px !important;
+            }
+            .next {
+                .btn-next {
+                    font-size: 0.8em;
+                }
             }
         }
     }

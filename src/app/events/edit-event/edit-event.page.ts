@@ -43,6 +43,8 @@ export class EditEventPage implements OnInit {
 
   ngOnInit() {
     this.eventId = this.route.snapshot.paramMap.get('id');
+    console.log(this.eventId);
+    
 
     this.eventService.getEvent(this.eventId).valueChanges()
       .subscribe(event => {
@@ -129,8 +131,7 @@ export class EditEventPage implements OnInit {
       // Init loader
       const loader = await this.loadingCtrl.create();
 
-      // Set camera options
-      let cameraOptions = this.paintingService.getCameraOptions(75, 500, 700);
+      const cameraOptions = this.paintingService.getCameraOptions(75, 500, 700);
 
       // Upload image to user account
       this.camera.getPicture(cameraOptions).then((imageData) => {
@@ -147,7 +148,7 @@ export class EditEventPage implements OnInit {
           }
           loader.dismiss();
       });
-      return await loader.present()
+      return await loader.present();
   }
   /**
   * Upload image in storage
@@ -156,14 +157,14 @@ export class EditEventPage implements OnInit {
   */
   uploadImageEvent(imageData: string) {
       // references
-      let storageRef = firebase.storage().ref();
+      const storageRef = firebase.storage().ref();
       const Id = this.firestore.createId();
       // Create event Id
       this.eventId = Id;
-      let imageRef = storageRef.child(`events/${this.eventId}.jpg`);
-      let metaData = {
+      const imageRef = storageRef.child(`events/${this.eventId}.jpg`);
+      const metaData = {
           contentType: 'image/jpeg'
-      }
+      };
 
       // upload image to storage
       return imageRef.putString(imageData, 'base64', metaData)
@@ -184,11 +185,11 @@ export class EditEventPage implements OnInit {
   */
   uploadFile(imageData: File) {
       // references
-      let storageRef = firebase.storage().ref();
+      const storageRef = firebase.storage().ref();
       const Id = this.firestore.createId();
       // Create event Id
       this.eventId = Id;
-      let imageRef = storageRef.child(`events/${this.eventId}/${this.eventId}.jpg`);
+      const imageRef = storageRef.child(`events/${this.eventId}/${this.eventId}.jpg`);
 
       // upload image to storage
       return imageRef.put(imageData)
@@ -199,7 +200,7 @@ export class EditEventPage implements OnInit {
               })
           }, er => {
               console.log(er);
-          })
+          });
   }
   /**
   * Upload thumb in storage
@@ -208,8 +209,8 @@ export class EditEventPage implements OnInit {
   */
   uploadThumbnailFile(imageData: File, eventId: string) {
   // references
-  let storageRef = firebase.storage().ref();
-  let imageRef = storageRef.child(`events/${eventId}/thumb/${eventId}.jpg`);
+  const storageRef = firebase.storage().ref();
+  const imageRef = storageRef.child(`events/${eventId}/thumb/${eventId}.jpg`);
 
   // upload image to storage
   return imageRef.put(imageData)
@@ -217,17 +218,20 @@ export class EditEventPage implements OnInit {
           // get image path 
           imageRef.getDownloadURL().then(rootPath => {
               this.thumbnail = rootPath;
-          })
+          });
       }, er => {
           console.log(er);
-      })
+      });
   }
   async updateEvent() {
       const loader = await this.loadingCtrl.create();
-      const id = this.eventId;
+      const id = this.event.id;
       const date = moment().format(); // Publish date
-      const image = this.imagePath;
-      const thumbnail = this.thumbnail;
+      const title = this.title ? this.title : this.event.title;
+      const subTitle = this.subTitle ? this.subTitle : this.event.subTitle;
+      const content = this.description ? this.description : this.event.content;
+      const image = this.imagePath ? this.imagePath : this.event.imagePath;
+      const thumbnail = this.thumbnail ? this.thumbnail : this.event.thumbnail;
 
       // // Get start date of event detail
       // const startDay = this.startDate.getDay();
@@ -242,11 +246,11 @@ export class EditEventPage implements OnInit {
       // // Start and end of event
       // const startOfEvent = new Date(startYear, startMonth, startDay);
       // const endOfEvent = new Date(endYear, endMonth, endDay);
-    console.log(this.subTitle);
+    console.log(id);
     
-      if (id && this.title && this.subTitle && this.description && this.thumbnail) {
+      if (id && title && subTitle && content && this.thumbnail) {
           // create event in database
-          this.eventService.updateEvent(id, this.title, this.subTitle, this.description, this.thumbnail)
+          this.eventService.updateEvent(id, title, subTitle, content, thumbnail, image)
               .then(
                   () => {
                       loader.dismiss().then(() => {
@@ -260,7 +264,7 @@ export class EditEventPage implements OnInit {
               )
       } else {
           // Display message to alert fields empty
-          let alert = this.alertCtrl.create({
+          const alert = this.alertCtrl.create({
               message: 'Les champs ne doivent pas etre vide!',
               buttons: ['OK']
           })

@@ -13,6 +13,14 @@
             font-size: 1.1em;
             font-weight: 500;
         }
+        @media screen and (orientation: portrait) {
+            h3 {
+                font-size: 0.8em;
+            }
+            .text {
+                font-size: 0.8em;
+            }
+        }
     }
     .header-news {
         height: 300px;

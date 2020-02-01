@@ -39,10 +39,10 @@ export class LoginPage implements OnInit , OnDestroy{
         .subscribe(authState => {
             if (authState) {
                 this.auth = true;
-                this.subscription = this.userService.getInformations(authState.uid).valueChanges()  
+                this.subscription = this.userService.getInformations(authState.uid).valueChanges()
                     .subscribe(user => {
                         this.currentUser = user;
-                    })
+                    });
             } else {
                 this.auth = false;
             }
@@ -78,13 +78,13 @@ export class LoginPage implements OnInit , OnDestroy{
                 // display alert
                 const alert = this.alertCtrl.create({
                     message: err
-                })
+                });
                 alert.then(alertError => {
                     alertError.present();
-                })
+                });
                 //loader.dismiss();
                 console.log(err.message);
-            })
+            });
             // display loader
             return await loader.present();
     }
@@ -100,7 +100,6 @@ export class LoginPage implements OnInit , OnDestroy{
      */
     lostPassword() {
         console.log('lien envoyé');
-        
         this.authProvider.resetPassword('laurent.botella@vivaldi.net');
     }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { LoadingController, AlertController } from "@ionic/angular";
 import { Painting } from "../../models/painting.model";
+import { Slider } from "../../models/slider.model";
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "angularfire2/firestore";
 import * as firebase from 'firebase';
 import { Storage } from "@ionic/storage";
@@ -83,6 +84,9 @@ export class PaintingService {
             query = query.where("place", "==", "top");
             return query;
         })
+    }
+    getPaintingSlider(id): AngularFirestoreDocument<Slider> {
+        return this.firestore.collection('home').doc(id);
     }
     /**
      * get painting detail
@@ -224,6 +228,11 @@ export class PaintingService {
             }, er => {
                 console.log(er);
             })
+    }
+    updateImageSlider(id, imagePath): Promise<void> {
+        return this.firestore.collection('home').doc(id).update({
+            image: imagePath
+        })
     }
     /**
     * Upload avatar in storage and update in database

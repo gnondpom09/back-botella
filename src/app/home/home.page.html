@@ -5,41 +5,74 @@
         <ion-row>
 
             <ion-col size="8" class="home-title animated" id="content">
-                <div id="title">
-                    <h1>Laurent <span class="bold">Botella</span></h1>
-                    <h2> Artiste Peintre</h2>
-                </div>
-                <ion-card class="new-event" *ngFor="let event of events" >
-                    <div>
-                        <ion-card-title class="title">
-                            <h2>
-                                {{event.title}}
-                            </h2>
-                        </ion-card-title>
-                        <ion-card-content>
-                            <h3>
-                                {{event.subTitle}}
-                            </h3>
-                            <div class="next">
-                                <ion-button color="secondary" fill="clear" class="btn-next" (click)="viewDetail(event)">
-                                    Voir plus
-                                    <ion-icon slot="end" name="arrow-forward"></ion-icon>
-                                </ion-button>
-                            </div>
-                        </ion-card-content>
+                <ion-show-when orientation="landscape">
+                    <div id="title">
+                        <h1>Laurent <span class="bold">Botella</span></h1>
+                        <h2> Artiste Peintre</h2>
                     </div>
-                </ion-card>
+                    <ion-card class="new-event" *ngFor="let event of events" >
+                        <div>
+                            <ion-card-title class="title">
+                                <h2>
+                                    {{event.title}}
+                                </h2>
+                            </ion-card-title>
+                            <ion-card-content>
+                                <h3>
+                                    {{event.subTitle}}
+                                </h3>
+                                <div class="next">
+                                    <ion-button color="secondary" fill="clear" class="btn-next" (click)="viewDetail(event)">
+                                        Voir plus
+                                        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+                                    </ion-button>
+                                </div>
+                            </ion-card-content>
+                        </div>
+                    </ion-card>
+                </ion-show-when>
             </ion-col>
             
-            <ion-col size-lg="4" size-md="4" size-sm="12" id="slider" class="animated">
-                <div>
-                    <img *ngIf="paintingTop" [src]="paintingTop.image" alt="" />
+            <ion-col size-lg="4" size-md="4" size-sm="12" id="slider" class="animated margin-top">
+                <div class="slider">
                     <ion-fab *ngIf="isAdmin" vertical="top" horizontal="end" color="primary">
-                        <ion-fab-button (click)="updateImageHome(paintingTop.id)">
-                            <ion-icon name="add"></ion-icon>
-                        </ion-fab-button>
+                        <ion-show-when platform="mobile">
+                            <ion-fab-button (click)="updateImageHome(paintingTop.id)">
+                                <ion-icon name="add"></ion-icon>
+                            </ion-fab-button>
+                        </ion-show-when>
+                        <ion-show-when platform="desktop">
+                        <ion-button routerLink="/edit-slider/{{paintingTop.id}}">
+                                Modifier slider
+                            </ion-button>
+                        </ion-show-when>
                     </ion-fab>
+                    <figure>
+                        <img *ngIf="paintingTop" [src]="paintingTop.image" alt="" />
+                    </figure>
                 </div>
+                <ion-show-when orientation="portrait">  
+                    <ion-card class="home-event" *ngFor="let event of events" >
+                        <div>
+                            <ion-card-title class="title">
+                                <h2>
+                                    {{event.title}}
+                                </h2>
+                            </ion-card-title>
+                            <ion-card-content>
+                                <h3>
+                                    {{event.subTitle}}
+                                </h3>
+                                <div class="next">
+                                    <ion-button color="secondary" fill="clear" class="btn-next" (click)="viewDetail(event)">
+                                        Voir plus
+                                        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+                                    </ion-button>
+                                </div>
+                            </ion-card-content>
+                        </div>
+                    </ion-card>
+                </ion-show-when>
             </ion-col>
 
         </ion-row>

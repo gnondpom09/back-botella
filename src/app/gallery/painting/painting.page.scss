@@ -1,4 +1,9 @@
 :host {
+    ion-col {
+        display: flex;
+        align-items: flex-start !important;
+    
+    }
     .detail-painting {
         box-shadow: none !important;
         ion-card-title {
@@ -70,5 +75,11 @@
             display: block;
             float: right;
         }
+    }
+    .painting {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 85vh;
     }
 }

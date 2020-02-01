@@ -1,7 +1,5 @@
 :host {
     .form {
-        display: flex;
-        justify-content: center;
         h1 {
             text-align: center;
             text-transform: uppercase;
@@ -9,9 +7,11 @@
             font-weight: 600;
             color: var(--ion-color-primary);
         }
+        display: flex;
+        justify-content: center;
         ion-card {
-            width: 50%;
-            margin: 25%;
+            margin-top: 20px !important;
+            margin: auto;
             background: var(--ion-color-white);
             padding: 20px;
             ion-button {
@@ -23,11 +23,6 @@
                 padding: 10px;
                 min-height: 150px;
                 width: 100%;
-            }
-            @media (max-width: 1080px) and (orientation: portrait) {
-                & {
-                    width: 100%;
-                }
             }
         }
     }
