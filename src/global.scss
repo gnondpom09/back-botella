@@ -229,31 +229,35 @@ ion-toolbar {
 }
 .menu-toggle {
     position: absolute;
-    z-index: 500;
+    z-index: 0;
     display: block;
     height: 100vh;
     width: 100%;
     left: 0px;
-    // background: var(--ion-color-dark);
-    left: -100%;
-    transition: all ease 0.5s;
+    opacity: 0;
+    transition: all ease 0.3s;
     box-shadow: 0;
     display: flex;
     flex-direction: column;
+    #close {
+        top: 25px;
+        z-index: 0;
+    }
     ion-list {
+        top: 100px;
         margin-bottom: 0;
         flex: 1;
         background-color: transparent;
     }
 }
-/** Toggle button **/
-.toggle {
-    position: absolute;
-    left: -4px;
-    top: -4px;
-    z-index: 100;
-    ion-icon {
-        font-size: 1.8em;
+.on {
+    transform: translate(0, -100px);
+    z-index: 500;
+    opacity: 1;
+    transition: all ease 0.5;
+    #close {
+        top: 100px;
+        z-index: 900;
     }
 }
 .animated {
@@ -287,13 +291,9 @@ ion-toolbar {
     -webkit-animation-name: fade-out;
     animation-name: fade-out;
 }
-.on {
-    transform: translate(100%);
-    transition: all ease 1s;
-}
 .translate {
     height: 100% !important;
-    transition: all ease 0.8s;
+    transition: all ease 0.5s;
 }
 .sc-ion-router-outlet-h {
     transform: translateX(0px) !important;

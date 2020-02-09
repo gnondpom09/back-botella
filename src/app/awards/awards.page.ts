@@ -14,9 +14,8 @@ export class AwardsPage implements OnInit, OnDestroy {
     // Properties
     dates;
     awards;
-    auth: boolean = false;
-    isAdmin: boolean = false;
-    subscription: Subscription;
+    auth: boolean;
+    isAdmin: boolean;
 
     constructor(
         public alertCtrl: AlertController,
@@ -29,7 +28,7 @@ export class AwardsPage implements OnInit, OnDestroy {
             .subscribe(authState => {
                 if (authState) {
                     this.auth = true;
-                    this.subscription = this.userService.getInformations(authState.uid).valueChanges()
+                    this.userService.getInformations(authState.uid).valueChanges()
                         .subscribe(user => {
                             this.isAdmin = user.role === 'admin' ? true : false;
                         })
@@ -47,7 +46,6 @@ export class AwardsPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
     }
     /**
      * Delete event

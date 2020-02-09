@@ -26,8 +26,8 @@ export class AddPaintingPage implements OnInit, OnDestroy {
     imageId: string = '';
     technic: string = '';
     category: string = '';
-    width: string = '';
-    height: string = '';
+    width: number;
+    height: number;
     format: string = '';
     categoryName: string;
 

@@ -8,7 +8,7 @@
             </div>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button (click)="toggleMenu(isOpen)">
+            <ion-button id="toggle-btn" (click)="toggleMenu(isOpen)">
                 <ion-icon color="primary" name="menu" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -16,7 +16,7 @@
 </ion-header>
 
 <div id="menu" class="menu-toggle">
-  <ion-header no-shadow no-border>
+  <ion-header id="close" class="animated" no-shadow no-border>
     <ion-toolbar color="dark">
       <ion-buttons slot="end">
         <ion-button (click)="toggleMenu(isOpen)">
